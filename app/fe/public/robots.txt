@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://so-when-is-4day.vercel.app/
+
+# Sitemaps
+Sitemap: https://so-when-is-4day.vercel.app/sitemap.xml
