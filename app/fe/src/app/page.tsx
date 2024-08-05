@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function Home() {
   return (
     <>
-      <Button>병현이 게이게이야</Button>
+      <Button>입장</Button>
     </>
   );
 }
