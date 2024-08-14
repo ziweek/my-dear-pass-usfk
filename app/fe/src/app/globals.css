@@ -31,3 +31,30 @@ body {
     text-wrap: balance;
   }
 } */
+.react-calendar {
+  width: 100% !important;
+  border: 0px;
+  border-color: white !important;
+}
+
+.holiday {
+  background-color: #fdd0df !important;
+
+  /* abbr {
+  } */
+}
+
+.react-calendar__tile {
+  height: 100px;
+}
+
+/*
+
+
+/* .react-calendar__tile--active {
+  background-color: yellow !important;
+} */
+
+/* .react-calendar__month-view__days__day--weekend {
+  background-color: #faa0bf !important;
+} */

@@ -1,10 +1,19 @@
+"use client";
+
 import { Button } from "@nextui-org/react";
-import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   return (
     <>
-      <Button>입장</Button>
+      <Button
+        onPress={() => {
+          router.push("/main");
+        }}
+      >
+        입장
+      </Button>
     </>
   );
 }
