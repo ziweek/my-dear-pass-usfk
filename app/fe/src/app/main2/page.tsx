@@ -69,7 +69,7 @@ export default function MainPage(props: any) {
 
   return (
     <>
-      <div className="flex flex-col h-screen overflow-y-auto max-w-[400px] w-full mx-auto">
+      <div className="flex flex-col h-screen overflow-y-auto w-screen bg-orange-200 items-center">
         {/* header */}
         <div className="flex flex-col h-fit w-full fixed top-0 z-10 max-w-[400px]">
           <div className="h-[50px] w-screen flex flex-row items-center justify-between px-4 bg-white max-w-[400px]">
@@ -173,7 +173,7 @@ export default function MainPage(props: any) {
           </div>
         </div>
         {/*  */}
-        <div className="grid w-full space-y-2 h-full pb-8 px-4 overflow-y-scroll">
+        <div className="grid w-full space-y-2 h-full pb-8 px-4 overflow-y-scroll max-w-[400px] bg-orange-50">
           {/* body */}
           <div className="h-[80px] w-full"></div>
           {dataset.map((e, i: number) => {
