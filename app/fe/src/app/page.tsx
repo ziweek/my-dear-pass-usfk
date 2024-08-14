@@ -9,7 +9,7 @@ export default function Home() {
     <>
       <Button
         onPress={() => {
-          router.push("/main");
+          router.push("/main2");
         }}
       >
         입장

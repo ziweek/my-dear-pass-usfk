@@ -39,13 +39,20 @@ body {
 
 .holiday {
   background-color: #fdd0df !important;
-
+  height: 60px !important;
+  border-radius: 10px !important;
   /* abbr {
   } */
 }
 
 .react-calendar__tile {
-  height: 100px;
+  height: 70px;
+  /* border-radius: 10px; */
+}
+
+.react-calendar__tile--now {
+  height: 60px !important;
+  border-radius: 10px !important;
 }
 
 /*
