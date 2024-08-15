@@ -11,7 +11,12 @@ import {
   Divider,
 } from "@nextui-org/react";
 import { useState, useMemo, useEffect } from "react";
-import { IconCheck, IconGithub, IconUp } from "@/components/common/icon";
+import {
+  IconCheck,
+  IconGithub,
+  IconNo,
+  IconUp,
+} from "@/components/common/icon";
 import { dataset } from "@/components/common/dataset";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -19,6 +24,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Image from "next/image";
+import { useIsMobile } from "@/hook/useMediaQuery";
 
 export default function MainPage(props: any) {
   const [isHydrated, setIsHydrated] = useState(false);
@@ -31,6 +38,19 @@ export default function MainPage(props: any) {
     () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
     [selectedKeys]
   );
+
+  const isMobile = useIsMobile();
+  const [mobile, setMobile] = useState<boolean>(false);
+  const checkResize = () => {
+    if (isMobile) {
+      setMobile(true);
+    } else {
+      setMobile(false);
+    }
+  };
+  useEffect(() => {
+    checkResize();
+  }, [isMobile]);
 
   useEffect(() => {
     setIsHydrated(true);
@@ -69,199 +89,223 @@ export default function MainPage(props: any) {
 
   return (
     <>
-      <div className="flex flex-col h-full overflow-y-auto w-screen bg-stone-200 items-center">
-        {/* header */}
-        <div className="flex flex-col h-fit w-full fixed top-0 z-10 max-w-[400px]">
-          <div className="h-[50px] w-screen flex flex-row items-center justify-between px-4 bg-white max-w-[400px]">
-            <div className="flex flex-row items-center justify-center">
-              {/* <Image
+      <div className="relative flex flex-row h-full overflow-y-auto w-screen bg-orange-200 items-start gap-8 justify-center">
+        {!mobile && (
+          <div className="h-screen w-[400px]">
+            <div className="fixed top-0 h-screen flex flex-col items-center justify-center w-[400px]">
+              <Image
+                src={"/image/deer-licking-deer.jpg"}
+                width={100}
+                height={100}
+                alt="logo"
+                className="w-[300px] h-[250px] rounded-2xl"
+              ></Image>
+            </div>
+          </div>
+        )}
+        <div className="relative flex flex-col h-full overflow-y-auto bg-orange-200 items-center border-1">
+          {/* header */}
+          <div className="flex flex-col h-fit w-full fixed top-0 z-10 max-w-[400px]">
+            <div className="h-[50px] w-screen flex flex-row items-center justify-between px-4 bg-white max-w-[400px]">
+              <div className="flex flex-row items-center justify-center">
+                {/* <Image
               src={"/icon/logo-icon.png"}
               width={100}
               height={100}
               alt="logo"
               className="w-[45px]"
             ></Image> */}
-              <p className="font-bold">Dear 4day</p>
-            </div>
-            <Dropdown placement={"bottom-end"}>
-              <DropdownTrigger>
-                <Button
-                  size={"sm"}
-                  variant="bordered"
-                  className="border-1 border-black w-fit font-bold"
-                >
-                  {selectedValue}
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                aria-label="Static Actions"
-                selectionMode={"single"}
-                selectedKeys={selectedKeys}
-                disallowEmptySelection={false}
-                onSelectionChange={async (key: any) => {
-                  await setSelectedKeys(key);
-                  await setSelectedCategory(key.currentKey);
-                  // const tt = await getDate();
-                  // await setSeletedDates(tt);
-                }}
-              >
-                <DropdownSection title="Military" showDivider>
-                  <DropdownItem key="US">US</DropdownItem>
-                  <DropdownItem key="ROK">ROK</DropdownItem>
-                  <DropdownItem key="KATUSA">KATUSA</DropdownItem>
-                </DropdownSection>
-                <DropdownSection title="Civilian" showDivider>
-                  <DropdownItem key="DOD (US)">DOD (US)</DropdownItem>
-                  <DropdownItem key="USFK (LN)">USFK (LN)</DropdownItem>
-                  <DropdownItem key="CFC (KN)">CFC (KN)</DropdownItem>
-                </DropdownSection>
-                <DropdownSection title="DODEA">
-                  <DropdownItem key="DODEA (US)">DODEA (US)</DropdownItem>
-                </DropdownSection>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
-          <div className="w-full h-fit flex flex-col items-center bg-white space-y-2 border-b-1 shadow-md sticky top-1 max-w-[480px]">
-            {isCalendarFolded && (
-              <>
-                {isHydrated && (
-                  <Calendar
-                    locale={"us"}
-                    minDetail={"month"}
-                    showFixedNumberOfWeeks
-                    className={"h-fit"}
-                    calendarType={"gregory"}
-                    value={new Date()}
-                    // defaultValue={new Date()}
-                    // defaultView={"year"}
-                    tileContent={({ activeStartDate, date, view }) =>
-                      view === "month" &&
-                      seletedDates.filter((e) => e.getTime() == date.getTime())
-                        .length != 0 ? (
-                        <p className="text-xs">Holiday</p>
-                      ) : new Date().getTime() === date.getTime() ? (
-                        <p className="text-xs">Today</p>
-                      ) : null
-                    }
-                    tileClassName={({ activeStartDate, date, view }) =>
-                      view === "month" &&
-                      seletedDates.filter((e) => e.getTime() == date.getTime())
-                        .length != 0
-                        ? "holiday"
-                        : null
-                    }
-                  />
-                )}
-              </>
-            )}
-            <Button
-              size={"sm"}
-              isIconOnly
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-              onPress={(e) => {
-                setIsCalendarFolded(!isCalendarFolded);
-              }}
-              variant={"light"}
-              className={`${isCalendarFolded ? "" : "rotate-180"} z-50`}
-            >
-              <div className="flex flex-col items-center justify-center">
-                <IconUp fill="#000" width={15} height={15}></IconUp>
+                <p className="font-bold">Dear 4day</p>
               </div>
-            </Button>
+              <Dropdown placement={"bottom-end"}>
+                <DropdownTrigger>
+                  <Button
+                    size={"sm"}
+                    variant="bordered"
+                    className="border-1 border-black w-fit font-bold"
+                  >
+                    {selectedValue}
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  aria-label="Static Actions"
+                  selectionMode={"single"}
+                  selectedKeys={selectedKeys}
+                  disallowEmptySelection={false}
+                  onSelectionChange={async (key: any) => {
+                    await setSelectedKeys(key);
+                    await setSelectedCategory(key.currentKey);
+                    // const tt = await getDate();
+                    // await setSeletedDates(tt);
+                  }}
+                >
+                  <DropdownSection title="Military" showDivider>
+                    <DropdownItem key="US">US</DropdownItem>
+                    <DropdownItem key="ROK">ROK</DropdownItem>
+                    <DropdownItem key="KATUSA">KATUSA</DropdownItem>
+                  </DropdownSection>
+                  <DropdownSection title="Civilian" showDivider>
+                    <DropdownItem key="DOD (US)">DOD (US)</DropdownItem>
+                    <DropdownItem key="USFK (LN)">USFK (LN)</DropdownItem>
+                    <DropdownItem key="CFC (KN)">CFC (KN)</DropdownItem>
+                  </DropdownSection>
+                  <DropdownSection title="DODEA">
+                    <DropdownItem key="DODEA (US)">DODEA (US)</DropdownItem>
+                  </DropdownSection>
+                </DropdownMenu>
+              </Dropdown>
+            </div>
+            <div className="w-full h-fit flex flex-col items-center bg-white space-y-2 border-b-1 shadow-md sticky top-1 max-w-[480px]">
+              {isCalendarFolded && (
+                <>
+                  {isHydrated && (
+                    <Calendar
+                      locale={"us"}
+                      minDetail={"month"}
+                      showFixedNumberOfWeeks
+                      className={"h-fit"}
+                      calendarType={"gregory"}
+                      value={new Date()}
+                      // defaultValue={new Date()}
+                      // defaultView={"year"}
+                      tileContent={({ activeStartDate, date, view }) =>
+                        view === "month" &&
+                        seletedDates.filter(
+                          (e) => e.getTime() == date.getTime()
+                        ).length != 0 ? (
+                          <p className="text-xs">Holiday</p>
+                        ) : new Date().getTime() === date.getTime() ? (
+                          <p className="text-xs">Today</p>
+                        ) : null
+                      }
+                      tileClassName={({ activeStartDate, date, view }) =>
+                        view === "month" &&
+                        seletedDates.filter(
+                          (e) => e.getTime() == date.getTime()
+                        ).length != 0
+                          ? "holiday"
+                          : null
+                      }
+                    />
+                  )}
+                </>
+              )}
+              <Button
+                size={"sm"}
+                isIconOnly
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                onPress={(e) => {
+                  setIsCalendarFolded(!isCalendarFolded);
+                }}
+                variant={"light"}
+                className={`${isCalendarFolded ? "" : "rotate-180"} z-50`}
+              >
+                <div className="flex flex-col items-center justify-center">
+                  <IconUp fill="#000" width={15} height={15}></IconUp>
+                </div>
+              </Button>
+            </div>
           </div>
-        </div>
-        {/*  */}
-        <div className="flex flex-col w-full space-y-2 h-full pb-20 px-4 max-w-[400px] bg-stone-50 overflow-x-clip">
-          {/* body */}
-          <div className="h-[80px] w-full"></div>
-          {dataset.map((e, i: number) => {
-            return (
-              <div key={i} className="w-full h-fit space-y-4">
-                {e.HOLIDAY ==
-                  dataset.filter(
-                    (j) => j.DATE.split("-")[1] == e.DATE.split("-")[1]
-                  )[0].HOLIDAY &&
-                  e.DATE ==
+          {/*  */}
+          {/* <div className="grid w-full space-y-2 h-full pb-20 px-4 max-w-[400px] bg-stone-50 overflow-x-clip"> */}
+          <div className="flex flex-col w-full space-y-2 h-full pb-20 px-4 max-w-[400px] bg-stone-50 overflow-x-clip">
+            {/* body */}
+            <div className="h-[80px] w-full"></div>
+            {dataset.map((e, i: number) => {
+              return (
+                <div key={i} className="w-full h-fit space-y-4">
+                  {e.HOLIDAY ==
                     dataset.filter(
                       (j) => j.DATE.split("-")[1] == e.DATE.split("-")[1]
-                    )[0].DATE && (
-                    <div className="pt-8">
-                      <div className="flex flex-row w-full justify-between items-end">
-                        <p className="font-bold text-3xl">
-                          {e.DATE.split("-")[1]}
-                        </p>
-                        <div className="flex flex-row space-x-2">
-                          <p className="">
-                            {
-                              dataset
-                                .filter(
-                                  (j) =>
-                                    j.DATE.split("-")[1] == e.DATE.split("-")[1]
-                                )
-                                .filter(
-                                  (e) =>
-                                    e[selectedCategory as keyof typeof e] ==
-                                    "YES"
-                                ).length
-                            }{" "}
-                            Yes
+                    )[0].HOLIDAY &&
+                    e.DATE ==
+                      dataset.filter(
+                        (j) => j.DATE.split("-")[1] == e.DATE.split("-")[1]
+                      )[0].DATE && (
+                      <div className="pt-8">
+                        <div className="flex flex-row w-full justify-between items-end">
+                          <p className="font-bold text-3xl">
+                            {e.DATE.split("-")[1]}
                           </p>
-                          <p className="">
-                            {
-                              dataset
-                                .filter(
-                                  (j) =>
-                                    j.DATE.split("-")[1] == e.DATE.split("-")[1]
-                                )
-                                .filter(
-                                  (e) =>
-                                    e[selectedCategory as keyof typeof e] ==
-                                    "NO"
-                                ).length
-                            }{" "}
-                            No
-                          </p>
+                          <div className="flex flex-row space-x-2">
+                            <div className="flex flex-row space-x-1">
+                              <IconCheck width={15} fill="#17C964"></IconCheck>
+                              <p className="font-bold text-sm">
+                                {
+                                  dataset
+                                    .filter(
+                                      (j) =>
+                                        j.DATE.split("-")[1] ==
+                                        e.DATE.split("-")[1]
+                                    )
+                                    .filter(
+                                      (e) =>
+                                        e[selectedCategory as keyof typeof e] ==
+                                        "YES"
+                                    ).length
+                                }
+                              </p>
+                            </div>
+                            <div className="flex flex-row space-x-1">
+                              <IconNo width={15} fill="#f31260"></IconNo>
+                              <p className="font-bold text-sm">
+                                {
+                                  dataset
+                                    .filter(
+                                      (j) =>
+                                        j.DATE.split("-")[1] ==
+                                        e.DATE.split("-")[1]
+                                    )
+                                    .filter(
+                                      (e) =>
+                                        e[selectedCategory as keyof typeof e] ==
+                                        "NO"
+                                    ).length
+                                }{" "}
+                              </p>
+                            </div>
+                          </div>
                         </div>
+                        <Divider className="bg-black/50"></Divider>
                       </div>
-                      <Divider className="bg-black/50"></Divider>
-                    </div>
-                  )}
-                <div
-                  data-aos="fade-left"
-                  // data-aos-delay={i < 10 ? i * 100 + 150 : 250}
-                  className="flex flex-row space-x-4 pl-8"
-                >
-                  <IconCheck
-                    width={30}
-                    fill={`${
-                      e[selectedCategory as keyof typeof e] == "YES"
-                        ? "#17C964"
-                        : "#00000000"
-                    }`}
-                  ></IconCheck>
+                    )}
                   <div
-                    key={i}
-                    className="w-full h-[80px] bg-center bg-cover bg-blend-darken bg-black/30"
-                    style={{
-                      backgroundImage:
-                        e[selectedCategory as keyof typeof e] == "YES"
-                          ? `url("../../image/deer-licking-deer.jpg")`
-                          : "",
-                    }}
+                    data-aos="fade-left"
+                    // data-aos-delay={i < 10 ? i * 100 + 150 : 250}
+                    className="flex flex-row space-x-4 pl-8"
                   >
-                    <div className="w-full h-full flex flex-col text-white justify-center select-none p-4">
-                      <p className="font-bold text-sm">
-                        {e.DATE}, {e.DAY}
-                      </p>
-                      <p className="text-sm">{e.HOLIDAY}</p>
+                    <IconCheck
+                      width={30}
+                      fill={`${
+                        e[selectedCategory as keyof typeof e] == "YES"
+                          ? "#17C964"
+                          : "#00000000"
+                      }`}
+                    ></IconCheck>
+                    <div
+                      key={i}
+                      className="w-full h-[80px] bg-center bg-cover bg-blend-darken bg-black/30 rounded-xl"
+                      style={{
+                        backgroundImage:
+                          e[selectedCategory as keyof typeof e] == "YES"
+                            ? `url("../../image/deer-licking-deer.jpg")`
+                            : "",
+                      }}
+                    >
+                      <div className="w-full h-full flex flex-col text-white justify-center select-none p-4">
+                        <p className="font-bold text-sm">
+                          {e.DATE}, {e.DAY}
+                        </p>
+                        <p className="text-sm">{e.HOLIDAY}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
       <ToastContainer />
