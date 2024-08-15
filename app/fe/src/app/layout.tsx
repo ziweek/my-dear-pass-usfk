@@ -24,8 +24,8 @@ const nanumSquareNeo = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "My Dear Pass | Handy USFK Holiday Calendar",
-  description: "Handy USFK Holiday Calendar",
+  title: "My Dear Pass | Handy USFK Holiday Schedule Calendar",
+  description: "Handy USFK Holiday Schedule Calendar",
   viewport: {
     width: "device-width",
     initialScale: 1,
@@ -36,10 +36,10 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "https://so-when-is-4day.vercel.app/",
-    title: "So When is 4day",
-    description: "Simple USFK Holiday Calendar",
+    title: "My Dear Pass",
+    description: "Handy USFK Holiday Schedule Calendar",
     images: [{ url: `https://award-factory.vercel.app/images/thumbnail.png` }],
-    siteName: "so-when-is-4day",
+    siteName: "My Dear Pass",
   },
 };
 
