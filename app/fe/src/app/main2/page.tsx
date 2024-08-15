@@ -49,6 +49,13 @@ export default function MainPage(props: any) {
   }, [isMobile]);
 
   useEffect(() => {
+    const tt = getDate();
+    setSeletedDates(tt);
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    const tt = getDate();
+    setSeletedDates(tt);
     setIsHydrated(true);
     AOS.init({
       disable: false, // accepts following values: 'phone', 'tablet', 'mobile', boolean, expression or function
@@ -60,11 +67,6 @@ export default function MainPage(props: any) {
       theme: "colored",
     });
   }, []);
-
-  useEffect(() => {
-    const tt = getDate();
-    setSeletedDates(tt);
-  }, [selectedCategory]);
 
   function getDate(): Date[] {
     var dateArray: any = [];
@@ -156,7 +158,7 @@ export default function MainPage(props: any) {
             <div className="w-full h-fit flex flex-col items-center bg-white space-y-2 border-b-1 shadow-md sticky top-1 max-w-[480px]">
               {isCalendarFolded && (
                 <>
-                  {isHydrated && (
+                  {isHydrated && seletedDates.length != 0 && (
                     <Calendar
                       locale={"us"}
                       minDetail={"month"}
@@ -164,8 +166,6 @@ export default function MainPage(props: any) {
                       className={"h-fit"}
                       calendarType={"gregory"}
                       value={new Date()}
-                      // defaultValue={new Date()}
-                      // defaultView={"year"}
                       tileContent={({ activeStartDate, date, view }) =>
                         view === "month" &&
                         seletedDates.filter(
