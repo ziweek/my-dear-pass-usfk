@@ -24,7 +24,7 @@ import Footer from "@/components/footer";
 
 export default function MainPage(props: any) {
   const [isHydrated, setIsHydrated] = useState(false);
-  const [seletedDates, setSeletedDates] = useState<Date[]>([]);
+  const [seletedDates, setSeletedDates] = useState<any>(undefined);
   const [isCalendarFolded, setIsCalendarFolded] = useState(false);
   const [selectedKeys, setSelectedKeys] = useState<any>(new Set(["US"]));
   const [selectedCategory, setSelectedCategory] = useState("US");
@@ -37,21 +37,7 @@ export default function MainPage(props: any) {
   const isMobile = useIsMobile();
   const [mobile, setMobile] = useState<boolean>(false);
 
-  const checkResize = () => {
-    if (isMobile) {
-      setMobile(true);
-    } else {
-      setMobile(false);
-    }
-  };
   useEffect(() => {
-    checkResize();
-  }, [isMobile]);
-
-  useEffect(() => {
-    const tt = getDate();
-    setSeletedDates(tt);
-    setIsHydrated(true);
     AOS.init({
       disable: false, // accepts following values: 'phone', 'tablet', 'mobile', boolean, expression or function
       anchorPlacement: "top-bottom", // defines which position of the element regarding to window should trigger the animation
@@ -61,27 +47,38 @@ export default function MainPage(props: any) {
       position: "bottom-center",
       theme: "colored",
     });
+    setIsHydrated(true);
+    getDateArray();
   }, []);
 
   useEffect(() => {
-    const tt = getDate();
-    setSeletedDates(tt);
+    const checkResize = () => {
+      if (isMobile) {
+        setMobile(true);
+      } else {
+        setMobile(false);
+      }
+    };
+    checkResize();
+  }, [isMobile]);
+
+  useEffect(() => {
+    getDateArray();
   }, [selectedCategory]);
 
-  function getDate(): Date[] {
-    var dateArray: any = [];
-    dataset
+  async function getDateArray() {
+    var dateArray: any = await [];
+    await dataset
       .filter((e) => e[selectedCategory as keyof typeof e] == "YES")
-      .forEach((e) => {
-        const targetDateElement = e.DATE.split("-");
-        const targetDate = new Date(`
-        20${targetDateElement[2]}-
-        ${targetDateElement[1]}-
-        ${targetDateElement[0]}`);
-        dateArray.push(targetDate);
+      .forEach(async (e) => {
+        const targetDateElement = await e.DATE.split("-");
+        const targetDate = await new Date(`
+        20${targetDateElement[2]}/
+        ${targetDateElement[1]}/
+        ${targetDateElement[0]} 00:00:00`);
+        await dateArray.push(targetDate);
       });
-    console.log(dateArray);
-    return dateArray;
+    await setSeletedDates(dateArray);
   }
 
   return (
@@ -157,27 +154,27 @@ export default function MainPage(props: any) {
                 <>
                   {isHydrated && (
                     <Calendar
-                      locale={"us"}
+                      calendarType={"gregory"}
                       minDetail={"month"}
                       maxDetail={"month"}
                       showFixedNumberOfWeeks
                       className={"h-fit"}
-                      calendarType={"gregory"}
                       view={"month"}
                       value={new Date()}
-                      tileContent={({ activeStartDate, date, view }) =>
-                        // view === "month" &&
-                        seletedDates.filter(
-                          (e) => e.getTime() == date.getTime()
-                        ).length != 0 || true ? (
+                      tileContent={({ activeStartDate, date, view }) => {
+                        console.log(date);
+                        return seletedDates.find(
+                          (e: Date) =>
+                            e.toLocaleString() === date.toLocaleString()
+                        ) ? (
                           <p>PASS</p>
-                        ) : null
-                      }
+                        ) : null;
+                      }}
                       tileClassName={({ activeStartDate, date, view }) =>
-                        // view === "month" &&
-                        seletedDates.filter(
-                          (e) => e.getTime() == date.getTime()
-                        ).length != 0
+                        seletedDates.find(
+                          (e: Date) =>
+                            e.toLocaleString() === date.toLocaleString()
+                        )
                           ? "holiday"
                           : null
                       }
@@ -204,6 +201,12 @@ export default function MainPage(props: any) {
             </div>
           </div>
           {/*  */}
+          <div>
+            {seletedDates != undefined &&
+              seletedDates.map((e: Date, i: number) => {
+                return <p key={i}>{e.toString()}</p>;
+              })}
+          </div>
           <div className="flex flex-col w-full space-y-2 h-full pb-4 px-4 max-w-[400px] bg-white overflow-x-clip">
             {/* body */}
             <div className="h-[80px] w-full"></div>
@@ -317,13 +320,3 @@ export default function MainPage(props: any) {
     </>
   );
 }
-// {/* {seletedDates.map((e, i) => {
-//   return (
-//     <Card
-//       key={i}
-//       className="w-full h-[50px] flex flex-col items-center justify-center"
-//     >
-//       <p>{e.toDateString()}</p>
-//     </Card>
-//   );
-// })} */}
