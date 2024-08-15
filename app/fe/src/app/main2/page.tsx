@@ -36,6 +36,7 @@ export default function MainPage(props: any) {
 
   const isMobile = useIsMobile();
   const [mobile, setMobile] = useState<boolean>(false);
+
   const checkResize = () => {
     if (isMobile) {
       setMobile(true);
@@ -50,26 +51,25 @@ export default function MainPage(props: any) {
   useEffect(() => {
     const tt = getDate();
     setSeletedDates(tt);
-  }, [selectedCategory]);
-
-  useEffect(() => {
-    const tt = getDate();
-    setSeletedDates(tt);
     setIsHydrated(true);
     AOS.init({
       disable: false, // accepts following values: 'phone', 'tablet', 'mobile', boolean, expression or function
       anchorPlacement: "top-bottom", // defines which position of the element regarding to window should trigger the animation
       once: true, // whether animation should happen only once - while scrolling down
     });
-    toast.info("Updated FY25 USFK Holiday v1 :)", {
+    toast.info("Updated FY25 USFK Holiday Schedule v1 :)", {
       position: "bottom-center",
       theme: "colored",
     });
   }, []);
 
+  useEffect(() => {
+    const tt = getDate();
+    setSeletedDates(tt);
+  }, [selectedCategory]);
+
   function getDate(): Date[] {
     var dateArray: any = [];
-    console.log(selectedCategory);
     dataset
       .filter((e) => e[selectedCategory as keyof typeof e] == "YES")
       .forEach((e) => {
@@ -80,13 +80,13 @@ export default function MainPage(props: any) {
         ${targetDateElement[0]}`);
         dateArray.push(targetDate);
       });
-    // console.log(dateArray);
+    console.log(dateArray);
     return dateArray;
   }
 
   return (
     <>
-      <div className="relative flex flex-row h-full overflow-y-auto w-screen bg-orange-50 items-start gap-8 justify-center select-none">
+      <div className="relative flex flex-row h-full overflow-y-auto w-screen items-start gap-8 justify-center select-none bg-stone-200">
         {!mobile && (
           <div className="h-screen w-[400px]">
             <div className="fixed top-0 h-screen flex flex-col items-center justify-center w-[400px]">
@@ -102,10 +102,10 @@ export default function MainPage(props: any) {
             </div>
           </div>
         )}
-        <div className="relative flex flex-col h-full overflow-y-auto bg-orange-100 items-center border-1">
+        <div className="relative flex flex-col h-full overflow-y-auto items-center border-1">
           {/* header */}
-          <div className="flex flex-col h-fit w-full fixed top-0 z-10 max-w-[400px]">
-            <div className="h-[50px] w-screen flex flex-row items-center justify-between px-4 bg-orange-100 max-w-[400px] pt-4">
+          <div className="flex flex-col h-fit w-full fixed top-0 z-10 max-w-[400px] bg-white">
+            <div className="h-[50px] w-screen flex flex-row items-center justify-between px-4 max-w-[400px] pt-4">
               <div className="flex flex-row items-center justify-center">
                 {/* <Image
               src={"/icon/logo-icon.png"}
@@ -152,13 +152,14 @@ export default function MainPage(props: any) {
                 </DropdownMenu>
               </Dropdown>
             </div>
-            <div className="w-full h-fit flex flex-col items-center space-y-2 border-b-1 shadow-lg max-w-[480px] rounded-b-2xl bg-orange-100 border-orange-200">
+            <div className="w-full h-fit flex flex-col items-center space-y-2 border-b-1 shadow-lg max-w-[480px] rounded-b-2xl bg-white border-stone-200">
               {isCalendarFolded && (
                 <>
                   {isHydrated && (
                     <Calendar
                       locale={"us"}
                       minDetail={"month"}
+                      maxDetail={"month"}
                       showFixedNumberOfWeeks
                       className={"h-fit"}
                       calendarType={"gregory"}
@@ -168,7 +169,7 @@ export default function MainPage(props: any) {
                         // view === "month" &&
                         seletedDates.filter(
                           (e) => e.getTime() == date.getTime()
-                        ).length != 0 ? (
+                        ).length != 0 || true ? (
                           <p>PASS</p>
                         ) : null
                       }
@@ -203,7 +204,7 @@ export default function MainPage(props: any) {
             </div>
           </div>
           {/*  */}
-          <div className="flex flex-col w-full space-y-2 h-full pb-4 px-4 max-w-[400px] bg-stone-50 overflow-x-clip">
+          <div className="flex flex-col w-full space-y-2 h-full pb-4 px-4 max-w-[400px] bg-white overflow-x-clip">
             {/* body */}
             <div className="h-[80px] w-full"></div>
             {dataset.map((e, i: number) => {
