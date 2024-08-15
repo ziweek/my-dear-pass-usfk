@@ -11,7 +11,7 @@ import {
   Divider,
 } from "@nextui-org/react";
 import { useState, useMemo, useEffect } from "react";
-import { IconGithub, IconUp } from "@/components/common/icon";
+import { IconCheck, IconGithub, IconUp } from "@/components/common/icon";
 import { dataset } from "@/components/common/dataset";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -36,11 +36,11 @@ export default function MainPage(props: any) {
     setIsHydrated(true);
     AOS.init({
       disable: false, // accepts following values: 'phone', 'tablet', 'mobile', boolean, expression or function
-      anchorPlacement: "center-bottom", // defines which position of the element regarding to window should trigger the animation
+      anchorPlacement: "top-bottom", // defines which position of the element regarding to window should trigger the animation
       once: true, // whether animation should happen only once - while scrolling down
     });
     toast.info("FY25 USFK Holiday v1, is Updated..!!", {
-      position: "bottom-center",
+      position: "top-center",
       theme: "colored",
     });
   }, []);
@@ -69,7 +69,7 @@ export default function MainPage(props: any) {
 
   return (
     <>
-      <div className="flex flex-col h-screen overflow-y-auto w-screen bg-orange-200 items-center">
+      <div className="flex flex-col h-full overflow-y-auto w-screen bg-stone-200 items-center">
         {/* header */}
         <div className="flex flex-col h-fit w-full fixed top-0 z-10 max-w-[400px]">
           <div className="h-[50px] w-screen flex flex-row items-center justify-between px-4 bg-white max-w-[400px]">
@@ -173,7 +173,7 @@ export default function MainPage(props: any) {
           </div>
         </div>
         {/*  */}
-        <div className="grid w-full space-y-2 h-full pb-8 px-4 overflow-y-scroll max-w-[400px] bg-orange-50">
+        <div className="flex flex-col w-full space-y-2 h-full pb-20 px-4 max-w-[400px] bg-stone-50 overflow-x-clip">
           {/* body */}
           <div className="h-[80px] w-full"></div>
           {dataset.map((e, i: number) => {
@@ -228,9 +228,20 @@ export default function MainPage(props: any) {
                       <Divider className="bg-black/50"></Divider>
                     </div>
                   )}
-                <div className="flex flex-row space-x-4 pl-8">
-                  <IconGithub width={30}></IconGithub>
-                  <Card
+                <div
+                  data-aos="fade-left"
+                  // data-aos-delay={i < 10 ? i * 100 + 150 : 250}
+                  className="flex flex-row space-x-4 pl-8"
+                >
+                  <IconCheck
+                    width={30}
+                    fill={`${
+                      e[selectedCategory as keyof typeof e] == "YES"
+                        ? "#17C964"
+                        : "#00000000"
+                    }`}
+                  ></IconCheck>
+                  <div
                     key={i}
                     className="w-full h-[80px] bg-center bg-cover bg-blend-darken bg-black/30"
                     style={{
@@ -246,7 +257,7 @@ export default function MainPage(props: any) {
                       </p>
                       <p className="text-sm">{e.HOLIDAY}</p>
                     </div>
-                  </Card>
+                  </div>
                 </div>
               </div>
             );
