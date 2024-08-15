@@ -33,35 +33,26 @@ body {
 } */
 .react-calendar {
   width: 100% !important;
-  border: 0px;
+  border: 0px !important;
   border-color: white !important;
-}
-
-.holiday {
-  background-color: #fdd0df !important;
-  height: 50px !important;
-  border-radius: 10px !important;
-  /* abbr {
-  } */
 }
 
 .react-calendar__tile {
   height: 50px;
-  /* border-radius: 10px; */
+  text-align: center;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+}
+
+.holiday {
+  background: #fdd0df !important;
+  height: 50px !important;
+  border-radius: 10px !important;
 }
 
 .react-calendar__tile--now {
   height: 50px !important;
   border-radius: 10px !important;
 }
-
-/*
-
-
-/* .react-calendar__tile--active {
-  background-color: yellow !important;
-} */
-
-/* .react-calendar__month-view__days__day--weekend {
-  background-color: #faa0bf !important;
-} */
