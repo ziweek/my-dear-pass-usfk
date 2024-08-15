@@ -24,8 +24,8 @@ const nanumSquareNeo = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "So When is 4day | Simple USFK Holiday Calendar",
-  description: "Simple USFK Holiday Calendar",
+  title: "My Dear Pass | Handy USFK Holiday Calendar",
+  description: "Handy USFK Holiday Calendar",
   viewport: {
     width: "device-width",
     initialScale: 1,

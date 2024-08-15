@@ -7,16 +7,10 @@ import {
   DropdownItem,
   DropdownSection,
   Button,
-  Card,
   Divider,
 } from "@nextui-org/react";
 import { useState, useMemo, useEffect } from "react";
-import {
-  IconCheck,
-  IconGithub,
-  IconNo,
-  IconUp,
-} from "@/components/common/icon";
+import { IconCheck, IconNo, IconUp } from "@/components/common/icon";
 import { dataset } from "@/components/common/dataset";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -26,6 +20,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Image from "next/image";
 import { useIsMobile } from "@/hook/useMediaQuery";
+import Footer from "@/components/footer";
 
 export default function MainPage(props: any) {
   const [isHydrated, setIsHydrated] = useState(false);
@@ -53,22 +48,24 @@ export default function MainPage(props: any) {
   }, [isMobile]);
 
   useEffect(() => {
+    const tt = getDate();
+    setSeletedDates(tt);
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    const tt = getDate();
+    setSeletedDates(tt);
     setIsHydrated(true);
     AOS.init({
       disable: false, // accepts following values: 'phone', 'tablet', 'mobile', boolean, expression or function
       anchorPlacement: "top-bottom", // defines which position of the element regarding to window should trigger the animation
       once: true, // whether animation should happen only once - while scrolling down
     });
-    toast.info("FY25 USFK Holiday v1, is Updated..!!", {
-      position: "top-center",
+    toast.info("Updated FY25 USFK Holiday v1 :)", {
+      position: "bottom-center",
       theme: "colored",
     });
   }, []);
-
-  useEffect(() => {
-    const tt = getDate();
-    setSeletedDates(tt);
-  }, [selectedCategory]);
 
   function getDate(): Date[] {
     var dateArray: any = [];
@@ -89,24 +86,26 @@ export default function MainPage(props: any) {
 
   return (
     <>
-      <div className="relative flex flex-row h-full overflow-y-auto w-screen bg-orange-200 items-start gap-8 justify-center">
+      <div className="relative flex flex-row h-full overflow-y-auto w-screen bg-orange-50 items-start gap-8 justify-center select-none">
         {!mobile && (
           <div className="h-screen w-[400px]">
             <div className="fixed top-0 h-screen flex flex-col items-center justify-center w-[400px]">
+              <p className="italic font-bold text-3xl">My Dear Pass</p>
+              <p className="italic">I wish you all have sweet pass :)</p>
               <Image
                 src={"/image/deer-licking-deer.jpg"}
                 width={100}
                 height={100}
                 alt="logo"
-                className="w-[300px] h-[250px] rounded-2xl"
+                className="w-[350px] h-[270px] rounded-2xl"
               ></Image>
             </div>
           </div>
         )}
-        <div className="relative flex flex-col h-full overflow-y-auto bg-orange-200 items-center border-1">
+        <div className="relative flex flex-col h-full overflow-y-auto bg-orange-100 items-center border-1">
           {/* header */}
           <div className="flex flex-col h-fit w-full fixed top-0 z-10 max-w-[400px]">
-            <div className="h-[50px] w-screen flex flex-row items-center justify-between px-4 bg-white max-w-[400px]">
+            <div className="h-[50px] w-screen flex flex-row items-center justify-between px-4 bg-orange-100 max-w-[400px] pt-4">
               <div className="flex flex-row items-center justify-center">
                 {/* <Image
               src={"/icon/logo-icon.png"}
@@ -115,7 +114,7 @@ export default function MainPage(props: any) {
               alt="logo"
               className="w-[45px]"
             ></Image> */}
-                <p className="font-bold">Dear 4day</p>
+                <p className="font-bold">My Dear Pass</p>
               </div>
               <Dropdown placement={"bottom-end"}>
                 <DropdownTrigger>
@@ -135,8 +134,6 @@ export default function MainPage(props: any) {
                   onSelectionChange={async (key: any) => {
                     await setSelectedKeys(key);
                     await setSelectedCategory(key.currentKey);
-                    // const tt = await getDate();
-                    // await setSeletedDates(tt);
                   }}
                 >
                   <DropdownSection title="Military" showDivider>
@@ -155,7 +152,7 @@ export default function MainPage(props: any) {
                 </DropdownMenu>
               </Dropdown>
             </div>
-            <div className="w-full h-fit flex flex-col items-center bg-white space-y-2 border-b-1 shadow-md sticky top-1 max-w-[480px]">
+            <div className="w-full h-fit flex flex-col items-center space-y-2 border-b-1 shadow-lg max-w-[480px] rounded-b-2xl bg-orange-100 border-orange-200">
               {isCalendarFolded && (
                 <>
                   {isHydrated && (
@@ -165,21 +162,18 @@ export default function MainPage(props: any) {
                       showFixedNumberOfWeeks
                       className={"h-fit"}
                       calendarType={"gregory"}
+                      view={"month"}
                       value={new Date()}
-                      // defaultValue={new Date()}
-                      // defaultView={"year"}
                       tileContent={({ activeStartDate, date, view }) =>
-                        view === "month" &&
+                        // view === "month" &&
                         seletedDates.filter(
                           (e) => e.getTime() == date.getTime()
                         ).length != 0 ? (
-                          <p className="text-xs">Holiday</p>
-                        ) : new Date().getTime() === date.getTime() ? (
-                          <p className="text-xs">Today</p>
+                          <p>PASS</p>
                         ) : null
                       }
                       tileClassName={({ activeStartDate, date, view }) =>
-                        view === "month" &&
+                        // view === "month" &&
                         seletedDates.filter(
                           (e) => e.getTime() == date.getTime()
                         ).length != 0
@@ -209,8 +203,7 @@ export default function MainPage(props: any) {
             </div>
           </div>
           {/*  */}
-          {/* <div className="grid w-full space-y-2 h-full pb-20 px-4 max-w-[400px] bg-stone-50 overflow-x-clip"> */}
-          <div className="flex flex-col w-full space-y-2 h-full pb-20 px-4 max-w-[400px] bg-stone-50 overflow-x-clip">
+          <div className="flex flex-col w-full space-y-2 h-full pb-4 px-4 max-w-[400px] bg-stone-50 overflow-x-clip">
             {/* body */}
             <div className="h-[80px] w-full"></div>
             {dataset.map((e, i: number) => {
@@ -226,8 +219,10 @@ export default function MainPage(props: any) {
                       )[0].DATE && (
                       <div className="pt-8">
                         <div className="flex flex-row w-full justify-between items-end">
-                          <p className="font-bold text-3xl">
-                            {e.DATE.split("-")[1]}
+                          <p className="font-bold text-xl">
+                            {`20${e.DATE.split("-")[2]} / ${
+                              e.DATE.split("-")[1]
+                            }`}
                           </p>
                           <div className="flex flex-row space-x-2">
                             <div className="flex flex-row space-x-1">
@@ -273,7 +268,6 @@ export default function MainPage(props: any) {
                     )}
                   <div
                     data-aos="fade-left"
-                    // data-aos-delay={i < 10 ? i * 100 + 150 : 250}
                     className="flex flex-row space-x-4 pl-8"
                   >
                     <IconCheck
@@ -286,7 +280,7 @@ export default function MainPage(props: any) {
                     ></IconCheck>
                     <div
                       key={i}
-                      className="w-full h-[80px] bg-center bg-cover bg-blend-darken bg-black/30 rounded-xl"
+                      className="w-full h-[80px] bg-center bg-cover bg-blend-darken bg-black/40 rounded-xl"
                       style={{
                         backgroundImage:
                           e[selectedCategory as keyof typeof e] == "YES"
@@ -296,7 +290,10 @@ export default function MainPage(props: any) {
                     >
                       <div className="w-full h-full flex flex-col text-white justify-center select-none p-4">
                         <p className="font-bold text-sm">
-                          {e.DATE}, {e.DAY}
+                          {`${e.DATE.split("-")[2]} / ${
+                            e.DATE.split("-")[1]
+                          } / ${e.DATE.split("-")[0]}`}
+                          , {e.DAY}
                         </p>
                         <p className="text-sm">{e.HOLIDAY}</p>
                       </div>
@@ -305,6 +302,13 @@ export default function MainPage(props: any) {
                 </div>
               );
             })}
+            <div className="pt-8">
+              <Footer
+                isFixed
+                title={"My Dear Pass"}
+                subtitle={"If any issue, let me know."}
+              ></Footer>
+            </div>
           </div>
         </div>
       </div>
