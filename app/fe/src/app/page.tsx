@@ -7,7 +7,6 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 import { useIsMobile } from "@/hook/useMediaQuery";
-// import { IconLogo } from "@/component/common/icons";
 import Footer from "@/components/footer";
 
 export default function Home() {
@@ -79,14 +78,12 @@ export default function Home() {
                   size={mobile ? "md" : "lg"}
                   color={"default"}
                   variant={"bordered"}
-                  aria-label="information"
-                  // onClick={() => {
-                  //   window.open(
-                  //     "https://amplified-purpose-11c.notion.site/3e486a3aa9cf4ba585ac1c92eecf0e4a?pvs=74"
-                  //   );
-                  // }}
+                  aria-label="product"
+                  onClick={() => {
+                    router.push("/main");
+                  }}
                 >
-                  서비스 소개자료
+                  Get Started
                 </Button>
                 <Button
                   className={`font-bold border-black hover:-translate-y-1 ${
@@ -95,12 +92,14 @@ export default function Home() {
                   size={mobile ? "md" : "lg"}
                   color={"default"}
                   variant={"bordered"}
-                  aria-label="product"
-                  onClick={() => {
-                    router.push("/main");
-                  }}
+                  aria-label="information"
+                  // onClick={() => {
+                  //   window.open(
+                  //     "https://amplified-purpose-11c.notion.site/3e486a3aa9cf4ba585ac1c92eecf0e4a?pvs=74"
+                  //   );
+                  // }}
                 >
-                  서비스 시작하기
+                  Description
                 </Button>
               </div>
             </div>
