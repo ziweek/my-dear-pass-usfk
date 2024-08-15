@@ -21,7 +21,6 @@ import "aos/dist/aos.css";
 import Image from "next/image";
 import { useIsMobile } from "@/hook/useMediaQuery";
 import Footer from "@/components/footer";
-import { metadata } from "../layout";
 
 export default function MainPage(props: any) {
   const [isHydrated, setIsHydrated] = useState(false);
@@ -87,7 +86,7 @@ export default function MainPage(props: any) {
 
   return (
     <>
-      <div className="relative flex flex-row h-full overflow-y-auto w-screen bg-stone-200 items-start gap-8 justify-center select-none">
+      <div className="relative flex flex-row h-full overflow-y-auto w-screen bg-orange-50 items-start gap-8 justify-center select-none">
         {!mobile && (
           <div className="h-screen w-[400px]">
             <div className="fixed top-0 h-screen flex flex-col items-center justify-center w-[400px]">
@@ -103,10 +102,10 @@ export default function MainPage(props: any) {
             </div>
           </div>
         )}
-        <div className="relative flex flex-col h-full overflow-y-auto bg-orange-200 items-center border-1">
+        <div className="relative flex flex-col h-full overflow-y-auto bg-orange-100 items-center border-1">
           {/* header */}
           <div className="flex flex-col h-fit w-full fixed top-0 z-10 max-w-[400px]">
-            <div className="h-[50px] w-screen flex flex-row items-center justify-between px-4 bg-white max-w-[400px]">
+            <div className="h-[50px] w-screen flex flex-row items-center justify-between px-4 bg-orange-100 max-w-[400px] pt-4">
               <div className="flex flex-row items-center justify-center">
                 {/* <Image
               src={"/icon/logo-icon.png"}
@@ -135,8 +134,6 @@ export default function MainPage(props: any) {
                   onSelectionChange={async (key: any) => {
                     await setSelectedKeys(key);
                     await setSelectedCategory(key.currentKey);
-                    // const tt = await getDate();
-                    // await setSeletedDates(tt);
                   }}
                 >
                   <DropdownSection title="Military" showDivider>
@@ -155,29 +152,28 @@ export default function MainPage(props: any) {
                 </DropdownMenu>
               </Dropdown>
             </div>
-            <div className="w-full h-fit flex flex-col items-center bg-white space-y-2 border-b-1 shadow-md sticky top-1 max-w-[480px]">
+            <div className="w-full h-fit flex flex-col items-center space-y-2 border-b-1 shadow-lg max-w-[480px] rounded-b-2xl bg-orange-100 border-orange-200">
               {isCalendarFolded && (
                 <>
-                  {isHydrated && seletedDates.length != 0 && (
+                  {isHydrated && (
                     <Calendar
                       locale={"us"}
                       minDetail={"month"}
                       showFixedNumberOfWeeks
                       className={"h-fit"}
                       calendarType={"gregory"}
+                      view={"month"}
                       value={new Date()}
                       tileContent={({ activeStartDate, date, view }) =>
-                        view === "month" &&
+                        // view === "month" &&
                         seletedDates.filter(
                           (e) => e.getTime() == date.getTime()
                         ).length != 0 ? (
-                          <p className="text-xs">PASS</p>
-                        ) : new Date().getTime() === date.getTime() ? (
-                          <p className="text-xs">Today</p>
+                          <p>PASS</p>
                         ) : null
                       }
                       tileClassName={({ activeStartDate, date, view }) =>
-                        view === "month" &&
+                        // view === "month" &&
                         seletedDates.filter(
                           (e) => e.getTime() == date.getTime()
                         ).length != 0
@@ -207,7 +203,6 @@ export default function MainPage(props: any) {
             </div>
           </div>
           {/*  */}
-          {/* <div className="grid w-full space-y-2 h-full pb-20 px-4 max-w-[400px] bg-stone-50 overflow-x-clip"> */}
           <div className="flex flex-col w-full space-y-2 h-full pb-4 px-4 max-w-[400px] bg-stone-50 overflow-x-clip">
             {/* body */}
             <div className="h-[80px] w-full"></div>
@@ -224,7 +219,7 @@ export default function MainPage(props: any) {
                       )[0].DATE && (
                       <div className="pt-8">
                         <div className="flex flex-row w-full justify-between items-end">
-                          <p className="font-bold text-2xl">
+                          <p className="font-bold text-xl">
                             {`20${e.DATE.split("-")[2]} / ${
                               e.DATE.split("-")[1]
                             }`}
@@ -273,7 +268,6 @@ export default function MainPage(props: any) {
                     )}
                   <div
                     data-aos="fade-left"
-                    // data-aos-delay={i < 10 ? i * 100 + 150 : 250}
                     className="flex flex-row space-x-4 pl-8"
                   >
                     <IconCheck

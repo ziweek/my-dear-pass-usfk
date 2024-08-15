@@ -36,6 +36,15 @@ body {
   width: 100% !important;
   border: 0px !important;
   border-color: white !important;
+  background-color: rgb(255 237 213) !important;
+}
+
+.react-calendar__navigation__label {
+  background-color: rgb(255 237 213) !important;
+}
+
+.react-calendar__navigation__arrow {
+  background-color: rgb(255 237 213) !important;
 }
 
 .react-calendar__tile {
@@ -48,8 +57,8 @@ body {
 }
 
 .holiday {
-  background: #fdd0df !important;
-  background-color: #fdd0df !important;
+  background: rgb(254 202 202) !important;
+  background-color: rgb(254 202 202) !important;
   height: 50px !important;
   border-radius: 10px !important;
 }
