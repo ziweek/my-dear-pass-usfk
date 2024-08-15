@@ -8,6 +8,7 @@ import {
   DropdownSection,
   Button,
   Divider,
+  Card,
 } from "@nextui-org/react";
 import { useState, useMemo, useEffect } from "react";
 import { IconCheck, IconNo, IconUp } from "@/components/common/icon";
@@ -28,6 +29,7 @@ export default function MainPage(props: any) {
   const [isCalendarFolded, setIsCalendarFolded] = useState(false);
   const [selectedKeys, setSelectedKeys] = useState<any>(new Set(["US"]));
   const [selectedCategory, setSelectedCategory] = useState("US");
+  const [seletecDate, setSeletecDate] = useState(new Date());
 
   const selectedValue = useMemo(
     () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
@@ -39,11 +41,12 @@ export default function MainPage(props: any) {
 
   useEffect(() => {
     AOS.init({
-      disable: false, // accepts following values: 'phone', 'tablet', 'mobile', boolean, expression or function
+      disable: mobile ? true : false, // accepts following values: 'phone', 'tablet', 'mobile', boolean, expression or function
       anchorPlacement: "top-bottom", // defines which position of the element regarding to window should trigger the animation
       once: true, // whether animation should happen only once - while scrolling down
+      offset: 120, // offset (in px) from the original trigger point
     });
-    toast.info("Updated FY25 USFK Holiday Schedule v1 :)", {
+    toast.info("Data is Updated to FY25 USFK Holiday Schedule v1 :)", {
       position: "bottom-center",
       theme: "colored",
     });
@@ -111,7 +114,7 @@ export default function MainPage(props: any) {
               alt="logo"
               className="w-[45px]"
             ></Image> */}
-                <p className="font-light">My Dear Pass</p>
+                <p className="font-light text-2xl">My Dear Pass</p>
               </div>
               <Dropdown placement={"bottom-end"}>
                 <DropdownTrigger>
@@ -139,17 +142,17 @@ export default function MainPage(props: any) {
                     <DropdownItem key="KATUSA">KATUSA</DropdownItem>
                   </DropdownSection>
                   <DropdownSection title="Civilian" showDivider>
-                    <DropdownItem key="DOD (US)">DOD (US)</DropdownItem>
-                    <DropdownItem key="USFK (LN)">USFK (LN)</DropdownItem>
-                    <DropdownItem key="CFC (KN)">CFC (KN)</DropdownItem>
+                    <DropdownItem key="DOD(US)">DOD(US)</DropdownItem>
+                    <DropdownItem key="USFK(LN)">USFK(LN)</DropdownItem>
+                    <DropdownItem key="CFC(KN)">CFC(KN)</DropdownItem>
                   </DropdownSection>
                   <DropdownSection title="DODEA">
-                    <DropdownItem key="DODEA (US)">DODEA (US)</DropdownItem>
+                    <DropdownItem key="DODEA(US)">DODEA(US)</DropdownItem>
                   </DropdownSection>
                 </DropdownMenu>
               </Dropdown>
             </div>
-            <div className="w-full h-fit flex flex-col items-center space-y-2 border-b-1 shadow-lg max-w-[480px] rounded-b-2xl bg-white border-stone-200">
+            <div className="w-full h-fit flex flex-col items-center space-y-2 border-b-1 shadow-lg rounded-b-2xl bg-white border-stone-200">
               {isCalendarFolded && (
                 <>
                   {isHydrated && (
@@ -161,13 +164,19 @@ export default function MainPage(props: any) {
                       showFixedNumberOfWeeks
                       className={"h-fit"}
                       view={"month"}
-                      value={new Date()}
+                      value={seletecDate}
+                      onClickDay={(value) => {
+                        setSeletecDate(value);
+                      }}
                       tileContent={({ activeStartDate, date, view }) =>
                         seletedDates.find(
                           (e: Date) =>
                             e.toLocaleString() === date.toLocaleString()
                         ) ? (
                           <p>PASS</p>
+                        ) : `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}` ===
+                          `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}` ? (
+                          <p>Today</p>
                         ) : null
                       }
                       tileClassName={({ activeStartDate, date, view }) =>
@@ -201,7 +210,7 @@ export default function MainPage(props: any) {
             </div>
           </div>
           {/*  */}
-          <div className="flex flex-col w-full space-y-2 h-full pb-4 px-4 max-w-[400px] bg-white overflow-x-clip">
+          <div className="flex flex-col w-full space-y-2 h-full px-4 max-w-[400px] bg-white overflow-x-clip">
             {/* body */}
             <div className="h-[80px] w-full"></div>
             {dataset.map((e, i: number) => {
@@ -265,7 +274,7 @@ export default function MainPage(props: any) {
                       </div>
                     )}
                   <div
-                    data-aos="fade-left"
+                    data-aos={mobile ? undefined : "fade-left"}
                     className="flex flex-row space-x-4 pl-8"
                   >
                     <IconCheck
@@ -276,9 +285,19 @@ export default function MainPage(props: any) {
                           : "#00000000"
                       }`}
                     ></IconCheck>
-                    <div
+                    <Card
+                      isPressable
+                      onPress={async () => {
+                        const targetDateElement = await e.DATE.split("-");
+                        const targetDate = await new Date(`
+                          20${targetDateElement[2]}/
+                          ${targetDateElement[1]}/
+                          ${targetDateElement[0]} 00:00:00`);
+                        await setSeletecDate(targetDate);
+                        await setIsCalendarFolded(true);
+                      }}
                       key={i}
-                      className="w-full h-[80px] bg-center bg-cover bg-blend-darken bg-black/40 rounded-xl"
+                      className="w-full h-[80px] bg-center bg-cover bg-blend-darken bg-black/40 rounded-xl text-start"
                       style={{
                         backgroundImage:
                           e[selectedCategory as keyof typeof e] == "YES"
@@ -288,14 +307,14 @@ export default function MainPage(props: any) {
                     >
                       <div className="w-full h-full flex flex-col text-white justify-center select-none p-4">
                         <p className="font-bold text-sm">
-                          {`${e.DATE.split("-")[2]} / ${
+                          {`20${e.DATE.split("-")[2]} / ${
                             e.DATE.split("-")[1]
                           } / ${e.DATE.split("-")[0]}`}
                           , {e.DAY}
                         </p>
                         <p className="text-sm">{e.HOLIDAY}</p>
                       </div>
-                    </div>
+                    </Card>
                   </div>
                 </div>
               );

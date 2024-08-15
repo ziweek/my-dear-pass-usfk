@@ -47,6 +47,10 @@ body {
   background-color: white !important;
 }
 
+.react-calendar__month-view__days__day--neighboringMonth {
+  background-color: #f3f4f6 !important;
+}
+
 .react-calendar__tile {
   height: 50px;
   text-align: center;
@@ -54,16 +58,21 @@ body {
   flex-direction: column !important;
   justify-content: flex-start !important;
   align-items: center !important;
+  /* margin: 2px !important; */
 }
 
 .holiday {
-  background: rgb(254 202 202) !important ;
+  background: #f3f4f6 !important ;
   background-color: rgb(254 202 202) !important;
   height: 50px !important;
-  border-radius: 10px !important;
+}
+
+.react-calendar__tile--active {
+  background: black !important ;
+  border-radius: 10px;
+  z-index: 10;
 }
 
 .react-calendar__tile--now {
   height: 50px !important;
-  border-radius: 10px !important;
 }

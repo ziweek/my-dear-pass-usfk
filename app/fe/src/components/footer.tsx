@@ -12,7 +12,7 @@ export default function Footer(props: any) {
     >
       <div className="mx-auto flex h-full max-w-[1200px] select-none flex-col items-center justify-center gap-1">
         <div className="flex h-full select-none flex-col items-center justify-center gap-1 leading-none">
-          <p className="text-sm font-bold">{props.title}</p>
+          <p className="text-sm font-light">{props.title}</p>
           <p className="text-tiny">{props.subtitle}</p>
         </div>
         <div className="flex h-full flex-row gap-1">
