@@ -25,12 +25,13 @@ import Footer from "@/components/footer";
 
 export default function MainPage(props: any) {
   const [isHydrated, setIsHydrated] = useState(false);
+  const [seletecDate, setSeletecDate] = useState(new Date());
   const [seletedDates, setSeletedDates] = useState<any>(undefined);
   const [isCalendarFolded, setIsCalendarFolded] = useState(false);
-  const [selectedKeys, setSelectedKeys] = useState<any>(new Set(["US"]));
   const [selectedCategory, setSelectedCategory] = useState("US");
-  const [seletecDate, setSeletecDate] = useState(new Date());
+  const [nearestDate, setNearestDate] = useState<any>();
 
+  const [selectedKeys, setSelectedKeys] = useState<any>(new Set(["US"]));
   const selectedValue = useMemo(
     () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
     [selectedKeys]
@@ -38,6 +39,16 @@ export default function MainPage(props: any) {
 
   const isMobile = useIsMobile();
   const [mobile, setMobile] = useState<boolean>(false);
+  useEffect(() => {
+    const checkResize = () => {
+      if (isMobile) {
+        setMobile(true);
+      } else {
+        setMobile(false);
+      }
+    };
+    checkResize();
+  }, [isMobile]);
 
   useEffect(() => {
     AOS.init({
@@ -51,26 +62,16 @@ export default function MainPage(props: any) {
       theme: "colored",
     });
     setIsHydrated(true);
-    getDateArray();
+    getSelectedDatesArray();
+    setIsCalendarFolded(true);
   }, []);
 
   useEffect(() => {
-    const checkResize = () => {
-      if (isMobile) {
-        setMobile(true);
-      } else {
-        setMobile(false);
-      }
-    };
-    checkResize();
-  }, [isMobile]);
-
-  useEffect(() => {
-    getDateArray();
+    getSelectedDatesArray();
   }, [selectedCategory]);
 
-  async function getDateArray() {
-    var dateArray: any = await [];
+  async function getSelectedDatesArray() {
+    var selectedDatesArray: any = await [];
     await dataset
       .filter((e) => e[selectedCategory as keyof typeof e] == "YES")
       .forEach(async (e) => {
@@ -79,18 +80,43 @@ export default function MainPage(props: any) {
         20${targetDateElement[2]}/
         ${targetDateElement[1]}/
         ${targetDateElement[0]} 00:00:00`);
-        await dateArray.push(targetDate);
+        await selectedDatesArray.push(targetDate);
       });
-    await setSeletedDates(dateArray);
+    await setSeletedDates(selectedDatesArray);
+
+    const timeOffsetArray = await selectedDatesArray.map(
+      (e: Date, i: number) => {
+        const today = new Date();
+        return e.getTime() - today.getTime();
+      }
+    );
+    // console.log(timeOffsetArray.find((e: number) => e >= 0));
+    // console.log(
+    //   timeOffsetArray.indexOf(timeOffsetArray.find((e: number) => e >= 0))
+    // );
+    const indexOfNearestDate: number = await timeOffsetArray.indexOf(
+      timeOffsetArray.find((e: number) => e >= 0)
+    );
+    console.log(
+      dataset.filter((e) => e[selectedCategory as keyof typeof e] == "YES")[
+        indexOfNearestDate
+      ]
+    );
+    await setNearestDate(
+      dataset.filter((e) => e[selectedCategory as keyof typeof e] == "YES")[
+        indexOfNearestDate
+      ]
+    );
   }
 
   return (
     <>
       <div className="relative flex flex-row h-full overflow-y-auto w-screen items-start gap-8 justify-center select-none bg-stone-200">
+        {/*  */}
         {!mobile && (
           <div className="h-screen w-[400px]">
             <div className="fixed top-0 h-screen flex flex-col items-center justify-center w-[400px]">
-              <p className="font-light text-3xl">My Dear Pass</p>
+              <p className="font-light text-3xl">Dear My Pass</p>
               <p className="italic">I wish you all have sweet pass :)</p>
               <Image
                 src={"/image/deer-licking-deer.jpg"}
@@ -102,10 +128,11 @@ export default function MainPage(props: any) {
             </div>
           </div>
         )}
-        <div className="relative flex flex-col h-full overflow-y-auto items-center border-1">
+        {/*  */}
+        <div className="relative flex flex-col h-full overflow-y-auto items-center w-fit">
           {/* header */}
-          <div className="flex flex-col h-fit w-full fixed top-0 z-10 max-w-[400px] bg-white">
-            <div className="h-[50px] w-screen flex flex-row items-center justify-between px-4 max-w-[400px] pt-4">
+          <div className="flex flex-col h-fit w-full fixed top-0 z-10 max-w-[420px] bg-white space-y-2 shadow-lg border-b-1">
+            <div className="h-[50px] w-screen flex flex-row items-center justify-between px-4 max-w-[420px] pt-4">
               <div className="flex flex-row items-center justify-center">
                 {/* <Image
               src={"/icon/logo-icon.png"}
@@ -114,7 +141,7 @@ export default function MainPage(props: any) {
               alt="logo"
               className="w-[45px]"
             ></Image> */}
-                <p className="font-light text-2xl">My Dear Pass</p>
+                <p className="font-light text-2xl">Dear My Pass</p>
               </div>
               <Dropdown placement={"bottom-end"}>
                 <DropdownTrigger>
@@ -152,67 +179,100 @@ export default function MainPage(props: any) {
                 </DropdownMenu>
               </Dropdown>
             </div>
-            <div className="w-full h-fit flex flex-col items-center space-y-2 border-b-1 shadow-lg rounded-b-2xl bg-white border-stone-200">
-              {isCalendarFolded && (
-                <>
-                  {isHydrated && (
-                    <Calendar
-                      locale={"us"}
-                      calendarType={"gregory"}
-                      minDetail={"month"}
-                      maxDetail={"month"}
-                      showFixedNumberOfWeeks
-                      className={"h-fit"}
-                      view={"month"}
-                      value={seletecDate}
-                      onClickDay={(value) => {
-                        setSeletecDate(value);
-                      }}
-                      tileContent={({ activeStartDate, date, view }) =>
-                        seletedDates.find(
-                          (e: Date) =>
-                            e.toLocaleString() === date.toLocaleString()
-                        ) ? (
-                          <p>PASS</p>
-                        ) : `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}` ===
-                          `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}` ? (
-                          <p>Today</p>
-                        ) : null
-                      }
-                      tileClassName={({ activeStartDate, date, view }) =>
-                        seletedDates.find(
-                          (e: Date) =>
-                            e.toLocaleString() === date.toLocaleString()
-                        )
-                          ? "holiday"
-                          : null
-                      }
-                    />
-                  )}
-                </>
-              )}
-              <Button
-                size={"sm"}
-                isIconOnly
-                onClick={(e) => {
-                  e.stopPropagation();
+            <div className="w-full h-fit px-4">
+              <Card
+                isPressable
+                // onPress={async () => {
+                //   const targetDateElement = await e.DATE.split("-");
+                //   const targetDate = await new Date(`
+                //         20${targetDateElement[2]}/
+                //         ${targetDateElement[1]}/
+                //         ${targetDateElement[0]} 00:00:00`);
+                //   await setSeletecDate(targetDate);
+                //   await setIsCalendarFolded(true);
+                // }}
+                // key={i}
+                className="w-full h-[80px] bg-center bg-cover bg-blend-darken bg-black/40 rounded-xl text-start"
+                style={{
+                  backgroundImage: true
+                    ? `url("../../image/deer-licking-deer.jpg")`
+                    : "",
                 }}
-                onPress={(e) => {
-                  setIsCalendarFolded(!isCalendarFolded);
-                }}
-                variant={"light"}
-                className={`${isCalendarFolded ? "" : "rotate-180"} z-50`}
               >
-                <div className="flex flex-col items-center justify-center">
-                  <IconUp fill="#000" width={15} height={15}></IconUp>
+                <div className="w-full h-full flex flex-col text-white justify-center select-none p-4">
+                  <p className="font-bold text-sm text-right">
+                    {`20${nearestDate?.DATE.split("-")[2]} / ${
+                      nearestDate?.DATE.split("-")[1]
+                    } / ${nearestDate?.DATE.split("-")[0]}`}
+                    , {nearestDate?.DAY}
+                  </p>
+                  <p className="text-sm text-right">{nearestDate?.HOLIDAY}</p>
+                  <p className="text-sm text-right">
+                    {nearestDate?.DATE.split("-")[0] - new Date().getDate()}
+                  </p>
                 </div>
-              </Button>
+              </Card>
             </div>
+            {/*  */}
+            {isCalendarFolded && (
+              <>
+                {isHydrated && (
+                  <Calendar
+                    locale={"us"}
+                    calendarType={"gregory"}
+                    minDetail={"month"}
+                    maxDetail={"month"}
+                    showFixedNumberOfWeeks
+                    className={"h-fit"}
+                    view={"month"}
+                    value={seletecDate}
+                    // onClickDay={(value) => {
+                    //   setSeletecDate(value);
+                    // }}
+                    tileContent={({ activeStartDate, date, view }) =>
+                      seletedDates?.find(
+                        (e: Date) =>
+                          e.toLocaleString() === date.toLocaleString()
+                      ) ? (
+                        <p>PASS</p>
+                      ) : `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}` ===
+                        `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}` ? (
+                        <p>Today</p>
+                      ) : null
+                    }
+                    tileClassName={({ activeStartDate, date, view }) =>
+                      seletedDates?.find(
+                        (e: Date) =>
+                          e.toLocaleString() === date.toLocaleString()
+                      )
+                        ? "holiday"
+                        : null
+                    }
+                  />
+                )}
+              </>
+            )}
+            {/*  */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              onClickCapture={(e) => {
+                setIsCalendarFolded(!isCalendarFolded);
+              }}
+              className={`${
+                isCalendarFolded ? "" : "rotate-180"
+              } z-50 hover:bg-white foucs:bg-white`}
+            >
+              <div className="flex flex-col items-center justify-center p-4">
+                <IconUp fill="#000" width={15} height={15}></IconUp>
+              </div>
+            </button>
           </div>
           {/*  */}
-          <div className="flex flex-col w-full space-y-2 h-full px-4 max-w-[400px] bg-white overflow-x-clip">
+          <div className="flex flex-col w-full space-y-2 h-full px-4 max-w-[420px] bg-white overflow-x-clip">
             {/* body */}
-            <div className="h-[80px] w-full"></div>
+            <div className="h-[180px] w-full"></div>
             {dataset.map((e, i: number) => {
               return (
                 <div key={i} className="w-full h-fit space-y-4">
@@ -322,7 +382,7 @@ export default function MainPage(props: any) {
             <div className="pt-8">
               <Footer
                 isFixed
-                title={"My Dear Pass"}
+                title={"Dear My Pass"}
                 subtitle={"If any issue, let me know."}
               ></Footer>
             </div>
