@@ -59,7 +59,7 @@ export default function Home() {
             {/* 소개 텍스트 */}
             <div className="flex w-full flex-col items-center justify-center gap-2">
               {/* <IconLogo width={mobile ? 100 : 120} fill="#000"></IconLogo> */}
-              <p className="font-light text-4xl">My Dear Pass</p>
+              <p className="font-light text-4xl">Dear My Pass</p>
               <p
                 className={`text-center font-bold ${
                   mobile ? "text-md" : "text-lg"
@@ -107,7 +107,7 @@ export default function Home() {
           <div className="absolute bottom-0">
             <Footer
               isFixed
-              title={"My Dear Pass"}
+              title={"Dear My Pass"}
               subtitle={"If any issue, let me know."}
             ></Footer>
           </div>

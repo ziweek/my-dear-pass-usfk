@@ -69,7 +69,7 @@ body {
 
 .react-calendar__tile--active {
   background: black !important ;
-  border-radius: 10px;
+  /* border-radius: 10px; */
   z-index: 10;
 }
 
