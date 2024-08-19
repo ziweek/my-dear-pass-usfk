@@ -9,6 +9,7 @@ import {
   Button,
   Divider,
   Card,
+  Tooltip,
 } from "@nextui-org/react";
 import { useState, useMemo, useEffect } from "react";
 import { IconCheck, IconNo, IconUp } from "@/components/common/icon";
@@ -57,10 +58,10 @@ export default function MainPage(props: any) {
       once: true, // whether animation should happen only once - while scrolling down
       offset: 120, // offset (in px) from the original trigger point
     });
-    toast.info("Data is Updated to FY25 USFK Holiday Schedule v1 :)", {
-      position: "bottom-center",
-      theme: "colored",
-    });
+    // toast.info("Data is Updated to FY25 USFK Holiday Schedule v1 :)", {
+    //   position: "bottom-center",
+    //   theme: "colored",
+    // });
     setIsHydrated(true);
     getSelectedDatesArray();
     setIsCalendarFolded(true);
@@ -90,17 +91,8 @@ export default function MainPage(props: any) {
         return e.getTime() - today.getTime();
       }
     );
-    // console.log(timeOffsetArray.find((e: number) => e >= 0));
-    // console.log(
-    //   timeOffsetArray.indexOf(timeOffsetArray.find((e: number) => e >= 0))
-    // );
     const indexOfNearestDate: number = await timeOffsetArray.indexOf(
       timeOffsetArray.find((e: number) => e >= 0)
-    );
-    console.log(
-      dataset.filter((e) => e[selectedCategory as keyof typeof e] == "YES")[
-        indexOfNearestDate
-      ]
     );
     await setNearestDate(
       dataset.filter((e) => e[selectedCategory as keyof typeof e] == "YES")[
@@ -116,7 +108,7 @@ export default function MainPage(props: any) {
         {!mobile && (
           <div className="h-screen w-[400px]">
             <div className="fixed top-0 h-screen flex flex-col items-center justify-center w-[400px]">
-              <p className="font-light text-3xl">Dear My Pass</p>
+              <p className="font-light text-3xl">My Dear Pass USFK</p>
               <p className="italic">I wish you all have sweet pass :)</p>
               <Image
                 src={"/image/deer-licking-deer.jpg"}
@@ -141,10 +133,19 @@ export default function MainPage(props: any) {
               alt="logo"
               className="w-[45px]"
             ></Image> */}
-                <p className="font-light text-2xl">Dear My Pass</p>
+                <p className="font-light text-2xl">My Dear Pass USFK</p>
               </div>
               <Dropdown placement={"bottom-end"}>
                 <DropdownTrigger>
+                  {/* <Tooltip
+                    content={
+                      <p className="font-bole text-md p-1">Select your Group</p>
+                    }
+                    showArrow={true}
+                    isOpen={true}
+                    color={"primary"}
+                    placement={"bottom-end"}
+                  > */}
                   <Button
                     size={"sm"}
                     variant="bordered"
@@ -152,6 +153,7 @@ export default function MainPage(props: any) {
                   >
                     {selectedValue}
                   </Button>
+                  {/* </Tooltip> */}
                 </DropdownTrigger>
                 <DropdownMenu
                   aria-label="Static Actions"
@@ -182,34 +184,46 @@ export default function MainPage(props: any) {
             <div className="w-full h-fit px-4">
               <Card
                 isPressable
-                // onPress={async () => {
-                //   const targetDateElement = await e.DATE.split("-");
-                //   const targetDate = await new Date(`
-                //         20${targetDateElement[2]}/
-                //         ${targetDateElement[1]}/
-                //         ${targetDateElement[0]} 00:00:00`);
-                //   await setSeletecDate(targetDate);
-                //   await setIsCalendarFolded(true);
-                // }}
-                // key={i}
-                className="w-full h-[80px] bg-center bg-cover bg-blend-darken bg-black/40 rounded-xl text-start"
-                style={{
-                  backgroundImage: true
-                    ? `url("../../image/deer-licking-deer.jpg")`
-                    : "",
+                onPress={async () => {
+                  const targetDateElement = await nearestDate?.DATE.split("-");
+                  const targetDate = await new Date(`
+                        20${targetDateElement[2]}/
+                        ${targetDateElement[1]}/
+                        ${targetDateElement[0]} 00:00:00`);
+                  await setSeletecDate(targetDate);
+                  await setIsCalendarFolded(true);
                 }}
+                shadow={"none"}
+                // key={i}
+                // className="w-full h-[80px] bg-center bg-cover bg-blend-darken bg-black/40 rounded-xl text-start"
+                className="w-full h-[80px] rounded-xl text-start bg-transparent"
+                // style={{
+                //   backgroundImage: true
+                //     ? `url("../../image/deer-licking-deer.jpg")`
+                //     : "",
+                // }}
               >
-                <div className="w-full h-full flex flex-col text-white justify-center select-none p-4">
-                  <p className="font-bold text-sm text-right">
-                    {`20${nearestDate?.DATE.split("-")[2]} / ${
-                      nearestDate?.DATE.split("-")[1]
-                    } / ${nearestDate?.DATE.split("-")[0]}`}
-                    , {nearestDate?.DAY}
+                <div className="w-full h-full flex flex-row text-black justify-between select-none p-2 items-center">
+                  <p className="text-xl font-bold w-fit">
+                    D-
+                    {Math.round(
+                      (new Date(`
+                      20${nearestDate?.DATE.split("-")[2]}/
+                      ${nearestDate?.DATE.split("-")[1]}/
+                      ${nearestDate?.DATE.split("-")[0]} 00:00:00`).getTime() -
+                        new Date().getTime()) /
+                        (1000 * 60 * 60 * 24)
+                    )}
                   </p>
-                  <p className="text-sm text-right">{nearestDate?.HOLIDAY}</p>
-                  <p className="text-sm text-right">
-                    {nearestDate?.DATE.split("-")[0] - new Date().getDate()}
-                  </p>
+                  <div className="w-[250px] h-full flex flex-col items-end justify-center">
+                    <p className="font-bold text-sm text-right">
+                      {`20${nearestDate?.DATE.split("-")[2]} / ${
+                        nearestDate?.DATE.split("-")[1]
+                      } / ${nearestDate?.DATE.split("-")[0]}`}
+                      , {nearestDate?.DAY}
+                    </p>
+                    <p className="text-xs text-right">{nearestDate?.HOLIDAY}</p>
+                  </div>
                 </div>
               </Card>
             </div>
@@ -335,7 +349,7 @@ export default function MainPage(props: any) {
                     )}
                   <div
                     data-aos={mobile ? undefined : "fade-left"}
-                    className="flex flex-row space-x-4 pl-8"
+                    className="flex flex-row space-x-4 pl-4"
                   >
                     <IconCheck
                       width={30}
@@ -357,7 +371,7 @@ export default function MainPage(props: any) {
                         await setIsCalendarFolded(true);
                       }}
                       key={i}
-                      className="w-full h-[80px] bg-center bg-cover bg-blend-darken bg-black/40 rounded-xl text-start"
+                      className="w-full h-[70px] bg-center bg-cover bg-blend-darken bg-black/40 rounded-xl text-start"
                       style={{
                         backgroundImage:
                           e[selectedCategory as keyof typeof e] == "YES"
@@ -372,7 +386,7 @@ export default function MainPage(props: any) {
                           } / ${e.DATE.split("-")[0]}`}
                           , {e.DAY}
                         </p>
-                        <p className="text-sm">{e.HOLIDAY}</p>
+                        <p className="text-sm line-clamp-1">{e.HOLIDAY}</p>
                       </div>
                     </Card>
                   </div>
@@ -380,11 +394,11 @@ export default function MainPage(props: any) {
               );
             })}
             <div className="pt-8">
-              <Footer
+              {/* <Footer
                 isFixed
-                title={"Dear My Pass"}
+                title={"My Dear Pass USFK"}
                 subtitle={"If any issue, let me know."}
-              ></Footer>
+              ></Footer> */}
             </div>
           </div>
         </div>

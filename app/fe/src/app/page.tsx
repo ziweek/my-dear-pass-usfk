@@ -59,7 +59,7 @@ export default function Home() {
             {/* 소개 텍스트 */}
             <div className="flex w-full flex-col items-center justify-center gap-2">
               {/* <IconLogo width={mobile ? 100 : 120} fill="#000"></IconLogo> */}
-              <p className="font-light text-4xl">Dear My Pass</p>
+              <p className="font-light text-4xl">My Dear Pass USFK</p>
               <p
                 className={`text-center font-bold ${
                   mobile ? "text-md" : "text-lg"
@@ -78,12 +78,14 @@ export default function Home() {
                   size={mobile ? "md" : "lg"}
                   color={"default"}
                   variant={"bordered"}
-                  aria-label="product"
-                  onClick={() => {
-                    router.push("/main");
-                  }}
+                  aria-label="information"
+                  // onClick={() => {
+                  //   window.open(
+                  //     "https://amplified-purpose-11c.notion.site/3e486a3aa9cf4ba585ac1c92eecf0e4a?pvs=74"
+                  //   );
+                  // }}
                 >
-                  Get Started
+                  How to use
                 </Button>
                 <Button
                   className={`font-bold border-black hover:-translate-y-1 ${
@@ -92,25 +94,23 @@ export default function Home() {
                   size={mobile ? "md" : "lg"}
                   color={"default"}
                   variant={"bordered"}
-                  aria-label="information"
-                  // onClick={() => {
-                  //   window.open(
-                  //     "https://amplified-purpose-11c.notion.site/3e486a3aa9cf4ba585ac1c92eecf0e4a?pvs=74"
-                  //   );
-                  // }}
+                  aria-label="product"
+                  onClick={() => {
+                    router.push("/main");
+                  }}
                 >
-                  Description
+                  Get Started
                 </Button>
               </div>
             </div>
           </div>
-          <div className="absolute bottom-0">
+          {/* <div className="absolute bottom-0">
             <Footer
               isFixed
-              title={"Dear My Pass"}
+              title={"My Dear Pass USFK"}
               subtitle={"If any issue, let me know."}
             ></Footer>
-          </div>
+          </div> */}
         </div>
       </section>
     </>
