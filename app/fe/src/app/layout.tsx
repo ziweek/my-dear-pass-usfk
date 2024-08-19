@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import AppProvider from "./provider";
+import Script from "next/script";
 
 const nanumSquareNeo = localFont({
   src: [
@@ -50,7 +51,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${nanumSquareNeo.className}`}>
-      <head></head>
+      <head>
+        {" "}
+        <Script
+          async
+          src={`https://www.googletagmanager.com/gtag/js
+				?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+        />
+        <Script
+          id="google-analytics"
+          dangerouslySetInnerHTML={{
+            __html: `
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+		`,
+          }}
+        />
+      </head>
       <body>
         <AppProvider>{children}</AppProvider>
       </body>
