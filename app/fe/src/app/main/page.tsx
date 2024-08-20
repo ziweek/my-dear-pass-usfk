@@ -261,11 +261,14 @@ export default function MainPage(props: any) {
           <div className="flex flex-col w-full space-y-2 h-full px-4 max-w-[420px] bg-white overflow-x-clip">
             {/* body */}
             <div className="h-[100px] w-full"></div>
+            {seletedDates?.map((e: any, i: number) => {
+              return <p key={i}>{e.DATE}</p>;
+            })}
             {seletedDates
-              ?.filter(
-                (e: any) => e.DateObject.getTime() >= new Date().getTime()
-              )
-              .map((e: any, i: number) => {
+              // ?.filter(
+              //   (e: any) => e.DateObject.getTime() >= new Date().getTime()
+              // )
+              ?.map((e: any, i: number) => {
                 return (
                   <div key={i} className="w-full h-fit space-y-4">
                     {e ===
