@@ -63,14 +63,18 @@ export default function MainPage(props: any) {
     //   position: "bottom-center",
     //   theme: "colored",
     // });
-    const data = async () => await convertDateToObject();
+    const data = async () => {
+      await convertDateToObject();
+      await setIsHydrated(true);
+      await setIsCalendarFolded(true);
+    };
     data();
-    setIsHydrated(true);
-    setIsCalendarFolded(true);
   }, []);
 
   useEffect(() => {
-    const data = async () => await convertDateToObject();
+    const data = async () => {
+      await convertDateToObject();
+    };
     data();
   }, [selectedCategory]);
 
