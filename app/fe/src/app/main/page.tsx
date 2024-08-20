@@ -74,9 +74,10 @@ export default function MainPage(props: any) {
 
   async function convertDateToObject() {
     var selectedDatesArray: any = await [];
+    var indexOfNearestDate: number = 0;
     await dataset
       .filter((e) => e[selectedCategory as keyof typeof e] == "YES")
-      .forEach(async (e: any) => {
+      .forEach(async (e: any, i: number) => {
         const targetDateElement = await e.DATE.split("-");
         const targetDate = await new Date(`
         20${targetDateElement[2]}/
@@ -84,26 +85,15 @@ export default function MainPage(props: any) {
         ${targetDateElement[0]} 00:00:00`);
         e.DateObject = await targetDate;
         await selectedDatesArray.push(e);
+        if (
+          indexOfNearestDate == 0 &&
+          targetDate.getTime() - new Date().getTime() >= 0
+        ) {
+          indexOfNearestDate = i;
+          await setNearestDate(e);
+        }
       });
     await setSeletedDates(selectedDatesArray);
-
-    await console.log(selectedDatesArray);
-    const timeOffsetArray = await selectedDatesArray.map(
-      (e: any, i: number) => {
-        const today = new Date();
-        return e.DateObject.getTime() - today.getTime();
-      }
-    );
-    await console.log(timeOffsetArray);
-    const indexOfNearestDate: number = await timeOffsetArray.indexOf(
-      timeOffsetArray.find((e: number) => e >= 0)
-    );
-    await console.log(indexOfNearestDate);
-    await setNearestDate(
-      selectedDatesArray.filter(
-        (e: any) => e[selectedCategory as keyof typeof e] == "YES"
-      )[indexOfNearestDate]
-    );
   }
 
   return (
@@ -266,129 +256,91 @@ export default function MainPage(props: any) {
           <div className="flex flex-col w-full space-y-2 h-full px-4 max-w-[420px] bg-white overflow-x-clip">
             {/* body */}
             <div className="h-[100px] w-full"></div>
-            {dataset
-              .filter((e: any, i: number) => {
-                const targetDateElement = e.DATE.split("-");
-                const targetDate = new Date(`
-                  20${targetDateElement[2]}/
-                  ${targetDateElement[1]}/
-                  ${targetDateElement[0]} 00:00:00`);
-                return targetDate.getTime() >= new Date().getTime();
-              })
-              .filter((e) => e[selectedCategory as keyof typeof e] == "YES")
+            {seletedDates
+              ?.filter(
+                (e: any) => e.DateObject.getTime() >= new Date().getTime()
+              )
               .map((e: any, i: number) => {
                 return (
                   <div key={i} className="w-full h-fit space-y-4">
-                    {e.HOLIDAY ==
-                      seletedDates?.filter((j: any) => {
-                        const targetDateElement = e.DATE.split("-");
-                        const targetDate = new Date(`
-                            20${targetDateElement[2]}/
-                            ${targetDateElement[1]}/
-                            ${targetDateElement[0]} 00:00:00`);
-                        return (
-                          targetDate.getTime() >= new Date().getTime() &&
-                          j.DateObject.getFullYear() ==
-                            targetDate.getFullYear() &&
-                          j.DateObject.getMonth() == targetDate.getMonth()
-                        );
-                      })[0]?.HOLIDAY &&
-                      e.DATE ==
-                        seletedDates?.filter((j: any) => {
-                          const targetDateElement = e.DATE.split("-");
-                          const targetDate = new Date(`
-                            20${targetDateElement[2]}/
-                            ${targetDateElement[1]}/
-                            ${targetDateElement[0]} 00:00:00`);
-                          return (
-                            targetDate.getTime() >= new Date().getTime() &&
-                            j.DateObject.getFullYear() ==
-                              targetDate.getFullYear() &&
-                            j.DateObject.getMonth() == targetDate.getMonth()
-                          );
-                        })[0]?.DATE && (
-                        <div className="pt-8">
-                          <div className="flex flex-row w-full justify-between items-end">
-                            <p className="font-light text-2xl">
-                              {`
+                    {e ===
+                      seletedDates.filter(
+                        (j: any) => j.DATE.split("-")[1] == e.DATE.split("-")[1]
+                      )[0] && (
+                      <div className="pt-8">
+                        <div className="flex flex-row w-full justify-between items-end">
+                          <p className="font-light text-2xl">
+                            {`
                               ${e.DATE.split("-")[1]} / ${
-                                e.DATE.split("-")[2]
-                              }`}
-                            </p>
-                            <div className="flex flex-row space-x-2">
-                              <div className="flex flex-row space-x-1">
-                                <IconCheck
-                                  width={15}
-                                  fill="#17C964"
-                                ></IconCheck>
-                                <p className="font-bold text-sm">
-                                  {
-                                    dataset
-                                      .filter((e: any, i: number) => {
-                                        const targetDateElement =
-                                          e.DATE.split("-");
-                                        const targetDate = new Date(`
+                              e.DATE.split("-")[2]
+                            }`}
+                          </p>
+                          <div className="flex flex-row space-x-2">
+                            <div className="flex flex-row space-x-1">
+                              <IconCheck width={15} fill="#17C964"></IconCheck>
+                              <p className="font-bold text-sm">
+                                {
+                                  dataset
+                                    .filter((e: any, i: number) => {
+                                      const targetDateElement =
+                                        e.DATE.split("-");
+                                      const targetDate = new Date(`
                                         20${targetDateElement[2]}/
                                         ${targetDateElement[1]}/
                                         ${targetDateElement[0]} 00:00:00`);
-                                        const today = new Date();
-                                        return (
-                                          targetDate.getTime() >=
-                                          today.getTime()
-                                        );
-                                      })
-                                      .filter(
-                                        (j) =>
-                                          j.DATE.split("-")[1] ==
-                                          e.DATE.split("-")[1]
-                                      )
-                                      .filter(
-                                        (e) =>
-                                          e[
-                                            selectedCategory as keyof typeof e
-                                          ] == "YES"
-                                      ).length
-                                  }
-                                </p>
-                              </div>
-                              <div className="flex flex-row space-x-1">
-                                <IconNo width={15} fill="#f31260"></IconNo>
-                                <p className="font-bold text-sm">
-                                  {
-                                    dataset
-                                      .filter((e: any, i: number) => {
-                                        const targetDateElement =
-                                          e.DATE.split("-");
-                                        const targetDate = new Date(`
+                                      const today = new Date();
+                                      return (
+                                        targetDate.getTime() >= today.getTime()
+                                      );
+                                    })
+                                    .filter(
+                                      (j) =>
+                                        j.DATE.split("-")[1] ==
+                                        e.DATE.split("-")[1]
+                                    )
+                                    .filter(
+                                      (e) =>
+                                        e[selectedCategory as keyof typeof e] ==
+                                        "YES"
+                                    ).length
+                                }
+                              </p>
+                            </div>
+                            <div className="flex flex-row space-x-1">
+                              <IconNo width={15} fill="#f31260"></IconNo>
+                              <p className="font-bold text-sm">
+                                {
+                                  dataset
+                                    .filter((e: any, i: number) => {
+                                      const targetDateElement =
+                                        e.DATE.split("-");
+                                      const targetDate = new Date(`
                                         20${targetDateElement[2]}/
                                         ${targetDateElement[1]}/
                                         ${targetDateElement[0]} 00:00:00`);
-                                        const today = new Date();
-                                        return (
-                                          targetDate.getTime() >=
-                                          today.getTime()
-                                        );
-                                      })
-                                      .filter(
-                                        (j) =>
-                                          j.DATE.split("-")[1] ==
-                                          e.DATE.split("-")[1]
-                                      )
-                                      .filter(
-                                        (e) =>
-                                          e[
-                                            selectedCategory as keyof typeof e
-                                          ] == "NO"
-                                      ).length
-                                  }{" "}
-                                </p>
-                              </div>
+                                      const today = new Date();
+                                      return (
+                                        targetDate.getTime() >= today.getTime()
+                                      );
+                                    })
+                                    .filter(
+                                      (j) =>
+                                        j.DATE.split("-")[1] ==
+                                        e.DATE.split("-")[1]
+                                    )
+                                    .filter(
+                                      (e) =>
+                                        e[selectedCategory as keyof typeof e] ==
+                                        "NO"
+                                    ).length
+                                }{" "}
+                              </p>
                             </div>
                           </div>
-                          <Divider className="bg-black/50"></Divider>
                         </div>
-                      )}
-                    {/*  */}
+                        <Divider className="bg-black/50"></Divider>
+                      </div>
+                    )}
                     <div
                       data-aos={mobile ? undefined : "fade-left"}
                       className="flex flex-row space-x-4 pl-4"
