@@ -87,6 +87,7 @@ export default function MainPage(props: any) {
     const targetDates = dataset.filter(
       (e) => e[selectedCategory as keyof typeof e] == "YES"
     );
+    alert(targetDates[0].DATE);
 
     for (let i = 0; i < targetDates.length; i++) {
       const e: any = targetDates[i];
@@ -95,13 +96,16 @@ export default function MainPage(props: any) {
           20${targetDateElement[2]}/
           ${targetDateElement[1]}/
           ${targetDateElement[0]} 00:00:00`);
-
+      if (i < 1) {
+        alert(targetDate);
+      }
       if (targetDate.getTime() >= new Date().getTime()) {
         e.DateObject = targetDate;
         selectedDatesArray.push(e);
         if (indexOfNearestDate == 0) {
-          await setNearestDate(e);
+          alert("111 - " + targetDate);
           indexOfNearestDate = i;
+          await setNearestDate(e);
         }
       }
     }
@@ -268,9 +272,6 @@ export default function MainPage(props: any) {
           <div className="flex flex-col w-full space-y-2 h-full px-4 max-w-[420px] bg-white overflow-x-clip">
             {/* body */}
             <div className="h-[100px] w-full"></div>
-            {seletedDates?.map((e: any, i: number) => {
-              return <p key={i}>{e.DATE}</p>;
-            })}
             {seletedDates?.map((e: any, i: number) => {
               return (
                 <div key={i} className="w-full h-fit space-y-4">

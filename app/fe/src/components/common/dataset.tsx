@@ -1,5 +1,17 @@
 export const dataset = [
   {
+    DATE: "5-Jul-24",
+    DAY: "FRIDAY",
+    HOLIDAY: "INDEPENDENCE DAY TRAINING HOLIDAY (US)",
+    US: "YES",
+    ROK: "NO",
+    KATUSA: "YES",
+    "DOD(US)": "NO",
+    "USFK(LN)": "NO",
+    "CFC(KN)": "YES",
+    "DODEA(US)": "SMBRK",
+  },
+  {
     DATE: "15-Aug-24",
     DAY: "THURSDAY",
     HOLIDAY: "LIBERATION DAY (ROK)",
