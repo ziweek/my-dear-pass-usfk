@@ -98,9 +98,6 @@ export default function MainPage(props: any) {
 
       if (targetDate.getTime() >= new Date().getTime()) {
         e.DateObject = targetDate;
-        if (i < 26) {
-          alert(e.DATE);
-        }
         selectedDatesArray.push(e);
         if (indexOfNearestDate == 0) {
           await setNearestDate(e);
