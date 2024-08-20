@@ -98,6 +98,9 @@ export default function MainPage(props: any) {
 
       if (targetDate.getTime() >= new Date().getTime()) {
         e.DateObject = targetDate;
+        if (i < 26) {
+          alert(e.DATE);
+        }
         selectedDatesArray.push(e);
         if (indexOfNearestDate == 0) {
           await setNearestDate(e);
@@ -106,22 +109,6 @@ export default function MainPage(props: any) {
       }
     }
     return selectedDatesArray;
-    // await targetDates.forEach(async (e: any, i: number) => {
-    //   const targetDateElement = await e.DATE.split("-");
-    //   const targetDate = await new Date(`
-    //     20${targetDateElement[2]}/
-    //     ${targetDateElement[1]}/
-    //     ${targetDateElement[0]} 00:00:00`);
-    //   e.DateObject = await targetDate;
-    //   await selectedDatesArray.push(e);
-    //   if (targetDate.getTime() >= new Date().getTime()) {
-    //     if (indexOfNearestDate == 0) {
-    //       indexOfNearestDate = i;
-    //       await setNearestDate(e);
-    //     }
-    //   }
-    // });
-    // return selectedDatesArray;
   }
 
   return (
