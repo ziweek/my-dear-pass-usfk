@@ -130,7 +130,7 @@ export default function MainPage(props: any) {
           {/* header */}
           <div className="flex flex-col h-fit w-full fixed top-0 z-10 max-w-[420px] bg-white space-y-2 shadow-lg border-b-1">
             <div className="h-[50px] w-screen flex flex-row items-center justify-between px-4 max-w-[420px] pt-4">
-              <div className="flex flex-row items-center justify-center">
+              <div className="flex flex-row items-center justify-center space-x-2">
                 {/* <Image
               src={"/icon/logo-icon.png"}
               width={100}
@@ -138,7 +138,29 @@ export default function MainPage(props: any) {
               alt="logo"
               className="w-[45px]"
             ></Image> */}
-                <p className="font-light text-xl">My Dear Pass USFK</p>
+                <p className="font-light text-2xl tracking-tight">
+                  My Dear Pass
+                </p>
+                <p
+                  className="text-sm font-bold w-fit p-1 bg-black rounded-md text-white"
+                  onClick={async () => {
+                    const targetDateElement = await nearestDate?.DATE.split(
+                      "-"
+                    );
+                    const targetDate = await new Date(`
+                        20${targetDateElement[2]}/
+                        ${targetDateElement[1]}/
+                        ${targetDateElement[0]} 00:00:00`);
+                    await setSeletecDate(targetDate);
+                    await setIsCalendarFolded(true);
+                  }}
+                >
+                  D-
+                  {Math.round(
+                    (nearestDate?.DateObject.getTime() - new Date().getTime()) /
+                      (1000 * 60 * 60 * 24)
+                  )}
+                </p>
               </div>
               <Dropdown placement={"bottom-end"}>
                 <DropdownTrigger>
@@ -185,44 +207,6 @@ export default function MainPage(props: any) {
                   </DropdownSection>
                 </DropdownMenu>
               </Dropdown>
-            </div>
-            <div className="w-full h-fit px-4">
-              <Card
-                isPressable
-                onPress={async () => {
-                  const targetDateElement = await nearestDate?.DATE.split("-");
-                  const targetDate = await new Date(`
-                        20${targetDateElement[2]}/
-                        ${targetDateElement[1]}/
-                        ${targetDateElement[0]} 00:00:00`);
-                  await setSeletecDate(targetDate);
-                  await setIsCalendarFolded(true);
-                }}
-                shadow={"none"}
-                className="w-full h-[80px] rounded-xl text-start bg-transparent"
-              >
-                <div className="w-full h-full flex flex-row text-black justify-between select-none p-2 items-center">
-                  <p className="text-xl font-bold w-fit">
-                    D-
-                    {Math.round(
-                      (nearestDate?.DateObject.getTime() -
-                        new Date().getTime()) /
-                        (1000 * 60 * 60 * 24)
-                    )}
-                  </p>
-                  <div className="w-[250px] h-full flex flex-col items-end justify-center">
-                    <p className="font-bold text-sm text-right">
-                      {/* {`${nearestDate?.DateObject.getDate()}-${nearestDate?.DateObject.getMonth()}-${nearestDate?.DateObject.getFullYear()}`} */}
-                      {/* , {nearestDate?.DAY} */}
-                      {`${nearestDate?.DATE.split("-")[0]} / ${
-                        nearestDate?.DATE.split("-")[1]
-                      } / ${nearestDate?.DATE.split("-")[2]}`}
-                      , {nearestDate?.DAY}
-                    </p>
-                    <p className="text-xs text-right">{nearestDate?.HOLIDAY}</p>
-                  </div>
-                </div>
-              </Card>
             </div>
             {/*  */}
             {isCalendarFolded && (
@@ -273,15 +257,15 @@ export default function MainPage(props: any) {
                 isCalendarFolded ? "" : "rotate-180"
               } z-50 hover:bg-white foucs:bg-white`}
             >
-              <div className="flex flex-col items-center justify-center p-4">
-                <IconUp fill="#000" width={15} height={15}></IconUp>
+              <div className="flex flex-col items-center justify-center p-2">
+                <IconUp fill="#000" width={17} height={17}></IconUp>
               </div>
             </button>
           </div>
           {/*  */}
           <div className="flex flex-col w-full space-y-2 h-full px-4 max-w-[420px] bg-white overflow-x-clip">
             {/* body */}
-            <div className="h-[180px] w-full"></div>
+            <div className="h-[100px] w-full"></div>
             {dataset
               .filter((e: any, i: number) => {
                 const targetDateElement = e.DATE.split("-");
