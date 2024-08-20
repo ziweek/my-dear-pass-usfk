@@ -81,23 +81,24 @@ export default function MainPage(props: any) {
   async function convertDateToObject() {
     var selectedDatesArray: any = await [];
     var indexOfNearestDate: number = 0;
-    await dataset
-      .filter((e) => e[selectedCategory as keyof typeof e] == "YES")
-      .forEach(async (e: any, i: number) => {
-        const targetDateElement = await e.DATE.split("-");
-        const targetDate = await new Date(`
+    const targetDates = await dataset.filter(
+      (e) => e[selectedCategory as keyof typeof e] == "YES"
+    );
+    await targetDates.forEach(async (e: any, i: number) => {
+      const targetDateElement = await e.DATE.split("-");
+      const targetDate = await new Date(`
         20${targetDateElement[2]}/
         ${targetDateElement[1]}/
         ${targetDateElement[0]} 00:00:00`);
-        e.DateObject = await targetDate;
-        if (targetDate.getTime() >= new Date().getTime()) {
-          await selectedDatesArray.push(e);
-          if (indexOfNearestDate == 0) {
-            indexOfNearestDate = i;
-            await setNearestDate(e);
-          }
+      e.DateObject = await targetDate;
+      if (targetDate.getTime() >= new Date().getTime()) {
+        await selectedDatesArray.push(e);
+        if (indexOfNearestDate == 0) {
+          indexOfNearestDate = i;
+          await setNearestDate(e);
         }
-      });
+      }
+    });
     await setSeletedDates(selectedDatesArray);
   }
 
