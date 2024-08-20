@@ -63,8 +63,8 @@ export default function MainPage(props: any) {
     //   position: "bottom-center",
     //   theme: "colored",
     // });
-    setIsHydrated(true);
     convertDateToObject();
+    setIsHydrated(true);
     setIsCalendarFolded(true);
   }, []);
 
@@ -84,13 +84,12 @@ export default function MainPage(props: any) {
         ${targetDateElement[1]}/
         ${targetDateElement[0]} 00:00:00`);
         e.DateObject = await targetDate;
-        await selectedDatesArray.push(e);
-        if (
-          indexOfNearestDate == 0 &&
-          targetDate.getTime() - new Date().getTime() >= 0
-        ) {
-          indexOfNearestDate = i;
-          await setNearestDate(e);
+        if (targetDate.getTime() >= new Date().getTime()) {
+          await selectedDatesArray.push(e);
+          if (indexOfNearestDate == 0) {
+            indexOfNearestDate = i;
+            await setNearestDate(e);
+          }
         }
       });
     await setSeletedDates(selectedDatesArray);
