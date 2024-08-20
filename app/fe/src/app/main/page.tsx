@@ -64,7 +64,8 @@ export default function MainPage(props: any) {
     //   theme: "colored",
     // });
     const data = async () => {
-      await convertDateToObject();
+      const selectedDatesArray = await convertDateToObject();
+      await setSeletedDates(selectedDatesArray);
       await setIsHydrated(true);
       await setIsCalendarFolded(true);
     };
@@ -73,34 +74,55 @@ export default function MainPage(props: any) {
 
   useEffect(() => {
     const data = async () => {
-      await convertDateToObject();
+      const selectedDatesArray = await convertDateToObject();
+      await setSeletedDates(selectedDatesArray);
     };
     data();
   }, [selectedCategory]);
 
   async function convertDateToObject() {
-    var selectedDatesArray: any = await [];
+    var selectedDatesArray: any[] = []; // Initialize as an empty array
     var indexOfNearestDate: number = 0;
-    const targetDates = await dataset.filter(
+
+    const targetDates = dataset.filter(
       (e) => e[selectedCategory as keyof typeof e] == "YES"
     );
-    await targetDates.forEach(async (e: any, i: number) => {
-      const targetDateElement = await e.DATE.split("-");
-      const targetDate = await new Date(`
-        20${targetDateElement[2]}/
-        ${targetDateElement[1]}/
-        ${targetDateElement[0]} 00:00:00`);
-      e.DateObject = await targetDate;
-      await selectedDatesArray.push(e);
+
+    for (let i = 0; i < targetDates.length; i++) {
+      const e: any = targetDates[i];
+      const targetDateElement = e.DATE.split("-");
+      const targetDate = new Date(`
+          20${targetDateElement[2]}/
+          ${targetDateElement[1]}/
+          ${targetDateElement[0]} 00:00:00`);
+
+      e.DateObject = targetDate;
+      selectedDatesArray.push(e);
+
       if (targetDate.getTime() >= new Date().getTime()) {
         if (indexOfNearestDate == 0) {
           indexOfNearestDate = i;
           await setNearestDate(e);
         }
       }
-    });
-    await alert(selectedDatesArray);
-    await setSeletedDates(selectedDatesArray);
+    }
+    return selectedDatesArray;
+    // await targetDates.forEach(async (e: any, i: number) => {
+    //   const targetDateElement = await e.DATE.split("-");
+    //   const targetDate = await new Date(`
+    //     20${targetDateElement[2]}/
+    //     ${targetDateElement[1]}/
+    //     ${targetDateElement[0]} 00:00:00`);
+    //   e.DateObject = await targetDate;
+    //   await selectedDatesArray.push(e);
+    //   if (targetDate.getTime() >= new Date().getTime()) {
+    //     if (indexOfNearestDate == 0) {
+    //       indexOfNearestDate = i;
+    //       await setNearestDate(e);
+    //     }
+    //   }
+    // });
+    // return selectedDatesArray;
   }
 
   return (
