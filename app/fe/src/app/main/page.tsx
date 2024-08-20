@@ -22,17 +22,18 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Image from "next/image";
 import { useIsMobile } from "@/hook/useMediaQuery";
-import Footer from "@/components/footer";
+// import Footer from "@/components/footer";
 
 export default function MainPage(props: any) {
   const [isHydrated, setIsHydrated] = useState(false);
+  const [isCalendarFolded, setIsCalendarFolded] = useState(false);
+
   const [seletecDate, setSeletecDate] = useState(new Date());
   const [seletedDates, setSeletedDates] = useState<any>(undefined);
-  const [isCalendarFolded, setIsCalendarFolded] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("US");
   const [nearestDate, setNearestDate] = useState<any>();
 
-  const [selectedKeys, setSelectedKeys] = useState<any>(new Set(["US"]));
+  const [selectedKeys, setSelectedKeys] = useState<any>(new Set(["KATUSA"]));
+  const [selectedCategory, setSelectedCategory] = useState("US");
   const selectedValue = useMemo(
     () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
     [selectedKeys]
@@ -63,41 +64,45 @@ export default function MainPage(props: any) {
     //   theme: "colored",
     // });
     setIsHydrated(true);
-    getSelectedDatesArray();
+    convertDateToObject();
     setIsCalendarFolded(true);
   }, []);
 
   useEffect(() => {
-    getSelectedDatesArray();
+    convertDateToObject();
   }, [selectedCategory]);
 
-  async function getSelectedDatesArray() {
+  async function convertDateToObject() {
     var selectedDatesArray: any = await [];
     await dataset
       .filter((e) => e[selectedCategory as keyof typeof e] == "YES")
-      .forEach(async (e) => {
+      .forEach(async (e: any) => {
         const targetDateElement = await e.DATE.split("-");
         const targetDate = await new Date(`
         20${targetDateElement[2]}/
         ${targetDateElement[1]}/
         ${targetDateElement[0]} 00:00:00`);
-        await selectedDatesArray.push(targetDate);
+        e.DateObject = await targetDate;
+        await selectedDatesArray.push(e);
       });
     await setSeletedDates(selectedDatesArray);
 
+    await console.log(selectedDatesArray);
     const timeOffsetArray = await selectedDatesArray.map(
-      (e: Date, i: number) => {
+      (e: any, i: number) => {
         const today = new Date();
-        return e.getTime() - today.getTime();
+        return e.DateObject.getTime() - today.getTime();
       }
     );
+    await console.log(timeOffsetArray);
     const indexOfNearestDate: number = await timeOffsetArray.indexOf(
       timeOffsetArray.find((e: number) => e >= 0)
     );
+    await console.log(indexOfNearestDate);
     await setNearestDate(
-      dataset.filter((e) => e[selectedCategory as keyof typeof e] == "YES")[
-        indexOfNearestDate
-      ]
+      selectedDatesArray.filter(
+        (e: any) => e[selectedCategory as keyof typeof e] == "YES"
+      )[indexOfNearestDate]
     );
   }
 
@@ -108,7 +113,7 @@ export default function MainPage(props: any) {
         {!mobile && (
           <div className="h-screen w-[400px]">
             <div className="fixed top-0 h-screen flex flex-col items-center justify-center w-[400px]">
-              <p className="font-light text-3xl">My Dear Pass USFK</p>
+              <p className="font-light text-2xl">My Dear Pass USFK</p>
               <p className="italic">I wish you all have sweet pass :)</p>
               <Image
                 src={"/image/deer-licking-deer.jpg"}
@@ -121,7 +126,7 @@ export default function MainPage(props: any) {
           </div>
         )}
         {/*  */}
-        <div className="relative flex flex-col h-full overflow-y-auto items-center w-fit">
+        <div className="relative flex flex-col h-full overflow-y-auto items-center w-full">
           {/* header */}
           <div className="flex flex-col h-fit w-full fixed top-0 z-10 max-w-[420px] bg-white space-y-2 shadow-lg border-b-1">
             <div className="h-[50px] w-screen flex flex-row items-center justify-between px-4 max-w-[420px] pt-4">
@@ -133,7 +138,7 @@ export default function MainPage(props: any) {
               alt="logo"
               className="w-[45px]"
             ></Image> */}
-                <p className="font-light text-2xl">My Dear Pass USFK</p>
+                <p className="font-light text-xl">My Dear Pass USFK</p>
               </div>
               <Dropdown placement={"bottom-end"}>
                 <DropdownTrigger>
@@ -194,32 +199,24 @@ export default function MainPage(props: any) {
                   await setIsCalendarFolded(true);
                 }}
                 shadow={"none"}
-                // key={i}
-                // className="w-full h-[80px] bg-center bg-cover bg-blend-darken bg-black/40 rounded-xl text-start"
                 className="w-full h-[80px] rounded-xl text-start bg-transparent"
-                // style={{
-                //   backgroundImage: true
-                //     ? `url("../../image/deer-licking-deer.jpg")`
-                //     : "",
-                // }}
               >
                 <div className="w-full h-full flex flex-row text-black justify-between select-none p-2 items-center">
                   <p className="text-xl font-bold w-fit">
                     D-
                     {Math.round(
-                      (new Date(`
-                      20${nearestDate?.DATE.split("-")[2]}/
-                      ${nearestDate?.DATE.split("-")[1]}/
-                      ${nearestDate?.DATE.split("-")[0]} 00:00:00`).getTime() -
+                      (nearestDate?.DateObject.getTime() -
                         new Date().getTime()) /
                         (1000 * 60 * 60 * 24)
                     )}
                   </p>
                   <div className="w-[250px] h-full flex flex-col items-end justify-center">
                     <p className="font-bold text-sm text-right">
-                      {`20${nearestDate?.DATE.split("-")[2]} / ${
+                      {/* {`${nearestDate?.DateObject.getDate()}-${nearestDate?.DateObject.getMonth()}-${nearestDate?.DateObject.getFullYear()}`} */}
+                      {/* , {nearestDate?.DAY} */}
+                      {`${nearestDate?.DATE.split("-")[0]} / ${
                         nearestDate?.DATE.split("-")[1]
-                      } / ${nearestDate?.DATE.split("-")[0]}`}
+                      } / ${nearestDate?.DATE.split("-")[2]}`}
                       , {nearestDate?.DAY}
                     </p>
                     <p className="text-xs text-right">{nearestDate?.HOLIDAY}</p>
@@ -245,8 +242,7 @@ export default function MainPage(props: any) {
                     // }}
                     tileContent={({ activeStartDate, date, view }) =>
                       seletedDates?.find(
-                        (e: Date) =>
-                          e.toLocaleString() === date.toLocaleString()
+                        (e: any) => e.DateObject.getTime() === date.getTime()
                       ) ? (
                         <p>PASS</p>
                       ) : `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}` ===
@@ -256,8 +252,7 @@ export default function MainPage(props: any) {
                     }
                     tileClassName={({ activeStartDate, date, view }) =>
                       seletedDates?.find(
-                        (e: Date) =>
-                          e.toLocaleString() === date.toLocaleString()
+                        (e: any) => e.DateObject.getTime() === date.getTime()
                       )
                         ? "holiday"
                         : null
@@ -287,112 +282,175 @@ export default function MainPage(props: any) {
           <div className="flex flex-col w-full space-y-2 h-full px-4 max-w-[420px] bg-white overflow-x-clip">
             {/* body */}
             <div className="h-[180px] w-full"></div>
-            {dataset.map((e, i: number) => {
-              return (
-                <div key={i} className="w-full h-fit space-y-4">
-                  {e.HOLIDAY ==
-                    dataset.filter(
-                      (j) => j.DATE.split("-")[1] == e.DATE.split("-")[1]
-                    )[0].HOLIDAY &&
-                    e.DATE ==
-                      dataset.filter(
-                        (j) => j.DATE.split("-")[1] == e.DATE.split("-")[1]
-                      )[0].DATE && (
-                      <div className="pt-8">
-                        <div className="flex flex-row w-full justify-between items-end">
-                          <p className="font-light text-2xl">
-                            {`20${e.DATE.split("-")[2]} / ${
-                              e.DATE.split("-")[1]
-                            }`}
-                          </p>
-                          <div className="flex flex-row space-x-2">
-                            <div className="flex flex-row space-x-1">
-                              <IconCheck width={15} fill="#17C964"></IconCheck>
-                              <p className="font-bold text-sm">
-                                {
-                                  dataset
-                                    .filter(
-                                      (j) =>
-                                        j.DATE.split("-")[1] ==
-                                        e.DATE.split("-")[1]
-                                    )
-                                    .filter(
-                                      (e) =>
-                                        e[selectedCategory as keyof typeof e] ==
-                                        "YES"
-                                    ).length
-                                }
-                              </p>
-                            </div>
-                            <div className="flex flex-row space-x-1">
-                              <IconNo width={15} fill="#f31260"></IconNo>
-                              <p className="font-bold text-sm">
-                                {
-                                  dataset
-                                    .filter(
-                                      (j) =>
-                                        j.DATE.split("-")[1] ==
-                                        e.DATE.split("-")[1]
-                                    )
-                                    .filter(
-                                      (e) =>
-                                        e[selectedCategory as keyof typeof e] ==
-                                        "NO"
-                                    ).length
-                                }{" "}
-                              </p>
+            {dataset
+              .filter((e: any, i: number) => {
+                const targetDateElement = e.DATE.split("-");
+                const targetDate = new Date(`
+                  20${targetDateElement[2]}/
+                  ${targetDateElement[1]}/
+                  ${targetDateElement[0]} 00:00:00`);
+                return targetDate.getTime() >= new Date().getTime();
+              })
+              .filter((e) => e[selectedCategory as keyof typeof e] == "YES")
+              .map((e: any, i: number) => {
+                return (
+                  <div key={i} className="w-full h-fit space-y-4">
+                    {e.HOLIDAY ==
+                      seletedDates?.filter((j: any) => {
+                        const targetDateElement = e.DATE.split("-");
+                        const targetDate = new Date(`
+                            20${targetDateElement[2]}/
+                            ${targetDateElement[1]}/
+                            ${targetDateElement[0]} 00:00:00`);
+                        return (
+                          targetDate.getTime() >= new Date().getTime() &&
+                          j.DateObject.getFullYear() ==
+                            targetDate.getFullYear() &&
+                          j.DateObject.getMonth() == targetDate.getMonth()
+                        );
+                      })[0]?.HOLIDAY &&
+                      e.DATE ==
+                        seletedDates?.filter((j: any) => {
+                          const targetDateElement = e.DATE.split("-");
+                          const targetDate = new Date(`
+                            20${targetDateElement[2]}/
+                            ${targetDateElement[1]}/
+                            ${targetDateElement[0]} 00:00:00`);
+                          return (
+                            targetDate.getTime() >= new Date().getTime() &&
+                            j.DateObject.getFullYear() ==
+                              targetDate.getFullYear() &&
+                            j.DateObject.getMonth() == targetDate.getMonth()
+                          );
+                        })[0]?.DATE && (
+                        <div className="pt-8">
+                          <div className="flex flex-row w-full justify-between items-end">
+                            <p className="font-light text-2xl">
+                              {`
+                              ${e.DATE.split("-")[1]} / ${
+                                e.DATE.split("-")[2]
+                              }`}
+                            </p>
+                            <div className="flex flex-row space-x-2">
+                              <div className="flex flex-row space-x-1">
+                                <IconCheck
+                                  width={15}
+                                  fill="#17C964"
+                                ></IconCheck>
+                                <p className="font-bold text-sm">
+                                  {
+                                    dataset
+                                      .filter((e: any, i: number) => {
+                                        const targetDateElement =
+                                          e.DATE.split("-");
+                                        const targetDate = new Date(`
+                                        20${targetDateElement[2]}/
+                                        ${targetDateElement[1]}/
+                                        ${targetDateElement[0]} 00:00:00`);
+                                        const today = new Date();
+                                        return (
+                                          targetDate.getTime() >=
+                                          today.getTime()
+                                        );
+                                      })
+                                      .filter(
+                                        (j) =>
+                                          j.DATE.split("-")[1] ==
+                                          e.DATE.split("-")[1]
+                                      )
+                                      .filter(
+                                        (e) =>
+                                          e[
+                                            selectedCategory as keyof typeof e
+                                          ] == "YES"
+                                      ).length
+                                  }
+                                </p>
+                              </div>
+                              <div className="flex flex-row space-x-1">
+                                <IconNo width={15} fill="#f31260"></IconNo>
+                                <p className="font-bold text-sm">
+                                  {
+                                    dataset
+                                      .filter((e: any, i: number) => {
+                                        const targetDateElement =
+                                          e.DATE.split("-");
+                                        const targetDate = new Date(`
+                                        20${targetDateElement[2]}/
+                                        ${targetDateElement[1]}/
+                                        ${targetDateElement[0]} 00:00:00`);
+                                        const today = new Date();
+                                        return (
+                                          targetDate.getTime() >=
+                                          today.getTime()
+                                        );
+                                      })
+                                      .filter(
+                                        (j) =>
+                                          j.DATE.split("-")[1] ==
+                                          e.DATE.split("-")[1]
+                                      )
+                                      .filter(
+                                        (e) =>
+                                          e[
+                                            selectedCategory as keyof typeof e
+                                          ] == "NO"
+                                      ).length
+                                  }{" "}
+                                </p>
+                              </div>
                             </div>
                           </div>
+                          <Divider className="bg-black/50"></Divider>
                         </div>
-                        <Divider className="bg-black/50"></Divider>
-                      </div>
-                    )}
-                  <div
-                    data-aos={mobile ? undefined : "fade-left"}
-                    className="flex flex-row space-x-4 pl-4"
-                  >
-                    <IconCheck
-                      width={30}
-                      fill={`${
-                        e[selectedCategory as keyof typeof e] == "YES"
-                          ? "#17C964"
-                          : "#00000000"
-                      }`}
-                    ></IconCheck>
-                    <Card
-                      isPressable
-                      onPress={async () => {
-                        const targetDateElement = await e.DATE.split("-");
-                        const targetDate = await new Date(`
+                      )}
+                    {/*  */}
+                    <div
+                      data-aos={mobile ? undefined : "fade-left"}
+                      className="flex flex-row space-x-4 pl-4"
+                    >
+                      <IconCheck
+                        width={30}
+                        fill={`${
+                          e[selectedCategory as keyof typeof e] == "YES"
+                            ? "#17C964"
+                            : "#00000000"
+                        }`}
+                      ></IconCheck>
+                      <div
+                        // isPressable
+                        onClick={async () => {
+                          const targetDateElement = await e.DATE.split("-");
+                          const targetDate = await new Date(`
                           20${targetDateElement[2]}/
                           ${targetDateElement[1]}/
                           ${targetDateElement[0]} 00:00:00`);
-                        await setSeletecDate(targetDate);
-                        await setIsCalendarFolded(true);
-                      }}
-                      key={i}
-                      className="w-full h-[70px] bg-center bg-cover bg-blend-darken bg-black/40 rounded-xl text-start"
-                      style={{
-                        backgroundImage:
-                          e[selectedCategory as keyof typeof e] == "YES"
-                            ? `url("../../image/deer-licking-deer.jpg")`
-                            : "",
-                      }}
-                    >
-                      <div className="w-full h-full flex flex-col text-white justify-center select-none p-4">
-                        <p className="font-bold text-sm">
-                          {`20${e.DATE.split("-")[2]} / ${
-                            e.DATE.split("-")[1]
-                          } / ${e.DATE.split("-")[0]}`}
-                          , {e.DAY}
-                        </p>
-                        <p className="text-sm line-clamp-1">{e.HOLIDAY}</p>
+                          await setSeletecDate(targetDate);
+                          await setIsCalendarFolded(true);
+                        }}
+                        key={i}
+                        className="w-full h-[70px] bg-center bg-cover bg-blend-darken bg-black/40 rounded-xl text-start"
+                        style={{
+                          backgroundImage:
+                            e[selectedCategory as keyof typeof e] == "YES"
+                              ? `url("../../image/deer-licking-deer.jpg")`
+                              : "",
+                        }}
+                      >
+                        <div className="w-full h-full flex flex-col text-white justify-center select-none p-4">
+                          <p className="font-bold text-sm">
+                            {`20${e.DATE.split("-")[2]} / ${
+                              e.DATE.split("-")[1]
+                            } / ${e.DATE.split("-")[0]}`}
+                            , {e.DAY}
+                          </p>
+                          <p className="text-sm line-clamp-1">{e.HOLIDAY}</p>
+                        </div>
                       </div>
-                    </Card>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
             <div className="pt-8">
               {/* <Footer
                 isFixed

@@ -61,16 +61,17 @@ body {
   /* margin: 2px !important; */
 }
 
+.react-calendar__tile--active {
+  background-color: transparent !important;
+  color: black !important;
+  border: medium solid red !important;
+  z-index: 10;
+}
+
 .holiday {
   background: #f3f4f6 !important ;
   background-color: rgb(254 202 202) !important;
   height: 50px !important;
-}
-
-.react-calendar__tile--active {
-  background: black !important ;
-  /* border-radius: 10px; */
-  z-index: 10;
 }
 
 .react-calendar__tile--now {
