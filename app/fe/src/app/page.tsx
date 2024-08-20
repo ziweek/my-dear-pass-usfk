@@ -79,11 +79,11 @@ export default function Home() {
                   color={"default"}
                   variant={"bordered"}
                   aria-label="information"
-                  // onClick={() => {
-                  //   window.open(
-                  //     "https://amplified-purpose-11c.notion.site/3e486a3aa9cf4ba585ac1c92eecf0e4a?pvs=74"
-                  //   );
-                  // }}
+                  onClick={() => {
+                    window.open(
+                      "https://amplified-purpose-11c.notion.site/My-Dear-Pass-USFK-9e714a1605a146dca142ae93c9824912?pvs=74"
+                    );
+                  }}
                 >
                   How to use
                 </Button>
