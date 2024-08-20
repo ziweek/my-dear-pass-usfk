@@ -92,7 +92,7 @@ export default function MainPage(props: any) {
     for (let i = 0; i < targetDates.length; i++) {
       const e: any = targetDates[i];
       const targetDateElement = e.DATE.split("-");
-      const targetDate = new Date(`
+      const targetDate = await new Date(`
           20${targetDateElement[2]}/
           ${targetDateElement[1]}/
           ${targetDateElement[0]} 00:00:00`);
