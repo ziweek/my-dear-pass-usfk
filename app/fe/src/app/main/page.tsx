@@ -96,13 +96,12 @@ export default function MainPage(props: any) {
           ${targetDateElement[1]}/
           ${targetDateElement[0]} 00:00:00`);
 
-      e.DateObject = targetDate;
-      selectedDatesArray.push(e);
-
       if (targetDate.getTime() >= new Date().getTime()) {
+        e.DateObject = targetDate;
+        selectedDatesArray.push(e);
         if (indexOfNearestDate == 0) {
-          indexOfNearestDate = i;
           await setNearestDate(e);
+          indexOfNearestDate = i;
         }
       }
     }
