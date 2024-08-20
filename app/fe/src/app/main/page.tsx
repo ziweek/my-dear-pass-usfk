@@ -92,7 +92,6 @@ export default function MainPage(props: any) {
         ${targetDateElement[0]} 00:00:00`);
       e.DateObject = await targetDate;
       await selectedDatesArray.push(e);
-      await alert(e.DATE);
       if (targetDate.getTime() >= new Date().getTime()) {
         if (indexOfNearestDate == 0) {
           indexOfNearestDate = i;
@@ -100,6 +99,7 @@ export default function MainPage(props: any) {
         }
       }
     });
+    await alert(selectedDatesArray);
     await setSeletedDates(selectedDatesArray);
   }
 
