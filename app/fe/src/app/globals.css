@@ -64,13 +64,14 @@ body {
 .react-calendar__tile--active {
   background-color: transparent !important;
   color: black !important;
-  border: medium solid red !important;
+  /* border: medium solid #f871a0 !important; */
+  box-shadow: inset 0 0 0 3px #f871a0 !important;
   z-index: 10;
 }
 
 .holiday {
   background: #f3f4f6 !important ;
-  background-color: rgb(254 202 202) !important;
+  background-color: #a2e9c1 !important;
   height: 50px !important;
 }
 

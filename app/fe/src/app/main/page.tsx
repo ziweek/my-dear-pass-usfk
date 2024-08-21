@@ -54,12 +54,12 @@ export default function MainPage(props: any) {
   }, [isMobile]);
 
   useEffect(() => {
-    AOS.init({
-      disable: mobile ? true : false, // accepts following values: 'phone', 'tablet', 'mobile', boolean, expression or function
-      anchorPlacement: "top-bottom", // defines which position of the element regarding to window should trigger the animation
-      once: true, // whether animation should happen only once - while scrolling down
-      offset: 120, // offset (in px) from the original trigger point
-    });
+    // AOS.init({
+    //   disable: mobile ? false : false, // accepts following values: 'phone', 'tablet', 'mobile', boolean, expression or function
+    //   anchorPlacement: "top-bottom", // defines which position of the element regarding to window should trigger the animation
+    //   once: true, // whether animation should happen only once - while scrolling down
+    //   offset: 120, // offset (in px) from the original trigger point
+    // });
     // toast.info("Data is Updated to FY25 USFK Holiday Schedule v1 :)", {
     //   position: "bottom-center",
     //   theme: "colored",
@@ -85,9 +85,10 @@ export default function MainPage(props: any) {
     var selectedDatesArray: any[] = []; // Initialize as an empty array
     var indexOfNearestDate: number = 0;
 
-    const targetDates = dataset.filter(
-      (e) => e[selectedCategory as keyof typeof e] == "YES"
-    );
+    const targetDates = dataset;
+    // const targetDates = dataset.filter(
+    //   (e) => e[selectedCategory as keyof typeof e] == "YES"
+    // );
 
     for (let i = 0; i < targetDates.length; i++) {
       const e: any = targetDates[i];
@@ -96,7 +97,10 @@ export default function MainPage(props: any) {
         e.MOMENT = targetDate;
         selectedDatesArray.push(e);
 
-        if (indexOfNearestDate == 0) {
+        if (
+          indexOfNearestDate == 0 &&
+          e[selectedCategory as keyof typeof e] == "YES"
+        ) {
           indexOfNearestDate = i;
           await setNearestDate(e);
         }
@@ -139,11 +143,22 @@ export default function MainPage(props: any) {
                       alt="logo"
                       className="w-[40px] rounded-md"
                     ></Image>
-                    <p className="font-light tracking-tight leading-none">
+                    <p className="font-light tracking-tight leading-none pr-2">
                       My Dear<br></br>Pass USFK
                     </p>
                     <p
-                      className="font-bold w-fit py-1 px-3 bg-black rounded-md text-white text-sm"
+                      className="font-bold w-fit py-1 px-3 rounded-md text-white text-md"
+                      style={{
+                        backgroundColor:
+                          moment
+                            .duration({
+                              from: new Date(),
+                              to: nearestDate.MOMENT as moment.Moment,
+                            })
+                            .asDays() >= 7
+                            ? "black"
+                            : "#A2E9C1",
+                      }}
                       onClick={async () => {
                         await setSeletecDate(nearestDate.MOMENT);
                         await setIsCalendarFolded(true);
@@ -206,8 +221,10 @@ export default function MainPage(props: any) {
                       setSeletecDate(value);
                     }}
                     tileContent={({ activeStartDate, date, view }) =>
-                      seletedDates.find((e: any) =>
-                        (e.MOMENT as moment.Moment).isSame(moment(date))
+                      seletedDates.find(
+                        (e: any) =>
+                          (e.MOMENT as moment.Moment).isSame(moment(date)) &&
+                          e[selectedCategory as keyof typeof e] == "YES"
                       ) ? (
                         <p>PASS</p>
                       ) : moment(date).isSame(moment(), "day") ? (
@@ -215,8 +232,10 @@ export default function MainPage(props: any) {
                       ) : null
                     }
                     tileClassName={({ activeStartDate, date, view }) =>
-                      seletedDates.find((e: any) =>
-                        (e.MOMENT as moment.Moment).isSame(moment(date))
+                      seletedDates.find(
+                        (e: any) =>
+                          (e.MOMENT as moment.Moment).isSame(moment(date)) &&
+                          e[selectedCategory as keyof typeof e] == "YES"
                       )
                         ? "holiday"
                         : null
@@ -268,38 +287,50 @@ export default function MainPage(props: any) {
                         </div>
                       )}
                       <div
-                        data-aos={mobile ? undefined : "fade-left"}
+                        // data-aos={mobile ? undefined : "fade-left"}
                         className="flex flex-row space-x-4 pl-4"
                       >
                         <IconCheck
                           width={30}
                           fill={`${
                             e[selectedCategory as keyof typeof e] == "YES"
-                              ? "#17C964"
+                              ? "#A2E9C1"
                               : "#00000000"
                           }`}
                         ></IconCheck>
                         <div
                           onClick={async () => {
-                            const targetDateElement = await e.DATE.split("-");
-                            const targetDate = await new Date(`
-                          20${targetDateElement[2]}/
-                          ${targetDateElement[1]}/
-                          ${targetDateElement[0]} 00:00:00`);
-                            await setSeletecDate(targetDate);
+                            await setSeletecDate(e.MOMENT);
                             await setIsCalendarFolded(true);
                           }}
                           key={i}
-                          className="w-full h-[70px] bg-center bg-cover bg-blend-darken bg-black/40 text-start"
+                          className={`${
+                            (e.MOMENT as moment.Moment).isSame(
+                              moment(seletecDate)
+                            )
+                              ? "border-dashed"
+                              : ""
+                          } w-full bg-center bg-cover bg-blend-darken bg-black text-start`}
                           style={{
-                            backgroundImage:
+                            backgroundColor:
                               e[selectedCategory as keyof typeof e] == "YES"
-                                ? `url("../../logo/logo-icon-pepe.png")`
-                                : "",
-                            backgroundPositionX: 5 + 20 * i,
+                                ? `#A2E9C1`
+                                : "#00000020",
+                            boxShadow: `inset 0 0 0 ${
+                              (e.MOMENT as moment.Moment).isSame(
+                                moment(seletecDate)
+                              )
+                                ? "3px #F871A0"
+                                : "1px #000000"
+                            } `,
+                            // backgroundImage:
+                            //   e[selectedCategory as keyof typeof e] == "YES"
+                            //     ? `url("../../logo/logo-icon-pepe.png")`
+                            //     : "",
+                            // backgroundPositionX: 5 + 50 * i,
                           }}
                         >
-                          <div className="w-full h-full flex flex-col text-white justify-center select-none p-4">
+                          <div className="w-full h-full flex flex-col text-black justify-center select-none px-4 py-3">
                             <p className="font-bold text-sm">
                               {(e.MOMENT as moment.Moment).format(
                                 "DD / MMM / YY"
