@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     maximumScale: 1,
   },
   manifest: "/manifest.json",
-  icons: [{ url: "/images/logo-icon.png", sizes: "512x512" }],
+  icons: [{ url: "/logo/logo-icon.png", sizes: "512x512" }],
   openGraph: {
     type: "website",
     url: "https://dear-my-pass.vercel.app/",
