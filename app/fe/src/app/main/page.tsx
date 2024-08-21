@@ -92,19 +92,7 @@ export default function MainPage(props: any) {
 
     for (let i = 0; i < targetDates.length; i++) {
       const e: any = targetDates[i];
-      const targetDateElement = e.DATE.split("-");
-      const targetDate = moment(
-        `20${targetDateElement[2]}-${targetDateElement[1]}-${targetDateElement[0]}`
-      );
-      // const targetDate = moment(e.DATE);
-      // const targetDate = moment([
-      //   targetDateElement[2],
-      //   targetDateElement[1],
-      //   targetDateElement[0],
-      // ]);
-      // console.log(
-      //   moment.duration({ from: new Date(), to: targetDate }).asDays() >= 0
-      // );
+      const targetDate = moment(e.DATE, "DD-MM-YY");
       if (moment.duration({ from: new Date(), to: targetDate }).asDays() >= 0) {
         e.MOMENT = targetDate;
         selectedDatesArray.push(e);
@@ -115,7 +103,6 @@ export default function MainPage(props: any) {
         }
       }
     }
-    // console.log(selectedDatesArray);
     return selectedDatesArray;
   }
 
@@ -141,7 +128,7 @@ export default function MainPage(props: any) {
               </div>
             )}
             {/*  */}
-            <div className="relative flex flex-col h-full overflow-y-auto items-center w-full">
+            <div className="relative flex flex-col h-full overflow-y-auto items-center w-fit">
               {/* header */}
               <div className="flex flex-col h-fit w-full fixed top-0 z-10 max-w-[420px] bg-white space-y-2 shadow-lg border-b-1">
                 <div className="h-[50px] w-screen flex flex-row items-center justify-between px-4 max-w-[420px] pt-4">
