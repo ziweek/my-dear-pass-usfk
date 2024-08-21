@@ -88,20 +88,25 @@ export default function MainPage(props: any) {
     const targetDates = dataset.filter(
       (e) => e[selectedCategory as keyof typeof e] == "YES"
     );
-    console.log(targetDates);
+    // console.log(targetDates);
 
     for (let i = 0; i < targetDates.length; i++) {
       const e: any = targetDates[i];
       const targetDateElement = e.DATE.split("-");
-      const targetDate = moment([
-        targetDateElement[2],
-        targetDateElement[1],
-        targetDateElement[0],
-      ]);
+      const targetDate = moment(
+        `20${targetDateElement[2]}-${targetDateElement[1]}-${targetDateElement[0]}`
+      );
       // const targetDate = moment(e.DATE);
-
-      if (moment().isSameOrAfter(targetDate) || true) {
-        e.DateObject = targetDate;
+      // const targetDate = moment([
+      //   targetDateElement[2],
+      //   targetDateElement[1],
+      //   targetDateElement[0],
+      // ]);
+      // console.log(
+      //   moment.duration({ from: new Date(), to: targetDate }).asDays() >= 0
+      // );
+      if (moment.duration({ from: new Date(), to: targetDate }).asDays() >= 0) {
+        e.MOMENT = targetDate;
         selectedDatesArray.push(e);
 
         if (indexOfNearestDate == 0) {
@@ -110,7 +115,7 @@ export default function MainPage(props: any) {
         }
       }
     }
-    console.log(selectedDatesArray);
+    // console.log(selectedDatesArray);
     return selectedDatesArray;
   }
 
@@ -151,18 +156,18 @@ export default function MainPage(props: any) {
                     <p className="font-light tracking-tight leading-none">
                       My Dear<br></br>Pass USFK
                     </p>
-                    {/* <p
-                      className="text-sm font-bold w-fit p-1 bg-black rounded-md text-white"
+                    <p
+                      className="font-bold w-fit py-1 px-2 bg-black rounded-md text-white"
                       onClick={async () => {
-                        await setSeletecDate(nearestDate.DateObject);
+                        await setSeletecDate(nearestDate.MOMENT);
                         await setIsCalendarFolded(true);
                       }}
                     >
                       D-
-                      {(nearestDate.DateObject as moment.Moment)
+                      {(nearestDate.MOMENT as moment.Moment)
                         .fromNow(true)
                         .replace(" days", "")}
-                    </p> */}
+                    </p>
                   </div>
                   <Dropdown placement={"bottom-end"}>
                     <DropdownTrigger>
@@ -216,7 +221,7 @@ export default function MainPage(props: any) {
                     }}
                     tileContent={({ activeStartDate, date, view }) =>
                       seletedDates.find((e: any) =>
-                        (e.DateObject as moment.Moment).isSame(moment(date))
+                        (e.MOMENT as moment.Moment).isSame(moment(date))
                       ) ? (
                         <p>PASS</p>
                       ) : moment(date).isSame(moment(), "day") ? (
@@ -225,7 +230,7 @@ export default function MainPage(props: any) {
                     }
                     tileClassName={({ activeStartDate, date, view }) =>
                       seletedDates.find((e: any) =>
-                        (e.DateObject as moment.Moment).isSame(moment(date))
+                        (e.MOMENT as moment.Moment).isSame(moment(date))
                       )
                         ? "holiday"
                         : null
@@ -252,24 +257,36 @@ export default function MainPage(props: any) {
               {/*  */}
               <div className="flex flex-col w-full space-y-2 h-full px-4 max-w-[420px] bg-white overflow-x-clip">
                 {/* body */}
-                <div className="h-[100px] w-full"></div>
-                {seletedDates?.map((e: any, i: number) => {
+                <div className="h-[80px] w-full"></div>
+                {seletedDates.map((e: any, i: number) => {
                   return (
                     <div key={i} className="w-full h-fit space-y-4">
                       {e ===
-                        seletedDates.filter(
-                          (j: any) =>
-                            j.DATE.split("-")[1] == e.DATE.split("-")[1]
-                        )[0] && (
+                        seletedDates.filter((j: any) => {
+                          console.log(
+                            j,
+                            seletedDates.filter(
+                              (j: any) =>
+                                (j.MOMENT as moment.Moment).format("MMM") ==
+                                (e.MOMENT as moment.Moment).format("MMM")
+                            )
+                          );
+                          return (
+                            (j.MOMENT as moment.Moment).format("YY") ==
+                              (e.MOMENT as moment.Moment).format("YY") &&
+                            (j.MOMENT as moment.Moment).format("MMM") ==
+                              (e.MOMENT as moment.Moment).format("MMM")
+                          );
+                        })[0] && (
                         <div className="pt-8">
                           <div className="flex flex-row w-full justify-between items-end">
                             <p className="font-light text-2xl">
                               {`
-                              ${e.DATE.split("-")[1]} / ${
+                              ${(e.MOMENT as moment.Moment).format("MMM")} / ${
                                 e.DATE.split("-")[2]
                               }`}
                             </p>
-                            <div className="flex flex-row space-x-2">
+                            {/* <div className="flex flex-row space-x-2">
                               <div className="flex flex-row space-x-1">
                                 <IconCheck
                                   width={15}
@@ -337,7 +354,7 @@ export default function MainPage(props: any) {
                                   }{" "}
                                 </p>
                               </div>
-                            </div>
+                            </div> */}
                           </div>
                           <Divider className="bg-black/50"></Divider>
                         </div>

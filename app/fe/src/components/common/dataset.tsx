@@ -1,6 +1,6 @@
 export const dataset = [
   {
-    DATE: "5-Jul-24",
+    DATE: "5-7-24",
     DAY: "FRIDAY",
     HOLIDAY: "INDEPENDENCE DAY TRAINING HOLIDAY (US)",
     US: "YES",
@@ -12,7 +12,7 @@ export const dataset = [
     "DODEA(US)": "SMBRK",
   },
   {
-    DATE: "15-Aug-24",
+    DATE: "15-8-24",
     DAY: "THURSDAY",
     HOLIDAY: "LIBERATION DAY (ROK)",
     US: "NO",
@@ -24,7 +24,7 @@ export const dataset = [
     "DODEA(US)": "NO",
   },
   {
-    DATE: "30-Aug-24",
+    DATE: "30-8-24",
     DAY: "FRIDAY",
     HOLIDAY: "LABOR DAY TRAINING HOLIDAY (US)",
     US: "YES",
@@ -36,7 +36,7 @@ export const dataset = [
     "DODEA(US)": "NO",
   },
   {
-    DATE: "2-Sep-24",
+    DATE: "2-9-24",
     DAY: "MONDAY",
     HOLIDAY: "LABOR DAY (US)",
     US: "YES",
@@ -48,7 +48,7 @@ export const dataset = [
     "DODEA(US)": "YES",
   },
   {
-    DATE: "9-Sep-24",
+    DATE: "9-9-24",
     DAY: "FRIDAY",
     HOLIDAY: "TRAINING HOLIDAY (EXERCISE)",
     US: "YES",
@@ -60,7 +60,7 @@ export const dataset = [
     "DODEA(US)": "NO",
   },
   {
-    DATE: "10-Sep-24",
+    DATE: "10-9-24",
     DAY: "MONDAY",
     HOLIDAY: "TRAINING HOLIDAY (EXERCISE)",
     US: "YES",
@@ -72,7 +72,7 @@ export const dataset = [
     "DODEA(US)": "NO",
   },
   {
-    DATE: "16-Sep-24",
+    DATE: "16-9-24",
     DAY: "MONDAY",
     HOLIDAY: "CHUSEOK (ROK)",
     US: "NO",
@@ -84,7 +84,7 @@ export const dataset = [
     "DODEA(US)": "NO",
   },
   {
-    DATE: "17-Sep-24",
+    DATE: "17-9-24",
     DAY: "TUESDAY",
     HOLIDAY: "CHUSEOK (US/ROK)",
     US: "YES",
@@ -96,7 +96,7 @@ export const dataset = [
     "DODEA(US)": "YES",
   },
   {
-    DATE: "18-Sep-24",
+    DATE: "18-9-24",
     DAY: "WEDNESDAY",
     HOLIDAY: "CHUSEOK (ROK)",
     US: "NO",
