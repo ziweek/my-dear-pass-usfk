@@ -107,6 +107,7 @@ export const dataset = [
     "CFC(KN)": "YES",
     "DODEA(US)": "NO",
   },
+
   {
     DATE: "3-10-24",
     DAY: "THURSDAY",
@@ -117,6 +118,18 @@ export const dataset = [
     "DOD(US)": "NO",
     "USFK(LN)": "YES",
     "CFC(KN)": "YES",
+    "DODEA(US)": "NO",
+  },
+  {
+    DATE: "4-10-24",
+    DAY: "FRIDAY",
+    HOLIDAY: "NATIONAL FOUNDATION DAY (ROK) TRAINING HOLIDAY",
+    US: "NO",
+    ROK: "YES",
+    KATUSA: "NO",
+    "DOD(US)": "NO",
+    "USFK(LN)": "NO",
+    "CFC(KN)": "NO",
     "DODEA(US)": "NO",
   },
   {
@@ -131,7 +144,6 @@ export const dataset = [
     "CFC(KN)": "YES",
     "DODEA(US)": "NO",
   },
-  //
   {
     DATE: "11-10-24",
     DAY: "FRIDAY",
@@ -219,7 +231,7 @@ export const dataset = [
   {
     DATE: "25-12-24",
     DAY: "WEDNESDAY",
-    HOLIDAY: "CHRISTMAS  DAY (US/ROK)",
+    HOLIDAY: "CHRISTMAS DAY (US/ROK)",
     US: "YES",
     ROK: "YES",
     KATUSA: "YES",
@@ -247,22 +259,22 @@ export const dataset = [
     US: "YES",
     ROK: "YES",
     KATUSA: "YES",
+    "DOD(US)": "NO",
+    "USFK(LN)": "NO",
+    "CFC(KN)": "NO",
+    "DODEA(US)": "WNBRK",
+  },
+  {
+    DATE: "1-1-25",
+    DAY: "WEDNESDAY",
+    HOLIDAY: "NEW YEAR'S DAY (US/ROK)",
+    US: "YES",
+    ROK: "YES",
+    KATUSA: "YES",
     "DOD(US)": "YES",
     "USFK(LN)": "YES",
     "CFC(KN)": "YES",
     "DODEA(US)": "WNBRK",
-  },
-  {
-    DATE: "1-1-24",
-    DAY: "WEDNESDAY",
-    HOLIDAY: "NEW YEAR'S DAY (US/ROK)",
-    US: null,
-    ROK: null,
-    KATUSA: null,
-    "DOD(US)": null,
-    "USFK(LN)": null,
-    "CFC(KN)": null,
-    "DODEA(US)": null,
   },
   {
     DATE: "2-1-25",
@@ -286,7 +298,7 @@ export const dataset = [
     "DOD(US)": "NO",
     "USFK(LN)": "NO",
     "CFC(KN)": "NO",
-    "DODEA(US)": "TWO",
+    "DODEA(US)": "TWD",
   },
   {
     DATE: "20-1-25",
@@ -351,7 +363,7 @@ export const dataset = [
   {
     DATE: "14-2-25",
     DAY: "FRIDAY",
-    HOLIDAY: "WASHINGTON'S  BIRTHDAY TRAINING HOLIDAY (US)",
+    HOLIDAY: "WASHINGTON'S BIRTHDAY TRAINING HOLIDAY (US)",
     US: "YES",
     ROK: "NO",
     KATUSA: "YES",
@@ -375,7 +387,7 @@ export const dataset = [
   {
     DATE: "1-3-25",
     DAY: "SATURDAY",
-    HOLIDAY: "INDEPENDENCE  MOVEMENT DAY (ROK)",
+    HOLIDAY: "INDEPENDENCE MOVEMENT DAY (ROK)",
     US: "NO",
     ROK: "YES",
     KATUSA: "NO",
@@ -387,7 +399,7 @@ export const dataset = [
   {
     DATE: "3-3-25",
     DAY: "MONDAY",
-    HOLIDAY: "INDEPENDENCE  MOVEMENT DAY (ROK) ALT",
+    HOLIDAY: "INDEPENDENCE MOVEMENT DAY (ROK) ALT",
     US: "NO",
     ROK: "YES",
     KATUSA: "NO",
@@ -519,7 +531,7 @@ export const dataset = [
   {
     DATE: "20-6-25",
     DAY: "FRIDAY",
-    HOLIDAY: "JUNETEENTH  TRAINING HOLIDAY (US)",
+    HOLIDAY: "JUNETEENTH TRAINING HOLIDAY (US)",
     US: "YES",
     ROK: "NO",
     KATUSA: "YES",
@@ -531,7 +543,7 @@ export const dataset = [
   {
     DATE: "4-7-25",
     DAY: "FRIDAY",
-    HOLIDAY: "INDEPENDENCE  DAY (US)",
+    HOLIDAY: "INDEPENDENCE DAY (US)",
     US: "YES",
     ROK: "NO",
     KATUSA: "YES",
@@ -543,7 +555,7 @@ export const dataset = [
   {
     DATE: "7-7-25",
     DAY: "MONDAY",
-    HOLIDAY: "INDEPENDENCE  DAY TRAINING HOLIDAY (US)",
+    HOLIDAY: "INDEPENDENCE DAY TRAINING HOLIDAY (US)",
     US: "YES",
     ROK: "NO",
     KATUSA: "YES",
