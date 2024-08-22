@@ -8,8 +8,6 @@ import {
   DropdownSection,
   Button,
   Divider,
-  Card,
-  Tooltip,
 } from "@nextui-org/react";
 import { useState, useMemo, useEffect } from "react";
 import { IconCheck, IconNo, IconUp } from "@/components/common/icon";
@@ -18,8 +16,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AOS from "aos";
-import "aos/dist/aos.css";
+
 import Image from "next/image";
 import { useIsMobile } from "@/hook/useMediaQuery";
 import moment from "moment";
@@ -34,7 +31,7 @@ export default function MainPage(props: any) {
   const [nearestDate, setNearestDate] = useState<any>();
 
   const [selectedKeys, setSelectedKeys] = useState<any>(new Set(["KATUSA"]));
-  const [selectedCategory, setSelectedCategory] = useState("US");
+  const [selectedCategory, setSelectedCategory] = useState("KATUSA");
   const selectedValue = useMemo(
     () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
     [selectedKeys]
@@ -166,6 +163,7 @@ export default function MainPage(props: any) {
                     >
                       D-
                       {(nearestDate.MOMENT as moment.Moment)
+                        .locale("ko")
                         .fromNow(true)
                         .replace(" days", "")}
                     </p>
