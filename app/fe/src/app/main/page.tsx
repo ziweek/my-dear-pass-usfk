@@ -144,18 +144,18 @@ export default function MainPage(props: any) {
                       My Dear<br></br>Pass USFK
                     </p>
                     <p
-                      className="font-bold w-fit py-1 px-3 rounded-md text-white text-md"
-                      style={{
-                        backgroundColor:
-                          moment
-                            .duration({
-                              from: new Date(),
-                              to: nearestDate.MOMENT as moment.Moment,
-                            })
-                            .asDays() >= 7
-                            ? "black"
-                            : "#A2E9C1",
-                      }}
+                      className="font-bold w-fit py-1 px-3 rounded-md text-white text-md bg-black"
+                      // style={{
+                      //   backgroundColor:
+                      //     moment
+                      //       .duration({
+                      //         from: new Date(),
+                      //         to: nearestDate.MOMENT as moment.Moment,
+                      //       })
+                      //       .asDays() >= 7
+                      //       ? "black"
+                      //       : "#A2E9C1",
+                      // }}
                       onClick={async () => {
                         await setSeletecDate(nearestDate.MOMENT);
                         await setIsCalendarFolded(true);

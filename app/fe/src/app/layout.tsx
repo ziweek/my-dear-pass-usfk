@@ -52,7 +52,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${nanumSquareNeo.className}`}>
       <head>
-        {" "}
+        <link rel="canonical" href="https://my-dear-pass-usfk.vercel.app" />
         <Script
           async
           src={`https://www.googletagmanager.com/gtag/js
