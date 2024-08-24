@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* :root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+} */
+
+.react-calendar {
+  width: 100% !important;
+  border: 0px !important;
+  border-color: white !important;
+  background-color: white !important;
+}
+
+.react-calendar__navigation__label {
+  background-color: white !important;
+}
+
+.react-calendar__navigation__arrow {
+  background-color: white !important;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth {
+  background-color: #f3f4f6 !important;
+}
+
+.react-calendar__tile {
+  height: 50px;
+  text-align: center;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  /* margin: 2px !important; */
+}
+
+.react-calendar__tile--active {
+  background-color: transparent !important;
+  color: black !important;
+  /* border: medium solid #f871a0 !important; */
+  box-shadow: inset 0 0 0 3px #f871a0 !important;
+  z-index: 10;
+}
+
+.holiday {
+  background: #f3f4f6 !important ;
+  background-color: #a2e9c1 !important;
+  height: 50px !important;
+}
+
+.react-calendar__tile--now {
+  height: 50px !important;
+}
