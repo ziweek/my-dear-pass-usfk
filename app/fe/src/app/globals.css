@@ -77,9 +77,9 @@ body {
 
 .react-calendar__tile--now {
   height: 50px !important;
-  background: #cce3fd !important ;
+  background: white !important ;
 }
-
+/* 
 .swal2-title {
   font-size: 1.5em !important;
-}
+} */
