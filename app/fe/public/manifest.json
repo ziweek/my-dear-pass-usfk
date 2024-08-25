@@ -57,7 +57,6 @@
       "purpose": "maskable any"
     }
   ],
-  "theme_color": "#ffffff",
   "theme_colors": [
     { "color": "#ffffff" },
     { "color": "#000000", "media": "(prefers-color-scheme: dark)" }
