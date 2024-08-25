@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.SITE_URL || "https://so-when-is-4day.vercel.app/",
+  siteUrl: process.env.SITE_URL || "https://my-dear-pass-usfk.vercel.app/",
   generateRobotsTxt: true, // (optional)
   // ...other options
   sitemapSize: 7000, // sitemap별 최대 크기 (최대 크기가 넘어갈 경우 복수개의 sitemap으로 분리됨)

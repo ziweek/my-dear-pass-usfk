@@ -2,12 +2,29 @@
 
 import { Button, Card } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import { useIsMobile } from "@/hook/useMediaQuery";
 import Footer from "@/components/footer";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+// global.d.ts
+declare global {
+  export interface WindowEventMap {
+    beforeinstallprompt: BeforeInstallPromptEvent;
+  }
+}
+
+export interface BeforeInstallPromptEvent extends Event {
+  readonly platforms: string[];
+  readonly userChoice: Promise<{
+    outcome: "accepted" | "dismissed";
+    platform: string;
+  }>;
+  prompt(): Promise<void>;
+}
 
 export default function Home() {
   const router = useRouter();
@@ -24,11 +41,69 @@ export default function Home() {
     };
 
     checkResize();
+
+    toast.info(
+      "FY25 USFK Holiday Schedule v2 has been successfully added to our service. :)",
+      {
+        position: "top-center",
+        theme: "colored",
+      }
+    );
   }, [isMobile]);
 
+  const checkUnsupportedBrowser = () => {
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    return (
+      (userAgent.indexOf("safari") > -1 &&
+        userAgent.indexOf("chrome") <= -1 &&
+        userAgent.indexOf("chromium") <= -1) ||
+      (userAgent.indexOf("firefox") > -1 &&
+        userAgent.indexOf("seamonkey") <= -1)
+    );
+  };
+
+  const promptAppInstall = async () => {
+    const isUnsupportedBrowser = checkUnsupportedBrowser();
+    if (isUnsupportedBrowser) {
+      alert(
+        "공유 아이콘 -> 홈 화면에 추가를 클릭해 앱으로 편리하게 이용해보세요!"
+      );
+    }
+    if (!isUnsupportedBrowser) {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        await deferredPrompt.userChoice;
+        setDeferredPrompt(undefined);
+      } else {
+        alert("이미 저희 서비스를 설치해주셨어요!");
+      }
+    }
+  };
+
+  const [deferredPrompt, setDeferredPrompt] = useState<
+    BeforeInstallPromptEvent | undefined
+  >(undefined);
+
   useEffect(() => {
-    AOS.init();
-    return () => {};
+    const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/sw.js")
+        .then((reg) => console.log("sw worker registered", reg))
+        .catch(() => console.log("failed"));
+    }
+    return () => {
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
+    };
   }, []);
 
   return (
@@ -102,6 +177,13 @@ export default function Home() {
                   Get Started
                 </Button>
               </div>
+              <Button
+                onPress={promptAppInstall}
+                variant={"light"}
+                className="font-bold underline underline-offset-4 text-gray-500"
+              >
+                Add to Home Screen
+              </Button>
             </div>
           </div>
 
@@ -114,6 +196,7 @@ export default function Home() {
           </div> */}
         </div>
       </section>
+      <ToastContainer />
     </>
   );
 }

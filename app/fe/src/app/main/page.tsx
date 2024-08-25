@@ -10,12 +10,10 @@ import {
   Divider,
 } from "@nextui-org/react";
 import { useState, useMemo, useEffect } from "react";
-import { IconCheck, IconNo, IconUp } from "@/components/common/icon";
+import { IconCheck, IconUp } from "@/components/common/icon";
 import { dataset } from "@/components/common/dataset";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import Image from "next/image";
 import { useIsMobile } from "@/hook/useMediaQuery";
@@ -56,10 +54,6 @@ export default function MainPage(props: any) {
     //   anchorPlacement: "top-bottom", // defines which position of the element regarding to window should trigger the animation
     //   once: true, // whether animation should happen only once - while scrolling down
     //   offset: 120, // offset (in px) from the original trigger point
-    // });
-    // toast.info("Data is Updated to FY25 USFK Holiday Schedule v1 :)", {
-    //   position: "bottom-center",
-    //   theme: "colored",
     // });
     const data = async () => {
       const selectedDatesArray = await convertDateToObject();
@@ -144,18 +138,18 @@ export default function MainPage(props: any) {
                       My Dear<br></br>Pass USFK
                     </p>
                     <p
-                      className="font-bold w-fit py-1 px-3 rounded-md text-white text-md bg-black"
-                      // style={{
-                      //   backgroundColor:
-                      //     moment
-                      //       .duration({
-                      //         from: new Date(),
-                      //         to: nearestDate.MOMENT as moment.Moment,
-                      //       })
-                      //       .asDays() >= 7
-                      //       ? "black"
-                      //       : "#A2E9C1",
-                      // }}
+                      className="font-bold w-fit py-1 px-3 rounded-md text-white text-md"
+                      style={{
+                        backgroundColor:
+                          moment
+                            .duration({
+                              from: new Date(),
+                              to: nearestDate.MOMENT as moment.Moment,
+                            })
+                            .asDays() >= 3
+                            ? "black"
+                            : "#f871a0",
+                      }}
                       onClick={async () => {
                         await setSeletecDate(nearestDate.MOMENT);
                         await setIsCalendarFolded(true);
@@ -164,11 +158,12 @@ export default function MainPage(props: any) {
                       D-
                       {(nearestDate.MOMENT as moment.Moment)
                         .locale("ko")
-                        .fromNow(true)
+                        .from(new Date().setHours(0, 0, 0))
+                        .replace("in ", "")
                         .replace(" days", "")}
                     </p>
                   </div>
-                  <Dropdown placement={"bottom-end"}>
+                  <Dropdown placement={"bottom-end"} backdrop={"blur"}>
                     <DropdownTrigger>
                       <Button
                         size={"sm"}
@@ -293,7 +288,7 @@ export default function MainPage(props: any) {
                           fill={`${
                             e[selectedCategory as keyof typeof e] == "YES"
                               ? "#A2E9C1"
-                              : "#00000000"
+                              : "#E4E4E7"
                           }`}
                         ></IconCheck>
                         <div
@@ -313,7 +308,7 @@ export default function MainPage(props: any) {
                             backgroundColor:
                               e[selectedCategory as keyof typeof e] == "YES"
                                 ? `#A2E9C1`
-                                : "#00000020",
+                                : "#E4E4E7",
                             boxShadow: `inset 0 0 0 ${
                               (e.MOMENT as moment.Moment).isSame(
                                 moment(seletecDate)
@@ -352,7 +347,6 @@ export default function MainPage(props: any) {
               </div>
             </div>
           </div>
-          <ToastContainer />
         </>
       )}
     </>

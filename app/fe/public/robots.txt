@@ -4,7 +4,7 @@ Allow: /
 Disallow: /main
 
 # Host
-Host: https://so-when-is-4day.vercel.app/
+Host: https://my-dear-pass-usfk.vercel.app/
 
 # Sitemaps
-Sitemap: https://so-when-is-4day.vercel.app/sitemap.xml
+Sitemap: https://my-dear-pass-usfk.vercel.app/sitemap.xml

@@ -8,10 +8,6 @@ type IconProps = {
   isActive?: boolean;
 };
 
-export function IconGCalLogo(props: any) {
-  return <></>;
-}
-
 export function IconUp(props: IconProps) {
   return (
     <>
@@ -144,6 +140,7 @@ export const IconGithub = (props: IconProps) => {
     </>
   );
 };
+
 export const IconCheck = (props: IconProps) => {
   return (
     <>
