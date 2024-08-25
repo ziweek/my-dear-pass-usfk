@@ -1,13 +1,13 @@
 "use client";
 
 import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  DropdownSection,
-  Button,
-  Divider,
+	Dropdown,
+	DropdownTrigger,
+	DropdownMenu,
+	DropdownItem,
+	DropdownSection,
+	Button,
+	Divider,
 } from "@nextui-org/react";
 import { useState, useMemo, useEffect } from "react";
 import { IconCheck, IconUp } from "@/components/common/icon";
@@ -21,32 +21,32 @@ import moment from "moment";
 // import Footer from "@/components/footer";
 
 export default function MainPage(props: any) {
-  const [isHydrated, setIsHydrated] = useState(false);
-  const [isCalendarFolded, setIsCalendarFolded] = useState(false);
+	const [isHydrated, setIsHydrated] = useState(false);
+	const [isCalendarFolded, setIsCalendarFolded] = useState(false);
 
-  const [seletecDate, setSeletecDate] = useState(new Date());
-  const [seletedDates, setSeletedDates] = useState<any>([]);
-  const [nearestDate, setNearestDate] = useState<any>();
+	const [seletecDate, setSeletecDate] = useState(new Date());
+	const [seletedDates, setSeletedDates] = useState<any>([]);
+	const [nearestDate, setNearestDate] = useState<any>();
 
-  const [selectedKeys, setSelectedKeys] = useState<any>(new Set(["KATUSA"]));
-  const [selectedCategory, setSelectedCategory] = useState("KATUSA");
-  const selectedValue = useMemo(
-    () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
-    [selectedKeys]
-  );
+	const [selectedKeys, setSelectedKeys] = useState<any>(new Set(["KATUSA"]));
+	const [selectedCategory, setSelectedCategory] = useState("KATUSA");
+	const selectedValue = useMemo(
+		() => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
+		[selectedKeys]
+	);
 
-  const isMobile = useIsMobile();
-  const [mobile, setMobile] = useState<boolean>(false);
-  useEffect(() => {
-    const checkResize = () => {
-      if (isMobile) {
-        setMobile(true);
-      } else {
-        setMobile(false);
-      }
-    };
-    checkResize();
-  }, [isMobile]);
+	const isMobile = useIsMobile();
+	const [mobile, setMobile] = useState<boolean>(false);
+	useEffect(() => {
+		const checkResize = () => {
+			if (isMobile) {
+				setMobile(true);
+			} else {
+				setMobile(false);
+			}
+		};
+		checkResize();
+	}, [isMobile]);
 
   useEffect(() => {
     // AOS.init({
@@ -64,41 +64,41 @@ export default function MainPage(props: any) {
     data();
   }, []);
 
-  useEffect(() => {
-    const data = async () => {
-      const selectedDatesArray = await convertDateToObject();
-      await setSeletedDates(selectedDatesArray);
-    };
-    data();
-  }, [selectedCategory]);
+	useEffect(() => {
+		const data = async () => {
+			const selectedDatesArray = await convertDateToObject();
+			await setSeletedDates(selectedDatesArray);
+		};
+		data();
+	}, [selectedCategory]);
 
-  async function convertDateToObject() {
-    var selectedDatesArray: any[] = []; // Initialize as an empty array
-    var indexOfNearestDate: number = 0;
+	async function convertDateToObject() {
+		var selectedDatesArray: any[] = []; // Initialize as an empty array
+		var indexOfNearestDate: number = 0;
 
-    const targetDates = dataset;
-    // const targetDates = dataset.filter(
-    //   (e) => e[selectedCategory as keyof typeof e] == "YES"
-    // );
+		const targetDates = dataset;
+		// const targetDates = dataset.filter(
+		//   (e) => e[selectedCategory as keyof typeof e] == "YES"
+		// );
 
-    for (let i = 0; i < targetDates.length; i++) {
-      const e: any = targetDates[i];
-      const targetDate = moment(e.DATE, "DD-MM-YY");
-      if (moment.duration({ from: new Date(), to: targetDate }).asDays() >= 0) {
-        e.MOMENT = targetDate;
-        selectedDatesArray.push(e);
+		for (let i = 0; i < targetDates.length; i++) {
+			const e: any = targetDates[i];
+			const targetDate = moment(e.DATE, "DD-MM-YY");
+			if (moment.duration({ from: new Date(), to: targetDate }).asDays() >= 0) {
+				e.MOMENT = targetDate;
+				selectedDatesArray.push(e);
 
-        if (
-          indexOfNearestDate == 0 &&
-          e[selectedCategory as keyof typeof e] == "YES"
-        ) {
-          indexOfNearestDate = i;
-          await setNearestDate(e);
-        }
-      }
-    }
-    return selectedDatesArray;
-  }
+				if (
+					indexOfNearestDate == 0 &&
+					e[selectedCategory as keyof typeof e] == "YES"
+				) {
+					indexOfNearestDate = i;
+					await setNearestDate(e);
+				}
+			}
+		}
+		return selectedDatesArray;
+	}
 
   return (
     <>
@@ -351,4 +351,5 @@ export default function MainPage(props: any) {
       )}
     </>
   );
+
 }
