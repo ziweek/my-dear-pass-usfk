@@ -53,6 +53,16 @@ export default function RootLayout({
     <html lang="en" className={`${nanumSquareNeo.className}`}>
       <head>
         <link rel="canonical" href="https://my-dear-pass-usfk.vercel.app" />
+        <meta
+          name="theme-color"
+          media="(prefers-color-scheme: light)"
+          content="white"
+        ></meta>
+        <meta
+          name="theme-color"
+          media="(prefers-color-scheme: dark)"
+          content="black"
+        ></meta>
         <Script
           async
           src={`https://www.googletagmanager.com/gtag/js
