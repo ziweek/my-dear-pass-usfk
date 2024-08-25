@@ -68,7 +68,7 @@ export default function Home() {
 
     if (isUnsupportedBrowser) {
       toast.error(
-        <div className="flex flex-col w-[350px] select-none">
+        <div className="flex flex-col select-none">
           <p className="text-sm font-bold">
             Your browser does not support one-click PWA installation.
           </p>
@@ -101,7 +101,7 @@ export default function Home() {
         setDeferredPrompt(undefined);
       } else {
         toast.success(
-          <div className="flex flex-col w-[350px] select-none">
+          <div className="flex flex-col select-none">
             <p className="text-sm font-bold">
               You have already installed our application. 👍
             </p>
