@@ -2,12 +2,33 @@
 
 import { Button, Card } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import { useIsMobile } from "@/hook/useMediaQuery";
 import Footer from "@/components/footer";
+
+import toast, { Toaster } from "react-hot-toast";
+
+import "react-toastify/dist/ReactToastify.css";
+import { IconGithub } from "@/components/common/icon";
+
+import Swal from "sweetalert2";
+
+// global.d.ts
+declare global {
+  export interface WindowEventMap {
+    beforeinstallprompt: BeforeInstallPromptEvent;
+  }
+}
+
+export interface BeforeInstallPromptEvent extends Event {
+  readonly platforms: string[];
+  readonly userChoice: Promise<{
+    outcome: "accepted" | "dismissed";
+    platform: string;
+  }>;
+  prompt(): Promise<void>;
+}
 
 export default function Home() {
   const router = useRouter();
@@ -24,11 +45,86 @@ export default function Home() {
     };
 
     checkResize();
+    toast(
+      <p className="leading-relaxed text-sm">
+        FY25 USFK Holiday Schedule v2 has been successfully added to our
+        service!
+      </p>,
+      {
+        icon: <IconGithub width={50}></IconGithub>,
+        style: {
+          // borderRadius: "50px",
+        },
+      }
+    );
   }, [isMobile]);
 
+  const checkUnsupportedBrowser = () => {
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    return (
+      (userAgent.indexOf("safari") > -1 &&
+        userAgent.indexOf("chrome") <= -1 &&
+        userAgent.indexOf("chromium") <= -1) ||
+      (userAgent.indexOf("firefox") > -1 &&
+        userAgent.indexOf("seamonkey") <= -1)
+    );
+  };
+
+  const promptAppInstall = async () => {
+    const isUnsupportedBrowser = checkUnsupportedBrowser();
+    if (isUnsupportedBrowser) {
+      // alert(
+      //   "공유 아이콘 -> 홈 화면에 추가를 클릭해 앱으로 편리하게 이용해보세요!"
+      // );
+      Swal.fire({
+        title: "Your browser does not support direct Installation.",
+        text: "So, please follow the bellow instructions.",
+        icon: "info",
+        confirmButtonText: "Okay",
+        footer:
+          '<a href="https://amplified-purpose-11c.notion.site/My-Dear-Pass-USFK-9e714a1605a146dca142ae93c9824912?pvs=74">Move to "How to Use"</a>',
+      });
+    }
+    if (!isUnsupportedBrowser) {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        await deferredPrompt.userChoice;
+        setDeferredPrompt(undefined);
+      } else {
+        Swal.fire({
+          title: "Thank you!",
+          text: "You have already installed this application. 👍",
+          icon: "success",
+          confirmButtonText: "Cool",
+        });
+      }
+    }
+  };
+
+  const [deferredPrompt, setDeferredPrompt] = useState<
+    BeforeInstallPromptEvent | undefined
+  >(undefined);
+
   useEffect(() => {
-    AOS.init();
-    return () => {};
+    const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/sw.js")
+        .then((reg) => console.log("sw worker registered", reg))
+        .catch(() => console.log("failed"));
+    }
+    return () => {
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
+    };
   }, []);
 
   return (
@@ -102,6 +198,13 @@ export default function Home() {
                   Get Started
                 </Button>
               </div>
+              <Button
+                onPress={promptAppInstall}
+                variant={"light"}
+                className="font-bold underline underline-offset-4"
+              >
+                Add to Home Screen
+              </Button>
             </div>
           </div>
 
@@ -114,6 +217,7 @@ export default function Home() {
           </div> */}
         </div>
       </section>
+      <Toaster />
     </>
   );
 }

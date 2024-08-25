@@ -18,7 +18,7 @@
 <br/>
   
 <p align="center">  
-  <strong>Let's try the product! ;)<strong>
+  <strong>Let's try the product from below badge link<strong>
   <br/>
   <br/>
   <a href='https://my-dear-pass-usfk.vercel.app/'>

@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
+:root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
@@ -30,7 +30,7 @@ body {
   .text-balance {
     text-wrap: balance;
   }
-} */
+}
 
 .react-calendar {
   width: 100% !important;
@@ -77,4 +77,13 @@ body {
 
 .react-calendar__tile--now {
   height: 50px !important;
+  background: #cce3fd !important ;
+}
+
+.swal2-title {
+  font-size: 1.5em;
+}
+
+.swal2-footer {
+  color: blue;
 }
