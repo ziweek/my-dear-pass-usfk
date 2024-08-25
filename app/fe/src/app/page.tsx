@@ -7,8 +7,12 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useIsMobile } from "@/hook/useMediaQuery";
 import Footer from "@/components/footer";
 
-import { ToastContainer, toast } from "react-toastify";
+import toast, { Toaster } from "react-hot-toast";
+
 import "react-toastify/dist/ReactToastify.css";
+import { IconGithub } from "@/components/common/icon";
+
+import Swal from "sweetalert2";
 
 // global.d.ts
 declare global {
@@ -41,12 +45,16 @@ export default function Home() {
     };
 
     checkResize();
-
-    toast.info(
-      "FY25 USFK Holiday Schedule v2 has been successfully added to our service. :)",
+    toast(
+      <p className="leading-relaxed text-sm">
+        FY25 USFK Holiday Schedule v2 has been successfully added to our
+        service!
+      </p>,
       {
-        position: "top-center",
-        theme: "colored",
+        icon: <IconGithub width={50}></IconGithub>,
+        style: {
+          // borderRadius: "50px",
+        },
       }
     );
   }, [isMobile]);
@@ -65,9 +73,17 @@ export default function Home() {
   const promptAppInstall = async () => {
     const isUnsupportedBrowser = checkUnsupportedBrowser();
     if (isUnsupportedBrowser) {
-      alert(
-        "공유 아이콘 -> 홈 화면에 추가를 클릭해 앱으로 편리하게 이용해보세요!"
-      );
+      // alert(
+      //   "공유 아이콘 -> 홈 화면에 추가를 클릭해 앱으로 편리하게 이용해보세요!"
+      // );
+      Swal.fire({
+        title: "Your browser does not support direct Installation.",
+        text: "So, please follow the bellow instructions.",
+        icon: "info",
+        confirmButtonText: "Okay",
+        footer:
+          '<a href="https://amplified-purpose-11c.notion.site/My-Dear-Pass-USFK-9e714a1605a146dca142ae93c9824912?pvs=74">Move to "How to Use"</a>',
+      });
     }
     if (!isUnsupportedBrowser) {
       if (deferredPrompt) {
@@ -75,7 +91,12 @@ export default function Home() {
         await deferredPrompt.userChoice;
         setDeferredPrompt(undefined);
       } else {
-        alert("이미 저희 서비스를 설치해주셨어요!");
+        Swal.fire({
+          title: "Thank you!",
+          text: "You have already installed this application. 👍",
+          icon: "success",
+          confirmButtonText: "Cool",
+        });
       }
     }
   };
@@ -180,7 +201,7 @@ export default function Home() {
               <Button
                 onPress={promptAppInstall}
                 variant={"light"}
-                className="font-bold underline underline-offset-4 text-gray-500"
+                className="font-bold underline underline-offset-4"
               >
                 Add to Home Screen
               </Button>
@@ -196,7 +217,7 @@ export default function Home() {
           </div> */}
         </div>
       </section>
-      <ToastContainer />
+      <Toaster />
     </>
   );
 }
