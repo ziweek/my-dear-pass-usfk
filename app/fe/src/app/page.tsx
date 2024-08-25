@@ -90,15 +90,15 @@ export default function Home() {
             </Button>
           </div>
         </div>,
-        { icon: <IconNo width={50} fill="#f31260"></IconNo> }
+        { icon: <IconNo width={50} fill="#f31260"></IconNo>, duration: 1000 }
       );
     }
 
     if (!isUnsupportedBrowser) {
       if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice;
-        setDeferredPrompt(undefined);
+        await deferredPrompt.prompt();
+        await deferredPrompt.userChoice;
+        await setDeferredPrompt(undefined);
       } else {
         toast.success(
           <div className="flex flex-col select-none">
@@ -106,7 +106,10 @@ export default function Home() {
               You have already installed our application. 👍
             </p>
           </div>,
-          { icon: <IconCheck width={50} fill="#17c964"></IconCheck> }
+          {
+            icon: <IconCheck width={50} fill="#17c964"></IconCheck>,
+            duration: 1000,
+          }
         );
       }
     }
@@ -114,9 +117,9 @@ export default function Home() {
 
   useEffect(() => {
     const handleBeforeInstallPrompt = async (e: BeforeInstallPromptEvent) => {
-      e.preventDefault();
-      setDeferredPrompt(e);
-      setIsHydrated(true);
+      await e.preventDefault();
+      await setDeferredPrompt(e);
+      await setIsHydrated(true);
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
@@ -179,7 +182,7 @@ export default function Home() {
               variant={"solid"}
               onPress={async () => {
                 await promptAppInstall();
-                await toast.dismiss(t.id);
+                // await toast.dismiss(t.id);
               }}
               className=""
             >
@@ -225,10 +228,12 @@ export default function Home() {
             {/* 소개 텍스트 */}
             <div className="flex w-full flex-col items-center justify-center gap-2">
               {/* <IconLogo width={mobile ? 100 : 120} fill="#000"></IconLogo> */}
-              <p className="font-light text-2xl">My Dear Pass USFK</p>
+              <p className={`${mobile ? "text-2xl" : "text-3xl"} font-light`}>
+                My Dear Pass USFK
+              </p>
               <p
                 className={`text-center font-bold ${
-                  mobile ? "text-md" : "text-lg"
+                  mobile ? "text-md" : "text-md"
                 }`}
               >
                 Handy Calendar{mobile && <br></br>} for USFK Holiday Schedule
