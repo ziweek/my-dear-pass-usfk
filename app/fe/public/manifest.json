@@ -3,7 +3,7 @@
   "short_name": "My Dear Pass USFK",
   "icons": [
     {
-      "src": "logo/logo-icon.png",
+      "src": "/logo/logo-icon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable any"
