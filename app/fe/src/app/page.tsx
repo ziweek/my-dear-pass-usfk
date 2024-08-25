@@ -34,6 +34,9 @@ export default function Home() {
   const router = useRouter();
   const isMobile = useIsMobile();
   const [mobile, setMobile] = useState<boolean>(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<
+    BeforeInstallPromptEvent | undefined
+  >(undefined);
 
   useEffect(() => {
     const checkResize = () => {
@@ -46,7 +49,7 @@ export default function Home() {
 
     checkResize();
     toast(
-      <p className="leading-relaxed text-sm">
+      <p className="text-sm font-bold">
         FY25 USFK Holiday Schedule v2 has been successfully added to our
         service!
       </p>,
@@ -72,19 +75,7 @@ export default function Home() {
 
   const promptAppInstall = async () => {
     const isUnsupportedBrowser = checkUnsupportedBrowser();
-    if (isUnsupportedBrowser) {
-      // alert(
-      //   "공유 아이콘 -> 홈 화면에 추가를 클릭해 앱으로 편리하게 이용해보세요!"
-      // );
-      Swal.fire({
-        title: "Your browser does not support direct Installation.",
-        text: "So, please follow the bellow instructions.",
-        icon: "info",
-        confirmButtonText: "Okay",
-        footer:
-          '<a href="https://amplified-purpose-11c.notion.site/My-Dear-Pass-USFK-9e714a1605a146dca142ae93c9824912?pvs=74">Move to "How to Use"</a>',
-      });
-    }
+
     if (!isUnsupportedBrowser) {
       if (deferredPrompt) {
         deferredPrompt.prompt();
@@ -92,18 +83,28 @@ export default function Home() {
         setDeferredPrompt(undefined);
       } else {
         Swal.fire({
-          title: "Thank you!",
+          title: "<div style='font-size:20px;'>" + "Thank you!" + "</div>",
           text: "You have already installed this application. 👍",
           icon: "success",
           confirmButtonText: "Cool",
         });
       }
     }
-  };
 
-  const [deferredPrompt, setDeferredPrompt] = useState<
-    BeforeInstallPromptEvent | undefined
-  >(undefined);
+    if (isUnsupportedBrowser) {
+      Swal.fire({
+        title:
+          "<div style='font-size:20px;'>" +
+          "Your browser does not support direct PWA Installation." +
+          "</div>",
+        text: "So, please follow the bellow instructions.",
+        icon: "info",
+        confirmButtonText: "Okay",
+        footer:
+          '<a href="https://amplified-purpose-11c.notion.site/My-Dear-Pass-USFK-9e714a1605a146dca142ae93c9824912?pvs=74">Move to "How to Use"</a>',
+      });
+    }
+  };
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
@@ -198,13 +199,15 @@ export default function Home() {
                   Get Started
                 </Button>
               </div>
-              <Button
-                onPress={promptAppInstall}
-                variant={"light"}
-                className="font-bold underline underline-offset-4"
-              >
-                Add to Home Screen
-              </Button>
+              {!deferredPrompt && (
+                <Button
+                  onPress={promptAppInstall}
+                  variant={"light"}
+                  className="font-bold underline underline-offset-4"
+                >
+                  Add to Home Screen
+                </Button>
+              )}
             </div>
           </div>
 
