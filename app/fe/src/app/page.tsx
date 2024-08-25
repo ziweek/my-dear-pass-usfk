@@ -90,7 +90,7 @@ export default function Home() {
             </Button>
           </div>
         </div>,
-        { icon: <IconNo width={50} fill="#f31260"></IconNo> }
+        { icon: <IconNo width={50} fill="#f31260"></IconNo>, duration: 1000 }
       );
     }
 
@@ -106,7 +106,10 @@ export default function Home() {
               You have already installed our application. 👍
             </p>
           </div>,
-          { icon: <IconCheck width={50} fill="#17c964"></IconCheck> }
+          {
+            icon: <IconCheck width={50} fill="#17c964"></IconCheck>,
+            duration: 1000,
+          }
         );
       }
     }
@@ -114,9 +117,9 @@ export default function Home() {
 
   useEffect(() => {
     const handleBeforeInstallPrompt = async (e: BeforeInstallPromptEvent) => {
-      e.preventDefault();
-      setDeferredPrompt(e);
-      setIsHydrated(true);
+      await e.preventDefault();
+      await setDeferredPrompt(e);
+      await setIsHydrated(true);
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
@@ -179,7 +182,7 @@ export default function Home() {
               variant={"solid"}
               onPress={async () => {
                 await promptAppInstall();
-                await toast.dismiss(t.id);
+                // await toast.dismiss(t.id);
               }}
               className=""
             >
