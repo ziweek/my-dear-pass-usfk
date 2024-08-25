@@ -96,9 +96,9 @@ export default function Home() {
 
     if (!isUnsupportedBrowser) {
       if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice;
-        setDeferredPrompt(undefined);
+        await deferredPrompt.prompt();
+        await deferredPrompt.userChoice;
+        await setDeferredPrompt(undefined);
       } else {
         toast.success(
           <div className="flex flex-col select-none">
@@ -228,10 +228,12 @@ export default function Home() {
             {/* 소개 텍스트 */}
             <div className="flex w-full flex-col items-center justify-center gap-2">
               {/* <IconLogo width={mobile ? 100 : 120} fill="#000"></IconLogo> */}
-              <p className="font-light text-2xl">My Dear Pass USFK</p>
+              <p className={`${mobile ? "text-2xl" : "text-3xl"} font-light`}>
+                My Dear Pass USFK
+              </p>
               <p
                 className={`text-center font-bold ${
-                  mobile ? "text-md" : "text-lg"
+                  mobile ? "text-md" : "text-md"
                 }`}
               >
                 Handy Calendar{mobile && <br></br>} for USFK Holiday Schedule
