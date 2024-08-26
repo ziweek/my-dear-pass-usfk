@@ -37,6 +37,7 @@ body {
   border: 0px !important;
   border-color: white !important;
   background-color: white !important;
+  min-width: 400 !important;
 }
 
 .react-calendar__navigation__label {

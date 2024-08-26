@@ -136,11 +136,15 @@ export default function MainPage(props: any) {
     <>
       {isHydrated && (
         <>
-          <div className="relative flex flex-row h-full overflow-y-auto w-screen items-start gap-8 justify-center select-none bg-stone-200">
+          <div
+            className={`${
+              mobile ? "flex" : "grid grid-cols-2 justify-items-center"
+            } relative h-full overflow-y-auto w-screen select-none bg-stone-200`}
+          >
             {/*  */}
             {!mobile && (
-              <div className="h-screen w-[400px]">
-                <div className="fixed top-0 h-screen flex flex-col items-center justify-center w-[400px]">
+              <div className="h-screen w-full flex flex-col items-center">
+                <div className="fixed top-0 h-screen flex flex-col items-center justify-center w-[400px] space-y-2">
                   <p className="font-light text-2xl">My Dear Pass USFK</p>
                   <p className="italic">I wish you all have sweet pass :)</p>
                   <Image
@@ -154,10 +158,14 @@ export default function MainPage(props: any) {
               </div>
             )}
             {/*  */}
-            <div className="relative flex flex-col h-full overflow-y-auto items-center w-fit">
+            <div className="container relative flex flex-col h-full overflow-y-auto items-center w-full max-w-[800px] min-w-[350px]">
               {/* header */}
-              <div className="flex flex-col h-fit w-full fixed top-0 z-10 max-w-[420px] bg-white space-y-2 shadow-lg border-b-1">
-                <div className="h-[50px] w-screen flex flex-row items-center justify-between px-4 max-w-[420px] pt-4">
+              <div
+                className={`${
+                  mobile ? "w-full" : "w-1/2 right-0"
+                } flex flex-col h-fit fixed top-0 z-10 bg-white space-y-2 shadow-lg border-b-1`}
+              >
+                <div className="h-[50px] w-full flex flex-row items-center justify-between px-4 pt-4">
                   <div className="flex flex-row items-center justify-center space-x-2">
                     <Image
                       src={
@@ -293,8 +301,8 @@ export default function MainPage(props: any) {
                   </div>
                 </button>
               </div>
-              {/*  */}
-              <div className="flex flex-col w-full space-y-2 h-full px-4 max-w-[420px] bg-white overflow-x-clip">
+              {/* body */}
+              <div className="flex flex-col w-full space-y-2 h-full px-4 bg-white overflow-x-clip">
                 {/* body */}
                 <div className="h-[80px] w-full"></div>
                 {seletedDates.map((e: any, i: number) => {
@@ -329,7 +337,7 @@ export default function MainPage(props: any) {
                           fill={`${
                             e[selectedCategory as keyof typeof e] == "YES"
                               ? "#A2E9C1"
-                              : "#E4E4E7"
+                              : "#00000000"
                           }`}
                         ></IconCheck>
                         <div
