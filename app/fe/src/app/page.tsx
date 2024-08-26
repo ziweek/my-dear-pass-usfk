@@ -34,24 +34,13 @@ export default function Home() {
   const router = useRouter();
   const isMobile = useIsMobile();
   const [mobile, setMobile] = useState<boolean>(false);
+
   const [deferredPrompt, setDeferredPrompt] = useState<
     BeforeInstallPromptEvent | undefined
   >(undefined);
   const [isHydrated, setIsHydrated] = useState(false);
 
   const { toasts } = useToasterStore();
-
-  useEffect(() => {
-    const checkResize = () => {
-      if (isMobile) {
-        setMobile(true);
-      } else {
-        setMobile(false);
-      }
-    };
-
-    checkResize();
-  }, [isMobile]);
 
   const checkUnsupportedBrowser = () => {
     const userAgent = window.navigator.userAgent.toLowerCase();
@@ -63,16 +52,25 @@ export default function Home() {
         userAgent.indexOf("seamonkey") <= -1)
     );
   };
+
   const promptAppInstall = async () => {
     const isUnsupportedBrowser = checkUnsupportedBrowser();
 
     if (isUnsupportedBrowser) {
       toast.error(
-        <div className="flex flex-col select-none">
-          <p className="text-sm font-bold">
-            Your browser does not support one-click PWA installation.
-          </p>
-          <div className="flex w-full flex-col items-end">
+        (t) => (
+          <div className="flex w-full flex-col items-end space-y-2">
+            <div className="flex flex-row space-x-4">
+              <IconNo width={50} fill="#f31260"></IconNo>
+              <div className="flex flex-col space-y-1">
+                <p className="text-sm font-bold">
+                  Your browser does not support one-click PWA installation.
+                </p>
+                <p className="text-xs text-gray-500">
+                  * Please follow below instructions.
+                </p>
+              </div>
+            </div>
             <Button
               variant={"light"}
               className="text-xs w-fit h-fit p-1"
@@ -89,8 +87,8 @@ export default function Home() {
               Move to How to Use
             </Button>
           </div>
-        </div>,
-        { icon: <IconNo width={50} fill="#f31260"></IconNo>, duration: 1000 }
+        ),
+        { icon: <></> }
       );
     }
 
@@ -101,19 +99,38 @@ export default function Home() {
         await setDeferredPrompt(undefined);
       } else {
         toast.success(
-          <div className="flex flex-col select-none">
-            <p className="text-sm font-bold">
-              You have already installed our application. 👍
-            </p>
-          </div>,
-          {
-            icon: <IconCheck width={50} fill="#17c964"></IconCheck>,
-            duration: 1000,
-          }
+          (t) => (
+            <div className="flex w-full flex-col items-end space-y-2 select-none">
+              <div className="flex flex-row space-x-4">
+                <IconCheck width={50} fill="#17c964"></IconCheck>
+                <div className="flex flex-col space-y-1">
+                  <p className="text-sm font-bold w-full">
+                    You have already installed our application. 👍
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    * I wish you all have sweet pass :)
+                  </p>
+                </div>
+              </div>
+            </div>
+          ),
+          { icon: <></> }
         );
       }
     }
   };
+
+  useEffect(() => {
+    const checkResize = () => {
+      if (isMobile) {
+        setMobile(true);
+      } else {
+        setMobile(false);
+      }
+    };
+
+    checkResize();
+  }, [isMobile]);
 
   useEffect(() => {
     const handleBeforeInstallPrompt = async (e: BeforeInstallPromptEvent) => {
@@ -142,7 +159,7 @@ export default function Home() {
   useEffect(() => {
     toasts
       .filter((t) => t.visible) // Only consider visible toasts
-      .filter((_, i) => i >= TOAST_LIMIT) // Is toast index over limit?
+      .filter((_, i) => i >= TOAST_LIMIT && _.id != "installation") // Is toast index over limit?
       .forEach((t) => toast.dismiss(t.id)); // Dismiss – Use toast.remove(t.id) for no exit animation
   }, [toasts]);
 
@@ -191,7 +208,7 @@ export default function Home() {
           </div>
         </div>
       ),
-      { id: "installation", position: "bottom-center", duration: Infinity }
+      { id: "installation", duration: Infinity, position: "bottom-center" }
     );
   }, [isHydrated]);
 

@@ -18,6 +18,7 @@ import "react-calendar/dist/Calendar.css";
 import Image from "next/image";
 import { useIsMobile } from "@/hook/useMediaQuery";
 import moment from "moment";
+import toast, { Toaster, useToasterStore } from "react-hot-toast";
 // import Footer from "@/components/footer";
 
 export default function MainPage(props: any) {
@@ -34,6 +35,11 @@ export default function MainPage(props: any) {
     () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
     [selectedKeys]
   );
+
+  const { toasts } = useToasterStore();
+
+  const [counterOfHowDeerLovesEasterEgg, setCounterOfHowDeerLovesEasterEgg] =
+    useState(0);
 
   const isMobile = useIsMobile();
   const [mobile, setMobile] = useState<boolean>(false);
@@ -55,6 +61,8 @@ export default function MainPage(props: any) {
     //   once: true, // whether animation should happen only once - while scrolling down
     //   offset: 120, // offset (in px) from the original trigger point
     // });
+    console.log(toast);
+    toasts.forEach((t) => toast.dismiss(t.id));
     const data = async () => {
       const selectedDatesArray = await convertDateToObject();
       await setSeletedDates(selectedDatesArray);
@@ -71,6 +79,30 @@ export default function MainPage(props: any) {
     };
     data();
   }, [selectedCategory]);
+
+  useEffect(() => {
+    if (counterOfHowDeerLovesEasterEgg == 10) {
+      toast.success(
+        <div className="flex">
+          <p className="font-bold text-sm">
+            KATUSA FROG PEPE mode is activated.
+          </p>
+        </div>,
+        {
+          id: "pepe-mode",
+          position: "top-center",
+          icon: <></>,
+          style: {
+            backgroundColor: "#000000",
+            color: "#ffffff",
+            borderRadius: 50,
+            padding: `15 20`,
+          },
+          duration: 1000,
+        }
+      );
+    }
+  }, [counterOfHowDeerLovesEasterEgg]);
 
   async function convertDateToObject() {
     var selectedDatesArray: any[] = []; // Initialize as an empty array
@@ -128,7 +160,11 @@ export default function MainPage(props: any) {
                 <div className="h-[50px] w-screen flex flex-row items-center justify-between px-4 max-w-[420px] pt-4">
                   <div className="flex flex-row items-center justify-center space-x-2">
                     <Image
-                      src={"/logo/logo-icon.png"}
+                      src={
+                        counterOfHowDeerLovesEasterEgg >= 10
+                          ? "/logo/logo-icon-pepe.png"
+                          : "/logo/logo-icon.png"
+                      }
                       width={100}
                       height={100}
                       alt="logo"
@@ -153,6 +189,9 @@ export default function MainPage(props: any) {
                       onClick={async () => {
                         await setSeletecDate(nearestDate.MOMENT);
                         await setIsCalendarFolded(true);
+                        await setCounterOfHowDeerLovesEasterEgg(
+                          counterOfHowDeerLovesEasterEgg + 1
+                        );
                       }}
                     >
                       D-
@@ -163,10 +202,10 @@ export default function MainPage(props: any) {
                         .replace(" days", "")}
                     </p>
                   </div>
-                  <Dropdown placement={"bottom-end"} backdrop={"blur"}>
+                  <Dropdown placement={"bottom-end"}>
                     <DropdownTrigger>
                       <Button
-                        size={"sm"}
+                        size={"md"}
                         variant="bordered"
                         className="border-1 border-black w-fit font-bold"
                       >
@@ -230,7 +269,9 @@ export default function MainPage(props: any) {
                           (e.MOMENT as moment.Moment).isSame(moment(date)) &&
                           e[selectedCategory as keyof typeof e] == "YES"
                       )
-                        ? "holiday"
+                        ? counterOfHowDeerLovesEasterEgg >= 10
+                          ? "holiday-pepe"
+                          : "holiday"
                         : null
                     }
                   />
@@ -316,11 +357,12 @@ export default function MainPage(props: any) {
                                 ? "3px #F871A0"
                                 : "1px #000000"
                             } `,
-                            // backgroundImage:
-                            //   e[selectedCategory as keyof typeof e] == "YES"
-                            //     ? `url("../../logo/logo-icon-pepe.png")`
-                            //     : "",
-                            // backgroundPositionX: 5 + 50 * i,
+                            backgroundImage:
+                              counterOfHowDeerLovesEasterEgg >= 10 &&
+                              e[selectedCategory as keyof typeof e] == "NO"
+                                ? `url("../../logo/logo-icon-pepe.png")`
+                                : "",
+                            backgroundPositionX: 5 + 5 * i,
                           }}
                         >
                           <div className="w-full h-full flex flex-col text-black justify-center select-none px-4 py-3">
@@ -349,6 +391,7 @@ export default function MainPage(props: any) {
           </div>
         </>
       )}
+      <Toaster toastOptions={{ position: "bottom-center" }}></Toaster>
     </>
   );
 }
