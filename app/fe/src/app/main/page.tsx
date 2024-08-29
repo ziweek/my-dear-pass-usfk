@@ -203,11 +203,19 @@ export default function MainPage(props: any) {
                       }}
                     >
                       D-
-                      {(nearestDate.MOMENT as moment.Moment)
+                      {Math.ceil(
+                        moment
+                          .duration({
+                            from: new Date().setHours(0, 0, 0),
+                            to: nearestDate.MOMENT as moment.Moment,
+                          })
+                          .asDays()
+                      )}
+                      {/* {(nearestDate.MOMENT as moment.Moment)
                         .locale("ko")
                         .from(new Date().setHours(0, 0, 0))
                         .replace("in ", "")
-                        .replace(" days", "")}
+                        .replace(" days", "")} */}
                     </p>
                   </div>
                   <Dropdown placement={"bottom-end"}>
@@ -336,7 +344,14 @@ export default function MainPage(props: any) {
                           width={30}
                           fill={`${
                             e[selectedCategory as keyof typeof e] == "YES"
-                              ? "#A2E9C1"
+                              ? moment
+                                  .duration({
+                                    from: new Date(),
+                                    to: e.MOMENT as moment.Moment,
+                                  })
+                                  .asDays() <= 3
+                                ? "#FAA0BF"
+                                : "#A2E9C1"
                               : "#00000000"
                           }`}
                         ></IconCheck>
@@ -356,7 +371,14 @@ export default function MainPage(props: any) {
                           style={{
                             backgroundColor:
                               e[selectedCategory as keyof typeof e] == "YES"
-                                ? `#A2E9C1`
+                                ? moment
+                                    .duration({
+                                      from: new Date(),
+                                      to: e.MOMENT as moment.Moment,
+                                    })
+                                    .asDays() <= 3
+                                  ? "#FDD0DF"
+                                  : "#A2E9C1"
                                 : "#E4E4E7",
                             boxShadow: `inset 0 0 0 ${
                               (e.MOMENT as moment.Moment).isSame(

@@ -11,5 +11,11 @@
   ],
   "start_url": "/",
   "display": "standalone",
-  "orientation": "portrait"
+  "orientation": "portrait",
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://globalbunjang.com/manifest.json"
+    }
+  ]
 }
