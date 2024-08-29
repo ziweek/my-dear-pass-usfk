@@ -28,12 +28,25 @@ export interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
 }
 
+interface RelatedApplication {
+  platform: string;
+  url: string;
+}
+
+declare global {
+  interface Navigator {
+    getInstalledRelatedApps: () => Promise<RelatedApplication[]>;
+  }
+}
+
 const TOAST_LIMIT = 1;
 
 export default function Home() {
   const router = useRouter();
   const isMobile = useIsMobile();
   const [mobile, setMobile] = useState<boolean>(false);
+
+  const [appInstalled, setAppInstalled] = useState(false);
 
   const [deferredPrompt, setDeferredPrompt] = useState<
     BeforeInstallPromptEvent | undefined
