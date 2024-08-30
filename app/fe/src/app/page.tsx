@@ -11,6 +11,7 @@ import toast, { Toaster, useToasterStore } from "react-hot-toast";
 import { IconCheck, IconNo } from "@/components/common/icon";
 
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 // global.d.ts
 declare global {
@@ -45,6 +46,7 @@ export default function Home() {
   const router = useRouter();
   const isMobile = useIsMobile();
   const [mobile, setMobile] = useState<boolean>(false);
+  const { resolvedTheme } = useTheme();
 
   const [appInstalled, setAppInstalled] = useState(false);
 
@@ -76,7 +78,7 @@ export default function Home() {
             <div className="flex flex-row space-x-4">
               <IconNo width={50} fill="#f31260"></IconNo>
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-bold">
+                <p className="text-sm font-bold dark:text-white">
                   Your browser does not support one-click PWA installation.
                 </p>
                 <p className="text-xs text-gray-500">
@@ -101,7 +103,12 @@ export default function Home() {
             </Button>
           </div>
         ),
-        { icon: <></> }
+        {
+          icon: <></>,
+          // style: {
+          //   backgroundColor: resolvedTheme == "light" ? "#ffffff" : "#2b2b2b",
+          // },
+        }
       );
     }
 
@@ -117,7 +124,7 @@ export default function Home() {
               <div className="flex flex-row space-x-4">
                 <IconCheck width={50} fill="#17c964"></IconCheck>
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-bold w-full">
+                  <p className="text-sm font-bold w-full dark:text-white">
                     You have already installed our application. 👍
                   </p>
                   <p className="text-xs text-gray-500">
@@ -127,7 +134,12 @@ export default function Home() {
               </div>
             </div>
           ),
-          { icon: <></> }
+          {
+            icon: <></>,
+            // style: {
+            //   backgroundColor: resolvedTheme == "light" ? "#fff" : "#2b2b2b",
+            // },
+          }
         );
       }
     }
@@ -182,7 +194,7 @@ export default function Home() {
         <div
           className={`${
             t.visible ? "animate-enter" : "animate-leave"
-          } max-w-md w-[350px] bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 select-none`}
+          } max-w-md w-[350px] bg-white dark:bg-[#2b2b2b] shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 select-none`}
         >
           <div className="flex w-full p-4">
             <div className="flex items-start">
@@ -196,7 +208,7 @@ export default function Home() {
                 />
               </div>
               <div className="ml-3 flex-1">
-                <p className="text-sm text-gray-900 font-bold">
+                <p className="text-sm text-gray-900 font-bold dark:text-white">
                   Add to Home Screen
                 </p>
                 <p className="mt-1 text-xs text-gray-500">
@@ -257,7 +269,6 @@ export default function Home() {
           <div className="z-20 flex w-full flex-col items-center justify-center space-y-8">
             {/* 소개 텍스트 */}
             <div className="flex w-full flex-col items-center justify-center gap-2">
-              {/* <IconLogo width={mobile ? 100 : 120} fill="#000"></IconLogo> */}
               <p className={`${mobile ? "text-2xl" : "text-3xl"} font-light`}>
                 My Dear Pass USFK
               </p>
@@ -321,6 +332,7 @@ export default function Home() {
         toastOptions={{
           style: {
             maxWidth: 350,
+            backgroundColor: resolvedTheme == "light" ? "#ffffff" : "#2b2b2b",
           },
         }}
       />

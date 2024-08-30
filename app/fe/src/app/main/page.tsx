@@ -19,11 +19,14 @@ import Image from "next/image";
 import { useIsMobile } from "@/hook/useMediaQuery";
 import moment from "moment";
 import toast, { Toaster, useToasterStore } from "react-hot-toast";
+import { useTheme } from "next-themes";
 // import Footer from "@/components/footer";
 
 export default function MainPage(props: any) {
   const [isHydrated, setIsHydrated] = useState(false);
   const [isCalendarFolded, setIsCalendarFolded] = useState(false);
+
+  const { resolvedTheme } = useTheme();
 
   const [seletecDate, setSeletecDate] = useState(new Date());
   const [seletedDates, setSeletedDates] = useState<any>([]);
@@ -139,7 +142,7 @@ export default function MainPage(props: any) {
           <div
             className={`${
               mobile ? "flex" : "grid grid-cols-2 justify-items-center"
-            } relative h-full overflow-y-auto w-screen select-none bg-stone-200`}
+            } relative h-full overflow-y-auto w-screen select-none bg-stone-200 dark:bg-[#2b2b2b]`}
           >
             {/*  */}
             {!mobile && (
@@ -163,7 +166,7 @@ export default function MainPage(props: any) {
               <div
                 className={`${
                   mobile ? "w-full" : "w-1/2 right-0"
-                } flex flex-col h-fit fixed top-0 z-10 bg-white space-y-2 shadow-lg border-b-1`}
+                } flex flex-col h-fit fixed top-0 z-10 bg-white space-y-2 shadow-lg dark:bg-[#3b3b3b]`}
               >
                 <div className="h-[50px] w-full flex flex-row items-center justify-between px-4 pt-4">
                   <div className="flex flex-row items-center justify-center space-x-2">
@@ -223,7 +226,7 @@ export default function MainPage(props: any) {
                       <Button
                         size={"md"}
                         variant="bordered"
-                        className="border-1 border-black w-fit font-bold"
+                        className="border-1 border-black w-fit font-bold dark:border-white"
                       >
                         {selectedValue}
                       </Button>
@@ -300,17 +303,19 @@ export default function MainPage(props: any) {
                   onClickCapture={(e) => {
                     setIsCalendarFolded(!isCalendarFolded);
                   }}
-                  className={`${
-                    isCalendarFolded ? "" : "rotate-180"
-                  } z-50 hover:bg-white foucs:bg-white`}
+                  className={`${isCalendarFolded ? "" : "rotate-180"} z-50`}
                 >
                   <div className="flex flex-col items-center justify-center p-2">
-                    <IconUp fill="#000" width={17} height={17}></IconUp>
+                    <IconUp
+                      fill={resolvedTheme == "light" ? "#000" : "#fff"}
+                      width={17}
+                      height={17}
+                    ></IconUp>
                   </div>
                 </button>
               </div>
               {/* body */}
-              <div className="flex flex-col w-full space-y-2 h-full px-4 bg-white overflow-x-clip">
+              <div className="flex flex-col w-full space-y-2 h-full px-4 bg-white overflow-x-clip dark:bg-[#2b2b2b]">
                 {/* body */}
                 <div className="h-[80px] w-full"></div>
                 {seletedDates.map((e: any, i: number) => {
@@ -333,7 +338,7 @@ export default function MainPage(props: any) {
                               ).format("YY")}`}
                             </p>
                           </div>
-                          <Divider className="bg-black/50"></Divider>
+                          <Divider className="bg-[#2b2b2b]/50 dark:bg-white/50"></Divider>
                         </div>
                       )}
                       <div
@@ -350,7 +355,7 @@ export default function MainPage(props: any) {
                                     to: e.MOMENT as moment.Moment,
                                   })
                                   .asDays() <= 3
-                                ? "#FAA0BF"
+                                ? "#FDD0DF"
                                 : "#A2E9C1"
                               : "#00000000"
                           }`}
@@ -367,7 +372,7 @@ export default function MainPage(props: any) {
                             )
                               ? "border-dashed"
                               : ""
-                          } w-full bg-center bg-cover bg-blend-darken bg-black text-start`}
+                          } w-full bg-center bg-cover bg-blend-darken bg-[#2b2b2b] text-start`}
                           style={{
                             backgroundColor:
                               e[selectedCategory as keyof typeof e] == "YES"
