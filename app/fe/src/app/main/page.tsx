@@ -226,7 +226,7 @@ export default function MainPage(props: any) {
                       <Button
                         size={"md"}
                         variant="bordered"
-                        className="border-1 border-black w-fit font-bold dark:border-white"
+                        className="border-1 border-black font-bold dark:border-white w-[100px]"
                       >
                         {selectedValue}
                       </Button>

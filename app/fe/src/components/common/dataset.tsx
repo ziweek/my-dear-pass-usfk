@@ -107,7 +107,6 @@ export const dataset = [
     "CFC(KN)": "YES",
     "DODEA(US)": "NO",
   },
-
   {
     DATE: "3-10-24",
     DAY: "THURSDAY",

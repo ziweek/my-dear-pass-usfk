@@ -100,6 +100,10 @@ body {
     background-color: #a2e9c1 !important;
     height: 50px !important;
   }
+
+  .react-calendar__tile:hover {
+    background-color: #2f2f2f !important;
+  }
 }
 
 .react-calendar__tile {
