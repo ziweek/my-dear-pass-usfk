@@ -119,7 +119,9 @@ export default function MainPage(props: any) {
     for (let i = 0; i < targetDates.length; i++) {
       const e: any = targetDates[i];
       const targetDate = moment(e.DATE, "DD-MM-YY");
-      if (moment.duration({ from: new Date(), to: targetDate }).asDays() >= 0) {
+      if (
+        moment.duration({ from: new Date(), to: targetDate }).asDays() >= -1
+      ) {
         e.MOMENT = targetDate;
         selectedDatesArray.push(e);
 
@@ -141,11 +143,13 @@ export default function MainPage(props: any) {
         <>
           <div
             className={`${
-              mobile ? "flex" : "grid grid-cols-2 justify-items-center"
-            } relative h-full overflow-y-auto w-screen select-none bg-stone-200 dark:bg-[#2b2b2b]`}
+              mobile || true
+                ? "flex flex-col items-center"
+                : "grid grid-cols-2 justify-items-center"
+            } relative h-full overflow-y-auto w-screen select-none bg-stone-200 dark:bg-[#222222]`}
           >
             {/*  */}
-            {!mobile && (
+            {/* {!mobile && (
               <div className="h-screen w-full flex flex-col items-center">
                 <div className="fixed top-0 h-screen flex flex-col items-center justify-center w-[400px] space-y-2">
                   <p className="font-light text-2xl">My Dear Pass USFK</p>
@@ -159,13 +163,15 @@ export default function MainPage(props: any) {
                   ></Image>
                 </div>
               </div>
-            )}
+            )} */}
             {/*  */}
-            <div className="container relative flex flex-col h-full overflow-y-auto items-center w-full max-w-[800px] min-w-[350px]">
+            <div className="container relative flex flex-col h-full overflow-y-auto items-center w-full max-w-[480px] min-w-[350px]">
               {/* header */}
               <div
                 className={`${
-                  mobile ? "w-full" : "w-1/2 right-0"
+                  mobile || true
+                    ? "max-w-[480px] min-w-[350px] w-full"
+                    : "w-1/2 right-0"
                 } flex flex-col h-fit fixed top-0 z-10 bg-white space-y-2 shadow-lg dark:bg-[#3b3b3b]`}
               >
                 <div className="h-[50px] w-full flex flex-row items-center justify-between px-4 pt-4">
