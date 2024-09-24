@@ -108,6 +108,18 @@ export const dataset = [
     "DODEA(US)": "NO",
   },
   {
+    DATE: "1-10-24",
+    DAY: "TUESDAY",
+    HOLIDAY: "KOREAN ARMED FORCES DAY",
+    US: "NO",
+    ROK: "YES",
+    KATUSA: "YES",
+    "DOD(US)": "NO",
+    "USFK(LN)": "YES",
+    "CFC(KN)": "YES",
+    "DODEA(US)": "NO",
+  },
+  {
     DATE: "3-10-24",
     DAY: "THURSDAY",
     HOLIDAY: "NATIONAL FOUNDATION DAY (ROK)",
