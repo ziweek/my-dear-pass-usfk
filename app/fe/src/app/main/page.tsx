@@ -8,6 +8,10 @@ import {
   DropdownSection,
   Button,
   Divider,
+  Accordion,
+  AccordionItem,
+  DatePicker,
+  Input,
 } from "@nextui-org/react";
 import { useState, useMemo, useEffect } from "react";
 import { IconCheck, IconInfo, IconUp } from "@/components/common/icon";
@@ -20,7 +24,11 @@ import { useIsMobile } from "@/hook/useMediaQuery";
 import moment, { duration } from "moment";
 import toast, { Toaster, useToasterStore } from "react-hot-toast";
 import { useTheme } from "next-themes";
-// import Footer from "@/components/footer";
+import {
+  DateValue,
+  parseDate,
+  getLocalTimeZone,
+} from "@internationalized/date";
 
 export default function MainPage(props: any) {
   const [isHydrated, setIsHydrated] = useState(false);
@@ -38,6 +46,11 @@ export default function MainPage(props: any) {
     () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
     [selectedKeys]
   );
+
+  const [workingDayCountSelectedDate, setWorkingDayCountSelectedDate] =
+    useState<DateValue>();
+  const [weekCounterState, setWeekCounterState] = useState<number>(0);
+  const [holdingLeaveCount, setHoldingLeaveCount] = useState<string>("0");
 
   const { toasts } = useToasterStore();
 
@@ -356,7 +369,151 @@ export default function MainPage(props: any) {
               {/* body */}
               <div className="flex flex-col w-full space-y-2 h-full px-4 bg-white overflow-x-clip dark:bg-[#2b2b2b]">
                 {/* body */}
-                <div className="h-[120px] w-full"></div>
+                <div className="h-[175px] w-full"></div>
+                <div className="flex flex-col">
+                  <Accordion variant={"bordered"} className="rounded-lg">
+                    <AccordionItem
+                      key="1"
+                      aria-label="전역까지 남은 근무일수 계산기"
+                      startContent={
+                        <Image
+                          className="h-[50px] w-[50px] rounded-full"
+                          src="/logo/logo-icon.png"
+                          width={100}
+                          height={100}
+                          alt="logo"
+                        />
+                      }
+                      title="전역까지 남은 근무일수 계산기"
+                      subtitle="사슴과 함께 전역까지 남은 근무일수를 알아보자"
+                      classNames={{
+                        subtitle: "break-keep",
+                      }}
+                    >
+                      <div className="flex space-y-4 flex-col w-full h-fit py-1">
+                        <DatePicker
+                          value={workingDayCountSelectedDate}
+                          onChange={(v) => {
+                            setWorkingDayCountSelectedDate(v);
+
+                            let start = moment(new Date(), "YYYY-MM-DD"); //Pick any format
+                            let end = moment(v, "YYYY-MM-DD").add(1, "days");
+                            let weekendCounter = 0;
+
+                            while (start <= end) {
+                              if (
+                                start.format("ddd") == "Sat" ||
+                                start.format("ddd") == "Sun"
+                              ) {
+                                weekendCounter++; //add 1 to your counter if its not a weekend day
+                              }
+                              start = moment(start, "YYYY-MM-DD").add(
+                                1,
+                                "days"
+                              ); //increment by one day
+                            }
+                            console.log(weekendCounter);
+                            setWeekCounterState(weekendCounter);
+                          }}
+                          // fullWidth
+                          size={"lg"}
+                          label="나의 작고 소중한 전역일"
+                          // className="max-w-[284px]"
+                          isRequired
+                        />
+                        <Input
+                          size={"lg"}
+                          label={"남은 휴가 일수"}
+                          type="number"
+                          classNames={{ label: "z-0" }}
+                          value={holdingLeaveCount}
+                          onValueChange={setHoldingLeaveCount}
+                        ></Input>
+                        <div className="flex flex-col w-full space-y-2">
+                          <p className="text-right w-full">
+                            전역까지 남은 일수:{" "}
+                            {Math.ceil(
+                              moment
+                                .duration({
+                                  from: moment(new Date(), "YYYY-MM-DD"),
+                                  to: moment(
+                                    workingDayCountSelectedDate,
+                                    "YYYY-MM-DD"
+                                  ),
+                                })
+                                .asDays()
+                            ) <= 0
+                              ? 0
+                              : Math.ceil(
+                                  moment
+                                    .duration({
+                                      from: moment(new Date(), "YYYY-MM-DD"),
+                                      to: moment(
+                                        workingDayCountSelectedDate,
+                                        "YYYY-MM-DD"
+                                      ),
+                                    })
+                                    .asDays()
+                                )}
+                          </p>
+                          <p className="text-right w-full">
+                            전역까지 남은 근무 일수:{" "}
+                            {Math.ceil(
+                              moment
+                                .duration({
+                                  from: moment(new Date(), "YYYY-MM-DD"),
+                                  to: moment(
+                                    workingDayCountSelectedDate,
+                                    "YYYY-MM-DD"
+                                  ),
+                                })
+                                .asDays()
+                            ) -
+                              weekCounterState -
+                              +holdingLeaveCount -
+                              seletedDates.filter(
+                                (e: any) =>
+                                  e[selectedCategory as keyof typeof e] ==
+                                    "YES" &&
+                                  (e.MOMENT as moment.Moment).isSameOrBefore(
+                                    moment(
+                                      workingDayCountSelectedDate,
+                                      "YYYY-MM-DD"
+                                    )
+                                  )
+                              ).length <=
+                            0
+                              ? 0
+                              : Math.ceil(
+                                  moment
+                                    .duration({
+                                      from: moment(new Date(), "YYYY-MM-DD"),
+                                      to: moment(
+                                        workingDayCountSelectedDate,
+                                        "YYYY-MM-DD"
+                                      ),
+                                    })
+                                    .asDays()
+                                ) -
+                                weekCounterState -
+                                +holdingLeaveCount -
+                                seletedDates.filter(
+                                  (e: any) =>
+                                    e[selectedCategory as keyof typeof e] ==
+                                      "YES" &&
+                                    (e.MOMENT as moment.Moment).isSameOrBefore(
+                                      moment(
+                                        workingDayCountSelectedDate,
+                                        "YYYY-MM-DD"
+                                      )
+                                    )
+                                ).length}
+                          </p>
+                        </div>
+                      </div>
+                    </AccordionItem>
+                  </Accordion>
+                </div>
                 {seletedDates.map((e: any, i: number) => {
                   return (
                     <div key={i} className="w-full h-fit space-y-4">
