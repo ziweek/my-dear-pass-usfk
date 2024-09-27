@@ -36,10 +36,12 @@ export const metadata: Metadata = {
   icons: [{ url: "/logo/logo-icon.png", sizes: "512x512" }],
   openGraph: {
     type: "website",
-    url: "https://dear-my-pass.vercel.app/",
+    url: "https://my-dear-pass-usfk.vercel.app/",
     title: "My Dear Pass USFK",
     description: "Handy USFK Holiday Schedule Calendar",
-    images: [{ url: `https://dear-my-pass.vercel.app/image/thumbnail.png` }],
+    images: [
+      { url: `https://my-dear-pass-usfk.vercel.app/image/thumbnail.png` },
+    ],
     siteName: "My Dear Pass USFK",
   },
 };
