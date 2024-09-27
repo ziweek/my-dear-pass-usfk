@@ -10,14 +10,14 @@ import {
   Divider,
 } from "@nextui-org/react";
 import { useState, useMemo, useEffect } from "react";
-import { IconCheck, IconUp } from "@/components/common/icon";
+import { IconCheck, IconInfo, IconUp } from "@/components/common/icon";
 import { dataset } from "@/components/common/dataset";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
 import Image from "next/image";
 import { useIsMobile } from "@/hook/useMediaQuery";
-import moment from "moment";
+import moment, { duration } from "moment";
 import toast, { Toaster, useToasterStore } from "react-hot-toast";
 import { useTheme } from "next-themes";
 // import Footer from "@/components/footer";
@@ -264,6 +264,39 @@ export default function MainPage(props: any) {
                   </Dropdown>
                 </div>
                 {/*  */}
+                <div
+                  className="flex flex-row gap-2 px-4 pt-3 pb-1 w-full items-center"
+                  onClick={() => {
+                    toast(
+                      (t) => (
+                        <div className="flex flex-col gap-4 text-black dark:text-white py-2">
+                          <div className="flex flex-row gap-2">
+                            <IconInfo width={"25px"} fill="skyblue"></IconInfo>
+                            <p className="font-bold">UPDATE_NOTE_20250927</p>
+                          </div>
+                          <p className="text-xs font-bold">
+                            FY2025 USFK Holiday Schedule (Version 3) has been
+                            updated
+                          </p>
+                          <li className="text-xs italic">
+                            Add KOREAN_ARMED_FORCES_DAY
+                          </li>
+                          <li className="text-xs italic">
+                            Change dark mode theme color
+                          </li>
+                        </div>
+                      ),
+                      { duration: 5000 }
+                    );
+                  }}
+                >
+                  <IconInfo width={"30px"} fill="skyblue"></IconInfo>
+                  <p className="text-sm opacity-60 underline underline-offset-4 text-clip overflow-clip line-clamp-1 break-all h-fit">
+                    [UPDATE_NOTE] FY2025 USFK Holiday Schedule (Version 3) has
+                    been updated
+                  </p>
+                </div>
+                {/*  */}
                 {isCalendarFolded && (
                   <Calendar
                     locale={"us"}
@@ -323,7 +356,7 @@ export default function MainPage(props: any) {
               {/* body */}
               <div className="flex flex-col w-full space-y-2 h-full px-4 bg-white overflow-x-clip dark:bg-[#2b2b2b]">
                 {/* body */}
-                <div className="h-[80px] w-full"></div>
+                <div className="h-[120px] w-full"></div>
                 {seletedDates.map((e: any, i: number) => {
                   return (
                     <div key={i} className="w-full h-fit space-y-4">
@@ -432,7 +465,15 @@ export default function MainPage(props: any) {
           </div>
         </>
       )}
-      <Toaster toastOptions={{ position: "bottom-center" }}></Toaster>
+      <Toaster
+        toastOptions={{
+          position: "top-center",
+          style: {
+            maxWidth: 350,
+            backgroundColor: resolvedTheme == "light" ? "#ffffff" : "#2b2b2b",
+          },
+        }}
+      ></Toaster>
     </>
   );
 }
