@@ -242,7 +242,7 @@ export default function Home() {
       <section
         className={`${
           mobile ? "" : "grid grid-cols-2"
-        } mx-auto h-full min-h-full w-screen select-none overflow-x-clip`}
+        } mx-auto h-full min-h-full w-screen select-none overflow-x-clip dark:bg-[#222222]`}
         style={{ gridTemplateColumns: `1fr minmax(400px, 500px)` }}
       >
         {!mobile && (
