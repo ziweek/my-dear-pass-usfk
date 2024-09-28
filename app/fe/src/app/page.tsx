@@ -297,8 +297,6 @@ export default function Home() {
                     );
                   }}
                 >
-                  About us
-                      &<br></br>
                   Installation guide
                 </Button>
                 <Button
