@@ -297,7 +297,7 @@ export default function Home() {
                     );
                   }}
                 >
-                  How to use
+                  How to install
                 </Button>
                 <Button
                   className={`font-bold border-black dark:border-white hover:-translate-y-1 ${
