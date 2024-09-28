@@ -28,7 +28,10 @@ import {
   DateValue,
   parseDate,
   getLocalTimeZone,
+  CalendarDate,
 } from "@internationalized/date";
+
+import html2canvas from "html2canvas";
 
 export default function MainPage(props: any) {
   const [isHydrated, setIsHydrated] = useState(false);
@@ -49,6 +52,11 @@ export default function MainPage(props: any) {
 
   const [workingDayCountSelectedDate, setWorkingDayCountSelectedDate] =
     useState<DateValue>();
+    // new CalendarDate(
+    //   +new Date().getFullYear.toString(),
+    //   +new Date().getMonth.toString(),
+    //   +new Date().getDay.toString()
+    // )
   const [weekCounterState, setWeekCounterState] = useState<number>(0);
   const [holdingLeaveCount, setHoldingLeaveCount] = useState<string>("0");
 
@@ -310,43 +318,44 @@ export default function MainPage(props: any) {
                   </p>
                 </div>
                 {/*  */}
-                {isCalendarFolded && (
-                  <Calendar
-                    locale={"us"}
-                    calendarType={"gregory"}
-                    minDetail={"month"}
-                    maxDetail={"month"}
-                    showFixedNumberOfWeeks
-                    className={"h-fit"}
-                    view={"month"}
-                    value={seletecDate}
-                    onClickDay={(value) => {
-                      setSeletecDate(value);
-                    }}
-                    tileContent={({ activeStartDate, date, view }) =>
-                      seletedDates.find(
-                        (e: any) =>
-                          (e.MOMENT as moment.Moment).isSame(moment(date)) &&
-                          e[selectedCategory as keyof typeof e] == "YES"
-                      ) ? (
-                        <p>PASS</p>
-                      ) : moment(date).isSame(moment(), "day") ? (
-                        <p>Today</p>
-                      ) : null
-                    }
-                    tileClassName={({ activeStartDate, date, view }) =>
-                      seletedDates.find(
-                        (e: any) =>
-                          (e.MOMENT as moment.Moment).isSame(moment(date)) &&
-                          e[selectedCategory as keyof typeof e] == "YES"
-                      )
-                        ? counterOfHowDeerLovesEasterEgg >= 10
-                          ? "holiday-pepe"
-                          : "holiday"
-                        : null
-                    }
-                  />
-                )}
+                {isCalendarFolded ||
+                  (true && (
+                    <Calendar
+                      locale={"us"}
+                      calendarType={"gregory"}
+                      minDetail={"month"}
+                      maxDetail={"month"}
+                      showFixedNumberOfWeeks
+                      className={"h-fit"}
+                      view={"month"}
+                      value={seletecDate}
+                      onClickDay={(value) => {
+                        setSeletecDate(value);
+                      }}
+                      tileContent={({ activeStartDate, date, view }) =>
+                        seletedDates.find(
+                          (e: any) =>
+                            (e.MOMENT as moment.Moment).isSame(moment(date)) &&
+                            e[selectedCategory as keyof typeof e] == "YES"
+                        ) ? (
+                          <p>PASS</p>
+                        ) : moment(date).isSame(moment(), "day") ? (
+                          <p>Today</p>
+                        ) : null
+                      }
+                      tileClassName={({ activeStartDate, date, view }) =>
+                        seletedDates.find(
+                          (e: any) =>
+                            (e.MOMENT as moment.Moment).isSame(moment(date)) &&
+                            e[selectedCategory as keyof typeof e] == "YES"
+                        )
+                          ? counterOfHowDeerLovesEasterEgg >= 10
+                            ? "holiday-pepe"
+                            : "holiday"
+                          : null
+                      }
+                    />
+                  ))}
                 {/*  */}
                 <button
                   onClick={(e) => {
@@ -371,7 +380,10 @@ export default function MainPage(props: any) {
                 {/* body */}
                 <div className="h-[175px] w-full"></div>
                 <div className="flex flex-col">
-                  <Accordion variant={"bordered"} className="rounded-lg">
+                  <Accordion
+                    variant={"bordered"}
+                    className="rounded-lg w-full h-full"
+                  >
                     <AccordionItem
                       key="1"
                       aria-label="전역까지 남은 근무일수 계산기"
@@ -390,8 +402,112 @@ export default function MainPage(props: any) {
                         subtitle: "break-keep",
                       }}
                     >
-                      <div className="flex space-y-4 flex-col w-full h-fit py-1">
+                      <div className="flex flex-col w-full h-full py-1 space-y-8 items-center">
+                        <BoardHorizontal
+                          boardOptions={{
+                            workingDayCountSelectedDateProps: moment(
+                              workingDayCountSelectedDate,
+                              "YYYY-MM-DD"
+                            ),
+                            //
+                            numOfWeekendsToETS: weekCounterState,
+                            // 전역까지 남은 일수
+                            numOfDaysToETS:
+                              Math.ceil(
+                                moment
+                                  .duration({
+                                    from: moment(new Date(), "YYYY-MM-DD"),
+                                    to: moment(
+                                      workingDayCountSelectedDate,
+                                      "YYYY-MM-DD"
+                                    ),
+                                  })
+                                  .asDays()
+                              ) <= 0
+                                ? 0
+                                : Math.ceil(
+                                    moment
+                                      .duration({
+                                        from: moment(new Date(), "YYYY-MM-DD"),
+                                        to: moment(
+                                          workingDayCountSelectedDate,
+                                          "YYYY-MM-DD"
+                                        ),
+                                      })
+                                      .asDays()
+                                  ),
+                            // 전역까지 남은 휴가 일수
+                            holdingLeaveCount: holdingLeaveCount,
+                            // 전역까지 남은 패스 일수
+                            numOfPassToETS: seletedDates.filter(
+                              (e: any) =>
+                                e[selectedCategory as keyof typeof e] ==
+                                  "YES" &&
+                                (e.MOMENT as moment.Moment).isSameOrBefore(
+                                  moment(
+                                    workingDayCountSelectedDate,
+                                    "YYYY-MM-DD"
+                                  )
+                                )
+                            ).length,
+                            //
+                            numOfWorkingDaysToETS:
+                              Math.ceil(
+                                moment
+                                  .duration({
+                                    from: moment(new Date(), "YYYY-MM-DD"),
+                                    to: moment(
+                                      workingDayCountSelectedDate,
+                                      "YYYY-MM-DD"
+                                    ),
+                                  })
+                                  .asDays()
+                              ) -
+                                weekCounterState -
+                                +holdingLeaveCount -
+                                seletedDates.filter(
+                                  (e: any) =>
+                                    e[selectedCategory as keyof typeof e] ==
+                                      "YES" &&
+                                    (e.MOMENT as moment.Moment).isSameOrBefore(
+                                      moment(
+                                        workingDayCountSelectedDate,
+                                        "YYYY-MM-DD"
+                                      )
+                                    )
+                                ).length <=
+                              0
+                                ? 0
+                                : Math.ceil(
+                                    moment
+                                      .duration({
+                                        from: moment(new Date(), "YYYY-MM-DD"),
+                                        to: moment(
+                                          workingDayCountSelectedDate,
+                                          "YYYY-MM-DD"
+                                        ),
+                                      })
+                                      .asDays()
+                                  ) -
+                                  weekCounterState -
+                                  +holdingLeaveCount -
+                                  seletedDates.filter(
+                                    (e: any) =>
+                                      e[selectedCategory as keyof typeof e] ==
+                                        "YES" &&
+                                      (
+                                        e.MOMENT as moment.Moment
+                                      ).isSameOrBefore(
+                                        moment(
+                                          workingDayCountSelectedDate,
+                                          "YYYY-MM-DD"
+                                        )
+                                      )
+                                  ).length,
+                          }}
+                        ></BoardHorizontal>
                         <DatePicker
+                          labelPlacement={"outside"}
                           value={workingDayCountSelectedDate}
                           onChange={(v) => {
                             setWorkingDayCountSelectedDate(v);
@@ -418,83 +534,84 @@ export default function MainPage(props: any) {
                           // fullWidth
                           size={"lg"}
                           label="나의 작고 소중한 전역일"
-                          // className="max-w-[284px]"
+                          className="h-fit"
                           isRequired
                         />
                         <Input
+                          labelPlacement={"outside"}
+                          className="z-0 h-full pt-6"
                           size={"lg"}
                           label={"남은 휴가 일수"}
+                          classNames={{ label: "text-sm" }}
                           type="number"
-                          classNames={{ label: "z-0" }}
                           value={holdingLeaveCount}
                           onValueChange={setHoldingLeaveCount}
                         ></Input>
-                        <div className="flex flex-col w-full space-y-2">
-                          <p className="text-right w-full">
-                            전역까지 남은 일수:{" "}
-                            {Math.ceil(
-                              moment
-                                .duration({
-                                  from: moment(new Date(), "YYYY-MM-DD"),
-                                  to: moment(
-                                    workingDayCountSelectedDate,
-                                    "YYYY-MM-DD"
-                                  ),
-                                })
-                                .asDays()
-                            ) <= 0
-                              ? 0
-                              : Math.ceil(
-                                  moment
-                                    .duration({
-                                      from: moment(new Date(), "YYYY-MM-DD"),
-                                      to: moment(
-                                        workingDayCountSelectedDate,
-                                        "YYYY-MM-DD"
-                                      ),
-                                    })
-                                    .asDays()
-                                )}
-                          </p>
-                          <p className="text-right w-full">
-                            전역까지 남은 근무 일수:{" "}
-                            {Math.ceil(
-                              moment
-                                .duration({
-                                  from: moment(new Date(), "YYYY-MM-DD"),
-                                  to: moment(
-                                    workingDayCountSelectedDate,
-                                    "YYYY-MM-DD"
-                                  ),
-                                })
-                                .asDays()
-                            ) -
-                              weekCounterState -
-                              +holdingLeaveCount -
-                              seletedDates.filter(
-                                (e: any) =>
-                                  e[selectedCategory as keyof typeof e] ==
-                                    "YES" &&
-                                  (e.MOMENT as moment.Moment).isSameOrBefore(
-                                    moment(
+                        {/* <div className="flex flex-col w-full space-y-2 items-center"> */}
+                        {/* <div className="flex flex-row w-full justify-between">
+                            <p className="w-full">전역까지 남은 일수:</p>
+                            <p className="w-fit">
+                              {Math.ceil(
+                                moment
+                                  .duration({
+                                    from: moment(new Date(), "YYYY-MM-DD"),
+                                    to: moment(
                                       workingDayCountSelectedDate,
                                       "YYYY-MM-DD"
-                                    )
-                                  )
-                              ).length <=
-                            0
-                              ? 0
-                              : Math.ceil(
-                                  moment
-                                    .duration({
-                                      from: moment(new Date(), "YYYY-MM-DD"),
-                                      to: moment(
+                                    ),
+                                  })
+                                  .asDays()
+                              ) <= 0
+                                ? 0
+                                : Math.ceil(
+                                    moment
+                                      .duration({
+                                        from: moment(new Date(), "YYYY-MM-DD"),
+                                        to: moment(
+                                          workingDayCountSelectedDate,
+                                          "YYYY-MM-DD"
+                                        ),
+                                      })
+                                      .asDays()
+                                  )}
+                            </p>
+                          </div> */}
+                        {/* <div className="flex flex-row w-full justify-between">
+                            <p className="w-full">전역까지 남은 휴가 일수:</p>
+                            <p className="w-fit">{+holdingLeaveCount}</p>
+                          </div> */}
+                        {/* <div className="flex flex-row w-full justify-between">
+                            <p className="w-full">전역까지 남은 패스 일수:</p>
+                            <p className="w-fit">
+                              {
+                                seletedDates.filter(
+                                  (e: any) =>
+                                    e[selectedCategory as keyof typeof e] ==
+                                      "YES" &&
+                                    (e.MOMENT as moment.Moment).isSameOrBefore(
+                                      moment(
                                         workingDayCountSelectedDate,
                                         "YYYY-MM-DD"
-                                      ),
-                                    })
-                                    .asDays()
-                                ) -
+                                      )
+                                    )
+                                ).length
+                              }
+                            </p>
+                          </div> */}
+                        {/* <div className="flex flex-row w-full justify-between">
+                            <p className="w-full">전역까지 남은 근무 일수:</p>
+                            <p className="w-fit">
+                              {Math.ceil(
+                                moment
+                                  .duration({
+                                    from: moment(new Date(), "YYYY-MM-DD"),
+                                    to: moment(
+                                      workingDayCountSelectedDate,
+                                      "YYYY-MM-DD"
+                                    ),
+                                  })
+                                  .asDays()
+                              ) -
                                 weekCounterState -
                                 +holdingLeaveCount -
                                 seletedDates.filter(
@@ -507,8 +624,112 @@ export default function MainPage(props: any) {
                                         "YYYY-MM-DD"
                                       )
                                     )
-                                ).length}
-                          </p>
+                                ).length <=
+                              0
+                                ? 0
+                                : Math.ceil(
+                                    moment
+                                      .duration({
+                                        from: moment(new Date(), "YYYY-MM-DD"),
+                                        to: moment(
+                                          workingDayCountSelectedDate,
+                                          "YYYY-MM-DD"
+                                        ),
+                                      })
+                                      .asDays()
+                                  ) -
+                                  weekCounterState -
+                                  +holdingLeaveCount -
+                                  seletedDates.filter(
+                                    (e: any) =>
+                                      e[selectedCategory as keyof typeof e] ==
+                                        "YES" &&
+                                      (
+                                        e.MOMENT as moment.Moment
+                                      ).isSameOrBefore(
+                                        moment(
+                                          workingDayCountSelectedDate,
+                                          "YYYY-MM-DD"
+                                        )
+                                      )
+                                  ).length}
+                            </p>
+                          </div> */}
+                        {/* </div> */}
+                        <div className="flex flex-col space-y-4 w-full items-center">
+                          <Button
+                            radius={"lg"}
+                            variant={"faded"}
+                            className="h-[60px] w-full bg-black text-white font-bold border-0"
+                            fullWidth
+                            size={"lg"}
+                            onPress={() => {
+                              const target =
+                                document.getElementById("workingDayCount");
+                              if (!target) {
+                                return alert("저장에 실패");
+                              }
+                              html2canvas(target, {
+                                // width: 2480,
+                                //   height: 3508,
+                                scale: 3,
+                              }).then((canvas) => {
+                                const link = document.createElement("a");
+                                document.body.appendChild(link);
+                                link.href = canvas.toDataURL("image/png");
+                                link.download = "workingDayCount.png"; // 다운로드 이미지 파일 이름
+                                link.click();
+                                document.body.removeChild(link);
+                              });
+                            }}
+                          >
+                            <p>Save image</p>
+                          </Button>
+                          <Button
+                            radius={"lg"}
+                            variant={"faded"}
+                            className="h-[60px] w-full bg-[#FEE500] text-[#000000] font-bold border-0"
+                            fullWidth
+                            size={"lg"}
+                            isLoading={false}
+                            // isDisabled
+                            onPress={() => {
+                              const target =
+                                document.getElementById("workingDayCount");
+                              if (!target) {
+                                return alert("저장에 실패");
+                              }
+                              html2canvas(target, {
+                                // width: 2480,
+                                height: 1200,
+                                scale: 4,
+                              }).then(async (canvas) => {
+                                var imgDataUrl = canvas.toDataURL("image/png");
+
+                                var blobBin = atob(imgDataUrl.split(",")[1]); // base64 데이터 디코딩
+                                var array = [];
+                                for (var i = 0; i < blobBin.length; i++) {
+                                  array.push(blobBin.charCodeAt(i));
+                                }
+                                var file = await new File(
+                                  [new Uint8Array(array)],
+                                  "workingDayCount.png",
+                                  { type: "image/png" }
+                                );
+                                await navigator
+                                  .share?.({
+                                    title: "전역까지 근무일 계산기",
+                                    text: "전역까지 근무일 계산기",
+                                    files: [file],
+                                  })
+                                  .catch(console.error);
+                              });
+                              // Optionally virbrate slightly.
+                              navigator.vibrate?.([30, 20, 10]);
+                            }}
+                          >
+                            <p>share</p>
+                          </Button>
                         </div>
                       </div>
                     </AccordionItem>
@@ -632,5 +853,54 @@ export default function MainPage(props: any) {
         }}
       ></Toaster>
     </>
+  );
+}
+
+function BoardHorizontal(props: any) {
+  return (
+    <div
+      data-aos="fade-up"
+      data-aos-duration={300}
+      id="workingDayCount"
+      className="relative w-[350px] aspect-[7/5] flex flex-col justify-center items-center h-[250px]"
+    >
+      <div className="relative flex flex-col w-[250px] gap-1 items-center z-10">
+        <div className="flex flex-row w-full justify-between text-xl font-extrabold pb-2">
+          <p className="w-fit">전역일</p>
+          <p className="w-fit">
+            {(
+              props.boardOptions
+                .workingDayCountSelectedDateProps as moment.Moment
+            ).format("YYYY년 MM월 DD일")}
+          </p>
+        </div>
+        <div className="flex flex-row w-full justify-between">
+          <p className="w-full">전역까지 남은 일수:</p>
+          <p className="w-fit">{props.boardOptions.numOfDaysToETS}</p>
+        </div>
+        <div className="flex flex-row w-full justify-between">
+          <p className="w-full">전역까지 남은 주말 일수:</p>
+          <p className="w-fit">{props.boardOptions.numOfWeekendsToETS}</p>
+        </div>
+        <div className="flex flex-row w-full justify-between">
+          <p className="w-full">전역까지 남은 휴가 일수:</p>
+          <p className="w-fit">{props.boardOptions.holdingLeaveCount}</p>
+        </div>
+        <div className="flex flex-row w-full justify-between">
+          <p className="w-full">전역까지 남은 패스 일수:</p>
+          <p className="w-fit">{props.boardOptions.numOfPassToETS}</p>
+        </div>
+        <div className="flex flex-row w-full justify-between font-bold">
+          <p className="w-full">전역까지 남은 근무 일수:</p>
+          <p className="w-fit">{props.boardOptions.numOfWorkingDaysToETS}</p>
+        </div>
+      </div>
+      <div
+        className="absolute w-[200%] scale-50 z-0 aspect-[7/5] bg-contain flex flex-col justify-center items-center border-2 drop-shadow-sm"
+        style={{
+          backgroundImage: `url(/image/award-template-1.png)`,
+        }}
+      ></div>
+    </div>
   );
 }
