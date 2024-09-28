@@ -721,8 +721,8 @@ export default function MainPage(props: any) {
                                   }
                                   html2canvas(target, {
                                     // width: 2480,
-                                    height: 1200,
-                                    scale: 4,
+                                    // height: 1200,
+                                    scale: 3,
                                   }).then(async (canvas) => {
                                     var imgDataUrl =
                                       canvas.toDataURL("image/png");
@@ -741,8 +741,8 @@ export default function MainPage(props: any) {
                                     );
                                     await navigator
                                       .share?.({
-                                        title: "전역까지 근무일 계산기",
-                                        text: "전역까지 근무일 계산기",
+                                        title: `전역까지 남은 근무일수 계산하기`,
+                                        text: `나의 전역까지 실제 근무하는 날은 얼마나 될까? my-dear-pass-usfk from "https://my-dear-pass-usfk.vercel.app/"`,
                                         files: [file],
                                       })
                                       .catch(console.error);
@@ -887,7 +887,7 @@ function BoardHorizontal(props: any) {
       id="workingDayCount"
       className="relative w-[350px] aspect-[7/5] flex flex-col justify-center items-center h-[250px] z-0 select-none"
     >
-      <div className="relative flex flex-col w-[250px] gap-1 items-center z-10 text-black">
+      <div className="relative flex flex-col w-[250px] gap-1 items-center z-10 text-black h-fit">
         <div className="flex flex-row w-full justify-between text-xl font-black items-center pb-2">
           <p className="w-fit">전역일</p>
           <p className="w-fit">
