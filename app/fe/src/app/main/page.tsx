@@ -741,7 +741,7 @@ export default function MainPage(props: any) {
                                     );
                                     await navigator
                                       .share?.({
-                                        title: `나의 전역까지 실제 근무하는 날은 얼마나 될까? my-dear-pass-usfk from "https://my-dear-pass-usfk.vercel.app/"`,
+                                        title: `전역까지 남은 근무일수 계산하기`,
                                         text: `나의 전역까지 실제 근무하는 날은 얼마나 될까? my-dear-pass-usfk from "https://my-dear-pass-usfk.vercel.app/"`,
                                         files: [file],
                                       })
