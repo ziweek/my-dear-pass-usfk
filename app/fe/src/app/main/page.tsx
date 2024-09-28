@@ -676,7 +676,7 @@ export default function MainPage(props: any) {
                             </p>
                           </div> */}
                             {/* </div> */}
-                            <div className="flex flex-col space-y-4 w-full items-center">
+                            <div className="flex flex-col space-y-4 w-full items-center pb-2">
                               <Button
                                 radius={"lg"}
                                 variant={"faded"}
@@ -887,8 +887,8 @@ function BoardHorizontal(props: any) {
       id="workingDayCount"
       className="relative w-[350px] aspect-[7/5] flex flex-col justify-center items-center h-[250px] z-0 select-none"
     >
-      <div className="relative flex flex-col w-[250px] gap-1 items-center z-10">
-        <div className="flex flex-row w-full justify-between text-xl font-extrabold items-center pb-2">
+      <div className="relative flex flex-col w-[250px] gap-1 items-center z-10 text-black">
+        <div className="flex flex-row w-full justify-between text-xl font-black items-center pb-2">
           <p className="w-fit">전역일</p>
           <p className="w-fit">
             {(
@@ -903,16 +903,17 @@ function BoardHorizontal(props: any) {
         </div>
         <div className="flex flex-row w-full justify-between">
           <p className="w-full">전역까지 남은 주말 일수:</p>
-          <p className="w-fit">{props.boardOptions.numOfWeekendsToETS}</p>
+          <p className="w-fit">-{props.boardOptions.numOfWeekendsToETS}</p>
         </div>
         <div className="flex flex-row w-full justify-between">
           <p className="w-full">전역까지 남은 휴가 일수:</p>
-          <p className="w-fit">{props.boardOptions.holdingLeaveCount}</p>
+          <p className="w-fit">-{props.boardOptions.holdingLeaveCount}</p>
         </div>
         <div className="flex flex-row w-full justify-between">
           <p className="w-full">전역까지 남은 패스 일수:</p>
-          <p className="w-fit">{props.boardOptions.numOfPassToETS}</p>
+          <p className="w-fit">-{props.boardOptions.numOfPassToETS}</p>
         </div>
+        <Divider className="bg-black"></Divider>
         <div className="flex flex-row w-full justify-between font-bold">
           <p className="w-full">전역까지 남은 근무 일수:</p>
           <p className="w-fit">{props.boardOptions.numOfWorkingDaysToETS}</p>
