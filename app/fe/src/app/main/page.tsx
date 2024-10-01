@@ -384,14 +384,14 @@ export default function MainPage(props: any) {
                   <>
                     <div className="h-[30px]"></div>
                     <div className="flex flex-col space-y-2">
-                      <p className="font-black text-2xl">소소한 실험실</p>
+                      <p className="font-black text-xl">소소한 실험실</p>
                       <Accordion
                         variant={"bordered"}
                         className="rounded-lg w-full h-full"
                       >
                         <AccordionItem
                           key="1"
-                          aria-label="전역까지 남은 근무일수 계산기"
+                          aria-label="전역까지 남은 근무 일수 계산기"
                           startContent={
                             <Image
                               className="h-[50px] w-[50px] rounded-full"
@@ -401,8 +401,16 @@ export default function MainPage(props: any) {
                               alt="logo"
                             />
                           }
-                          title="전역까지 남은 근무일수 계산기"
-                          subtitle="전역까지 남은 근무일수를 알아보자"
+                          title={
+                            <p className="text-md">
+                              전역까지 남은 근무 일수 계산기
+                            </p>
+                          }
+                          subtitle={
+                            <p className="text-sm">
+                              사슴과 함께 전역까지 남은 근무일수를 알아보자
+                            </p>
+                          }
                           classNames={{
                             subtitle: "break-keep",
                           }}
@@ -451,7 +459,7 @@ export default function MainPage(props: any) {
                                   (e: any) =>
                                     e[selectedCategory as keyof typeof e] ==
                                       "YES" &&
-                                    (e.MOMENT as moment.Moment).isSameOrBefore(
+                                    (e.MOMENT as moment.Moment).isBefore(
                                       moment(
                                         workingDayCountSelectedDate,
                                         "YYYY-MM-DD"
