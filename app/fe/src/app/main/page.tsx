@@ -384,7 +384,7 @@ export default function MainPage(props: any) {
                   <>
                     <div className="h-[30px]"></div>
                     <div className="flex flex-col space-y-2">
-                      <p className="font-black text-xl">소소한 실험실</p>
+                      <p className="font-black text-lg">소소한 실험실</p>
                       <Accordion
                         variant={"bordered"}
                         className="rounded-lg w-full h-full"
@@ -402,13 +402,14 @@ export default function MainPage(props: any) {
                             />
                           }
                           title={
-                            <p className="text-md">
+                            <p className="text-sm">
                               전역까지 남은 근무 일수 계산기
                             </p>
                           }
                           subtitle={
-                            <p className="text-sm">
-                              사슴과 함께 전역까지 남은 근무일수를 알아보자
+                            <p className="text-xs">
+                              험프리 사슴과 함께 전역까지 남은 근무일수를
+                              알아보자
                             </p>
                           }
                           classNames={{
@@ -575,115 +576,6 @@ export default function MainPage(props: any) {
                               value={holdingLeaveCount}
                               onValueChange={setHoldingLeaveCount}
                             ></Input>
-                            {/* <div className="flex flex-col w-full space-y-2 items-center"> */}
-                            {/* <div className="flex flex-row w-full justify-between">
-                            <p className="w-full">전역까지 남은 일수:</p>
-                            <p className="w-fit">
-                              {Math.ceil(
-                                moment
-                                  .duration({
-                                    from: moment(new Date(), "YYYY-MM-DD"),
-                                    to: moment(
-                                      workingDayCountSelectedDate,
-                                      "YYYY-MM-DD"
-                                    ),
-                                  })
-                                  .asDays()
-                              ) <= 0
-                                ? 0
-                                : Math.ceil(
-                                    moment
-                                      .duration({
-                                        from: moment(new Date(), "YYYY-MM-DD"),
-                                        to: moment(
-                                          workingDayCountSelectedDate,
-                                          "YYYY-MM-DD"
-                                        ),
-                                      })
-                                      .asDays()
-                                  )}
-                            </p>
-                          </div> */}
-                            {/* <div className="flex flex-row w-full justify-between">
-                            <p className="w-full">전역까지 남은 휴가 일수:</p>
-                            <p className="w-fit">{+holdingLeaveCount}</p>
-                          </div> */}
-                            {/* <div className="flex flex-row w-full justify-between">
-                            <p className="w-full">전역까지 남은 패스 일수:</p>
-                            <p className="w-fit">
-                              {
-                                seletedDates.filter(
-                                  (e: any) =>
-                                    e[selectedCategory as keyof typeof e] ==
-                                      "YES" &&
-                                    (e.MOMENT as moment.Moment).isSameOrBefore(
-                                      moment(
-                                        workingDayCountSelectedDate,
-                                        "YYYY-MM-DD"
-                                      )
-                                    )
-                                ).length
-                              }
-                            </p>
-                          </div> */}
-                            {/* <div className="flex flex-row w-full justify-between">
-                            <p className="w-full">전역까지 남은 근무 일수:</p>
-                            <p className="w-fit">
-                              {Math.ceil(
-                                moment
-                                  .duration({
-                                    from: moment(new Date(), "YYYY-MM-DD"),
-                                    to: moment(
-                                      workingDayCountSelectedDate,
-                                      "YYYY-MM-DD"
-                                    ),
-                                  })
-                                  .asDays()
-                              ) -
-                                weekCounterState -
-                                +holdingLeaveCount -
-                                seletedDates.filter(
-                                  (e: any) =>
-                                    e[selectedCategory as keyof typeof e] ==
-                                      "YES" &&
-                                    (e.MOMENT as moment.Moment).isSameOrBefore(
-                                      moment(
-                                        workingDayCountSelectedDate,
-                                        "YYYY-MM-DD"
-                                      )
-                                    )
-                                ).length <=
-                              0
-                                ? 0
-                                : Math.ceil(
-                                    moment
-                                      .duration({
-                                        from: moment(new Date(), "YYYY-MM-DD"),
-                                        to: moment(
-                                          workingDayCountSelectedDate,
-                                          "YYYY-MM-DD"
-                                        ),
-                                      })
-                                      .asDays()
-                                  ) -
-                                  weekCounterState -
-                                  +holdingLeaveCount -
-                                  seletedDates.filter(
-                                    (e: any) =>
-                                      e[selectedCategory as keyof typeof e] ==
-                                        "YES" &&
-                                      (
-                                        e.MOMENT as moment.Moment
-                                      ).isSameOrBefore(
-                                        moment(
-                                          workingDayCountSelectedDate,
-                                          "YYYY-MM-DD"
-                                        )
-                                      )
-                                  ).length}
-                            </p>
-                          </div> */}
-                            {/* </div> */}
                             <div className="flex flex-col space-y-4 w-full items-center pb-2">
                               <Button
                                 radius={"lg"}
@@ -762,6 +654,37 @@ export default function MainPage(props: any) {
                                 <p>이미지 공유하기</p>
                               </Button>
                             </div>
+                          </div>
+                        </AccordionItem>
+                        <AccordionItem
+                          key="2"
+                          aria-label="CMAS 계산기"
+                          startContent={
+                            <Image
+                              className="h-[50px] w-[50px] rounded-full"
+                              src="/image/pepe-math.jpg"
+                              width={100}
+                              height={100}
+                              alt="logo"
+                            />
+                          }
+                          title={
+                            <p className="text-sm">
+                              CMAS 포인트 계산기 & 장바구니
+                            </p>
+                          }
+                          subtitle={
+                            <p className="text-xs">
+                              카투사 페페와 함께 CMAS 포인트를 계산하고
+                              쇼핑해보자.
+                            </p>
+                          }
+                          classNames={{
+                            subtitle: "break-keep",
+                          }}
+                        >
+                          <div className="flex flex-col w-full h-full py-1 space-y-8 items-center">
+                            <p className="py-4 opacity-50">Coming soon</p>
                           </div>
                         </AccordionItem>
                       </Accordion>
