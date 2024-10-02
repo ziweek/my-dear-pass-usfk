@@ -60,6 +60,8 @@ export default function MainPage(props: any) {
   // )
   const [weekCounterState, setWeekCounterState] = useState<number>(0);
   const [holdingLeaveCount, setHoldingLeaveCount] = useState<string>("0");
+  const [holdingCompensationPassCount, setHoldingCompensationPassCount] =
+    useState<string>("0");
 
   const { toasts } = useToasterStore();
 
@@ -455,18 +457,23 @@ export default function MainPage(props: any) {
                                       ),
                                 // 전역까지 남은 휴가 일수
                                 holdingLeaveCount: holdingLeaveCount,
+                                holdingCompensationPassCount:
+                                  holdingCompensationPassCount,
                                 // 전역까지 남은 패스 일수
-                                numOfPassToETS: seletedDates.filter(
-                                  (e: any) =>
-                                    e[selectedCategory as keyof typeof e] ==
-                                      "YES" &&
-                                    (e.MOMENT as moment.Moment).isBefore(
-                                      moment(
-                                        workingDayCountSelectedDate,
-                                        "YYYY-MM-DD"
+                                numOfPassToETS:
+                                  seletedDates.filter(
+                                    (e: any) =>
+                                      e[selectedCategory as keyof typeof e] ==
+                                        "YES" &&
+                                      (
+                                        e.MOMENT as moment.Moment
+                                      ).isSameOrBefore(
+                                        moment(
+                                          workingDayCountSelectedDate,
+                                          "YYYY-MM-DD"
+                                        )
                                       )
-                                    )
-                                ).length,
+                                  ).length + +holdingCompensationPassCount,
                                 //
                                 numOfWorkingDaysToETS:
                                   Math.ceil(
@@ -482,6 +489,7 @@ export default function MainPage(props: any) {
                                   ) -
                                     weekCounterState -
                                     +holdingLeaveCount -
+                                    +holdingCompensationPassCount -
                                     seletedDates.filter(
                                       (e: any) =>
                                         e[selectedCategory as keyof typeof e] ==
@@ -513,6 +521,7 @@ export default function MainPage(props: any) {
                                       ) -
                                       weekCounterState -
                                       +holdingLeaveCount -
+                                      +holdingCompensationPassCount -
                                       seletedDates.filter(
                                         (e: any) =>
                                           e[
@@ -574,7 +583,27 @@ export default function MainPage(props: any) {
                               type="number"
                               isInvalid={+holdingLeaveCount < 0}
                               value={holdingLeaveCount}
-                              onValueChange={setHoldingLeaveCount}
+                              onValueChange={(v) => {
+                                if (+v >= 0) {
+                                  setHoldingLeaveCount(v);
+                                }
+                              }}
+                            ></Input>
+                            <Input
+                              isRequired={false}
+                              labelPlacement={"outside"}
+                              className="z-0 h-full pt-6"
+                              size={"lg"}
+                              label={"컴팬 패스 일수"}
+                              classNames={{ label: "text-sm" }}
+                              type="number"
+                              isInvalid={+holdingCompensationPassCount < 0}
+                              value={holdingCompensationPassCount}
+                              onValueChange={(v) => {
+                                if (+v >= 0) {
+                                  setHoldingCompensationPassCount(v);
+                                }
+                              }}
                             ></Input>
                             <div className="flex flex-col space-y-4 w-full items-center pb-2">
                               <Button
