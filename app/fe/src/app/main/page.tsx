@@ -321,44 +321,43 @@ export default function MainPage(props: any) {
                   </p>
                 </div>
                 {/*  */}
-                {isCalendarFolded ||
-                  (true && (
-                    <Calendar
-                      locale={"us"}
-                      calendarType={"gregory"}
-                      minDetail={"month"}
-                      maxDetail={"month"}
-                      showFixedNumberOfWeeks
-                      className={"h-fit"}
-                      view={"month"}
-                      value={seletecDate}
-                      onClickDay={(value) => {
-                        setSeletecDate(value);
-                      }}
-                      tileContent={({ activeStartDate, date, view }) =>
-                        seletedDates.find(
-                          (e: any) =>
-                            (e.MOMENT as moment.Moment).isSame(moment(date)) &&
-                            e[selectedCategory as keyof typeof e] == "YES"
-                        ) ? (
-                          <p>PASS</p>
-                        ) : moment(date).isSame(moment(), "day") ? (
-                          <p>Today</p>
-                        ) : null
-                      }
-                      tileClassName={({ activeStartDate, date, view }) =>
-                        seletedDates.find(
-                          (e: any) =>
-                            (e.MOMENT as moment.Moment).isSame(moment(date)) &&
-                            e[selectedCategory as keyof typeof e] == "YES"
-                        )
-                          ? counterOfHowDeerLovesEasterEgg >= 10
-                            ? "holiday-pepe"
-                            : "holiday"
-                          : null
-                      }
-                    />
-                  ))}
+                {isCalendarFolded && (
+                  <Calendar
+                    locale={"us"}
+                    calendarType={"gregory"}
+                    minDetail={"month"}
+                    maxDetail={"month"}
+                    showFixedNumberOfWeeks
+                    className={"h-fit"}
+                    view={"month"}
+                    value={seletecDate}
+                    onClickDay={(value) => {
+                      setSeletecDate(value);
+                    }}
+                    tileContent={({ activeStartDate, date, view }) =>
+                      seletedDates.find(
+                        (e: any) =>
+                          (e.MOMENT as moment.Moment).isSame(moment(date)) &&
+                          e[selectedCategory as keyof typeof e] == "YES"
+                      ) ? (
+                        <p>PASS</p>
+                      ) : moment(date).isSame(moment(), "day") ? (
+                        <p>Today</p>
+                      ) : null
+                    }
+                    tileClassName={({ activeStartDate, date, view }) =>
+                      seletedDates.find(
+                        (e: any) =>
+                          (e.MOMENT as moment.Moment).isSame(moment(date)) &&
+                          e[selectedCategory as keyof typeof e] == "YES"
+                      )
+                        ? counterOfHowDeerLovesEasterEgg >= 10
+                          ? "holiday-pepe"
+                          : "holiday"
+                        : null
+                    }
+                  />
+                )}
                 {/*  */}
                 <button
                   onClick={(e) => {
