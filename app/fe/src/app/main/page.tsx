@@ -12,6 +12,10 @@ import {
   AccordionItem,
   DatePicker,
   Input,
+  Tabs,
+  Tab,
+  Card,
+  CardBody,
 } from "@nextui-org/react";
 import { useState, useMemo, useEffect } from "react";
 import { IconCheck, IconInfo, IconUp } from "@/components/common/icon";
@@ -83,7 +87,7 @@ export default function MainPage(props: any) {
 
   useEffect(() => {
     // AOS.init({
-    //   disable: mobile ? false : false, // accepts following values: 'phone', 'tablet', 'mobile', boolean, expression or function
+    //   disable: mobile ? false : false, // accepts following values: &apos;phone&apos;, &apos;tablet&apos;, &apos;mobile&apos;, boolean, expression or function
     //   anchorPlacement: "top-bottom", // defines which position of the element regarding to window should trigger the animation
     //   once: true, // whether animation should happen only once - while scrolling down
     //   offset: 120, // offset (in px) from the original trigger point
@@ -395,7 +399,7 @@ export default function MainPage(props: any) {
                           aria-label="전역까지 남은 근무 일수 계산기"
                           startContent={
                             <Image
-                              className="h-[50px] w-[50px] rounded-full"
+                              className="h-[70px] w-[70px] rounded-full"
                               src="/logo/logo-icon.png"
                               width={100}
                               height={100}
@@ -689,7 +693,7 @@ export default function MainPage(props: any) {
                           aria-label="CMAS 계산기"
                           startContent={
                             <Image
-                              className="h-[50px] w-[50px] rounded-full"
+                              className="h-[70px] w-[70px] rounded-full"
                               src="/image/pepe-math.jpg"
                               width={100}
                               height={100}
@@ -713,6 +717,565 @@ export default function MainPage(props: any) {
                         >
                           <div className="flex flex-col w-full h-full py-1 space-y-8 items-center">
                             <p className="py-4 opacity-50">Coming soon</p>
+                          </div>
+                        </AccordionItem>
+                        <AccordionItem
+                          key="3"
+                          aria-label="US Army Cadence 가사"
+                          startContent={
+                            <Image
+                              className="h-[70px] w-[70px] rounded-full"
+                              src="/image/pepe-drillSergeant.png"
+                              width={100}
+                              height={100}
+                              alt="logo"
+                            />
+                          }
+                          title={
+                            <p className="text-sm">US Army Cadence 가사</p>
+                          }
+                          subtitle={
+                            <p className="text-xs">
+                              Drill Sergeant Pepe와 함께 Cadence 가사를
+                              살펴보자.
+                            </p>
+                          }
+                          classNames={{
+                            subtitle: "break-keep",
+                          }}
+                        >
+                          <div className="flex flex-col w-full h-full py-1">
+                            <Tabs
+                              aria-label="Options"
+                              size={"lg"}
+                              variant={"underlined"}
+                            >
+                              {[
+                                {
+                                  title: "Captain Jack",
+                                  lylic: (
+                                    <div className="flex flex-col space-y-4 leading-loose">
+                                      <p>
+                                        Hey, hey! Captain Jack!
+                                        <br />
+                                        Meet me down by the railroad track!
+                                        <br />
+                                        Put that rifle in my hand!
+                                        <br />
+                                        I’m gonna be your shootin’ man!
+                                        <br />
+                                        The best I can!
+                                        <br />
+                                        For Uncle Sam!
+                                        <br />
+                                        Re-up, you’re crazy!
+                                        <br />
+                                        Re-up, you’re outta your mind!
+                                      </p>
+
+                                      <p>
+                                        Hey, hey! Captain Jack!
+                                        <br />
+                                        Meet me down by the railroad track!
+                                        <br />
+                                        Put that Bowie in my hand!
+                                        <br />
+                                        I’m gonna be your stabbin’ man!
+                                        <br />
+                                        The best I can!
+                                        <br />
+                                        For Uncle Sam!
+                                        <br />
+                                        Re-up, you’re crazy!
+                                        <br />
+                                        Re-up, you’re outta your mind!
+                                      </p>
+
+                                      <p>
+                                        Hey, hey! Captain Jack!
+                                        <br />
+                                        Meet me down by the railroad track!
+                                        <br />
+                                        Put that bible in my hand!
+                                        <br />
+                                        I’m gonna be your prayin’ man!
+                                        <br />
+                                        The best I can!
+                                        <br />
+                                        For Uncle Sam!
+                                        <br />
+                                        Re-up, you’re crazy!
+                                        <br />
+                                        Re-up, you’re outta your mind!
+                                      </p>
+
+                                      <p>
+                                        Hey, hey! Captain Jack!
+                                        <br />
+                                        Meet me down by the railroad track!
+                                        <br />
+                                        Put that bottle in my hand!
+                                        <br />
+                                        I’m gonna be your drinkin’ man!
+                                        <br />
+                                        The best I can!
+                                        <br />
+                                        For Uncle Sam!
+                                        <br />
+                                        Re-up, you’re crazy!
+                                        <br />
+                                        Re-up, you’re outta your mind!
+                                      </p>
+                                    </div>
+                                  ),
+                                },
+                                {
+                                  title: "Come on over",
+                                  lylic: (
+                                    <div className="flex flex-col space-y-4 leading-loose">
+                                      <p>
+                                        Come on over,
+                                        <br />
+                                        The war&apos;s not over,
+                                        <br />
+                                        So put your weapon next to mine,
+                                        <br />
+                                        And we&apos;ll shoot &apos;em on down
+                                        the line,
+                                      </p>
+
+                                      <p>
+                                        I shot insurgent one,
+                                        <br />
+                                        Did that one just for fun,
+                                        <br />
+                                        So put your weapon next to mine,
+                                        <br />
+                                        And we&apos;ll shoot &apos;em on down
+                                        the line,
+                                        <br />
+                                        Come on over,
+                                        <br />
+                                        The war&apos;s not over,
+                                        <br />
+                                        So put your weapon next to mine,
+                                        <br />
+                                        And we&apos;ll shoot &apos;em on down
+                                        the line,
+                                      </p>
+
+                                      <p>
+                                        I shot insurgent two,
+                                        <br />
+                                        Did that one just for you,
+                                        <br />
+                                        So put your weapon next to mine,
+                                        <br />
+                                        And we&apos;ll shoot &apos;em on down
+                                        the line,
+                                        <br />
+                                        I shot insurgent three,
+                                        <br />
+                                        Did that one just for me,
+                                        <br />
+                                        So put your weapon next to mine,
+                                        <br />
+                                        And we&apos;ll shoot &apos;em on down
+                                        the line,
+                                        <br />
+                                        Come on over,
+                                        <br />
+                                        The war&apos;s not over,
+                                        <br />
+                                        So put your weapon next to mine,
+                                        <br />
+                                        And we&apos;ll shoot &apos;em on down
+                                        the line
+                                      </p>
+                                    </div>
+                                  ),
+                                },
+                                {
+                                  title: "Everywhere I go",
+                                  lylic: (
+                                    <div className="flex flex-col space-y-4 leading-loose">
+                                      <p>
+                                        Everywhere I go,
+                                        <br />
+                                        There&apos;s a dang private there
+                                        <br />
+                                        Everywhere I go,
+                                        <br />
+                                        There&apos;s a dang private there
+                                        <br />
+                                        Dang private,
+                                        <br />
+                                        Dang private,
+                                        <br />
+                                        Why don&apos;t you leave me alone?
+                                        <br />
+                                        Why don&apos;t you take yourself home?
+                                      </p>
+
+                                      <p>
+                                        When I go to chow,
+                                        <br />
+                                        There&apos;s a dang private there
+                                        <br />
+                                        When I go to chow,
+                                        <br />
+                                        There&apos;s a dang private there
+                                        <br />
+                                        Dang private,
+                                        <br />
+                                        Dang private,
+                                        <br />
+                                        Why don&apos;t you leave me alone?
+                                        <br />
+                                        Why don&apos;t you take yourself home?
+                                      </p>
+
+                                      <p>
+                                        When I do PT,
+                                        <br />
+                                        There&apos;s a dang private there
+                                        <br />
+                                        When I do PT,
+                                        <br />
+                                        There&apos;s a dang private there
+                                        <br />
+                                        Dang private,
+                                        <br />
+                                        Dang private,
+                                        <br />
+                                        Why don&apos;t you leave me alone?
+                                        <br />
+                                        Why don&apos;t you take yourself home?
+                                      </p>
+                                    </div>
+                                  ),
+                                },
+                                {
+                                  title: "Hi, Ho, Lock and Load",
+                                  lylic: (
+                                    <div className="flex flex-col space-y-4 leading-loose">
+                                      <p>
+                                        Hi, Ho, Lock and load,
+                                        <br />
+                                        The engines are running, we&apos;re
+                                        ready to roll
+                                        <br />
+                                        Kill the enemy take control,
+                                        <br />
+                                        So early, so early, so early in the
+                                        morning
+                                      </p>
+
+                                      <p>
+                                        Abrams on the hill,
+                                        <br />
+                                        Tank commander&apos;s ready to kill
+                                        <br />
+                                        Give the order &quot;Fire at will&quot;,
+                                        <br />
+                                        So early, so early, so early in the
+                                        morning
+                                      </p>
+
+                                      <p>
+                                        Sniper on the ground,
+                                        <br />
+                                        Moving by without a sound,
+                                        <br />
+                                        Locks and loads a single round,
+                                        <br />
+                                        So early, so early, so early in the
+                                        morning
+                                      </p>
+
+                                      <p>
+                                        Apaches in the sky,
+                                        <br />
+                                        F-16s go zooming by,
+                                        <br />
+                                        The enemy is about to die,
+                                        <br />
+                                        So early, so early, so early in the
+                                        morning
+                                      </p>
+                                    </div>
+                                  ),
+                                },
+                                {
+                                  title: "I left my home",
+                                  lylic: (
+                                    <div className="flex flex-col space-y-4 leading-loose">
+                                      <p>
+                                        Your daddy was home when you left,
+                                        you&apos;re right!
+                                        <br />
+                                        Your sister was home when you left,
+                                        you&apos;re right!
+                                        <br />
+                                        Your brother was home when you left,
+                                        you&apos;re right!
+                                        <br />
+                                        Your dog was home when you left,
+                                        you&apos;re right!
+                                        <br />
+                                        Your cat was home when you left,
+                                        you&apos;re right!
+                                        <br />
+                                        The fish was home when you left,
+                                        you&apos;re right!
+                                      </p>
+
+                                      <p>
+                                        Your mommy and daddy, your brother, your
+                                        sister, the dog, the cat, the fish
+                                        <br />
+                                        Was home when you left, you&apos;re
+                                        right!
+                                        <br />
+                                        And that&apos;s the reason you left,
+                                        you&apos;re right!
+                                      </p>
+
+                                      <p>
+                                        I left my home, to join the army
+                                        <br />
+                                        I left my home, to join the army
+                                        <br />
+                                        The day I left, my momma cried
+                                        <br />
+                                        She thought that I would surely die
+                                      </p>
+
+                                      <p>
+                                        I left my wife, crying at the door
+                                        <br />
+                                        She knew that I would die at war
+                                        <br />
+                                        I left my son playing in the yard
+                                        <br />
+                                        Seeing daddy leave made him cry so hard
+                                      </p>
+
+                                      <p>
+                                        Oowie, oowie, oowie, oowie
+                                        <br />
+                                        Oowie, oowie, oowie, oowie
+                                        <br />
+                                        Left, march! We join the army
+                                      </p>
+                                    </div>
+                                  ),
+                                },
+                                {
+                                  title: "These are the weapons",
+                                  lylic: (
+                                    <div className="flex flex-col space-y-4 leading-loose">
+                                      <p>
+                                        240B,
+                                        <br />
+                                        Locked, cocked, and loaded,
+                                        <br />
+                                        Bullets are flyin&apos;,
+                                        <br />
+                                        People are dyin&apos;,
+                                        <br />
+                                        These are the weapons that I go to war
+                                        with,
+                                        <br />
+                                        These are the weapons that I like to
+                                        kill with,
+                                      </p>
+
+                                      <p>
+                                        M249,
+                                        <br />
+                                        Locked, cocked, and loaded,
+                                        <br />
+                                        Ammo depleted,
+                                        <br />
+                                        Never defeated!
+                                      </p>
+
+                                      <p>
+                                        These are the weapons that I go to war
+                                        with,
+                                        <br />
+                                        These are the weapons that I like to
+                                        kill with
+                                      </p>
+                                    </div>
+                                  ),
+                                },
+                                {
+                                  title: "Hail ’O Infantry",
+                                  lylic: (
+                                    <div className="flex flex-col space-y-4 leading-loose">
+                                      <p>
+                                        Up in the morning, out of the rack
+                                        <br />
+                                        Greeted by a mortar attack,
+                                        <br />
+                                        First sergeant rushes me off to chow,
+                                        <br />
+                                        But I don&apos;t eat it anyhow
+                                        <br />
+                                        O&apos;hail, O&apos;hail o&apos;
+                                        infantry,
+                                        <br />
+                                        Queen of battle follow me,
+                                        <br />
+                                        Where nothing in this world is free,
+                                        <br />
+                                        Should have joined the infantry
+                                      </p>
+
+                                      <p>
+                                        C-130s in the sky,
+                                        <br />
+                                        All will jump but some will die,
+                                        <br />
+                                        Off to battle we will go,
+                                        <br />
+                                        Live or die, well I don&apos;t know,
+                                        <br />
+                                        O&apos;hail, O&apos;, O&apos;hail,
+                                        O&apos;, O&apos;hail, O&apos;hail
+                                        o&apos; infantry
+                                        <br />
+                                        Queen of battle follow me,
+                                        <br />
+                                        Where nothing in this world is free,
+                                        <br />
+                                        Should have joined the infantry
+                                      </p>
+
+                                      <p>
+                                        Early at night in drizzling rain,
+                                        <br />
+                                        I am hit but feel no pain,
+                                        <br />
+                                        For in my heart I have no fear,
+                                        <br />
+                                        For I know my god is here,
+                                        <br />
+                                        O&apos;hail, O&apos; (Hey!), O&apos;hail
+                                        o&apos; (Hey!), O&apos;hail, O&apos;hail
+                                        (Whoo!) o&apos; infantry
+                                        <br />
+                                        Queen of battle follow me,
+                                        <br />
+                                        Where nothing in this world is free,
+                                        <br />
+                                        Should have joined the infantry
+                                      </p>
+                                    </div>
+                                  ),
+                                },
+                                {
+                                  title: "Yellow ribbon",
+                                  lylic: (
+                                    <div className="flex flex-col space-y-4 leading-loose">
+                                      <p>
+                                        Around her hair she wore a yellow
+                                        ribbon,
+                                        <br />
+                                        She wore it in the springtime, in the
+                                        merry month of May.
+                                        <br />
+                                        And if you asked her why the heck she
+                                        wore it,
+                                        <br />
+                                        She wore it for her (Sailor Airman,
+                                        Soldier, Marine) who was far, far away.
+                                        <br />
+                                        Far away,
+                                        <br />
+                                        Far away.
+                                        <br />
+                                        She wore it for her (Sailor Airman,
+                                        Soldier, Marine) who was far, far away.
+                                      </p>
+
+                                      <p>
+                                        Around the block she pushed a baby
+                                        carriage,
+                                        <br />
+                                        She pushed it in the springtime, in the
+                                        merry month of May.
+                                        <br />
+                                        And if you asked her why the heck she
+                                        pushed it,
+                                        <br />
+                                        She pushed it for her (Sailor Airman,
+                                        Soldier, Marine) who was far, far away.
+                                        <br />
+                                        Far away,
+                                        <br />
+                                        Far away.
+                                        <br />
+                                        She pushed it for her (Sailor Airman,
+                                        Soldier, Marine) who was far, far away.
+                                      </p>
+
+                                      <p>
+                                        Behind the door, her daddy kept a
+                                        shotgun.
+                                        <br />
+                                        He kept it in the springtime, in the
+                                        merry month of May.
+                                        <br />
+                                        And if you asked him why the heck he
+                                        kept it,
+                                        <br />
+                                        He kept it for her (Sailor Airman,
+                                        Soldier, Marine) who was far, far away.
+                                        <br />
+                                        Far away,
+                                        <br />
+                                        Far away.
+                                        <br />
+                                        He kept it for her (Sailor Airman,
+                                        Soldier, Marine) who was far, far away.
+                                      </p>
+
+                                      <p>
+                                        Around his grave she laid the pretty
+                                        flowers,
+                                        <br />
+                                        She laid them in the springtime, in the
+                                        merry month of May.
+                                        <br />
+                                        And if you asked her why the heck she
+                                        laid them,
+                                        <br />
+                                        She laid them for her (Sailor Airman,
+                                        Soldier, Marine) who was far, far away.
+                                        <br />
+                                        Far away,
+                                        <br />
+                                        Far away.
+                                        <br />
+                                        She laid them for her (Sailor Airman,
+                                        Soldier, Marine) who was far, far away.
+                                      </p>
+                                    </div>
+                                  ),
+                                },
+                              ].map((e, i) => {
+                                return (
+                                  <Tab key={i} title={e.title}>
+                                    <Card>
+                                      <CardBody>{e.lylic}</CardBody>
+                                    </Card>
+                                  </Tab>
+                                );
+                              })}
+                            </Tabs>
                           </div>
                         </AccordionItem>
                       </Accordion>
