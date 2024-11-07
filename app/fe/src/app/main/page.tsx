@@ -87,7 +87,7 @@ export default function MainPage(props: any) {
 
   useEffect(() => {
     // AOS.init({
-    //   disable: mobile ? false : false, // accepts following values: 'phone', 'tablet', 'mobile', boolean, expression or function
+    //   disable: mobile ? false : false, // accepts following values: &apos;phone&apos;, &apos;tablet&apos;, &apos;mobile&apos;, boolean, expression or function
     //   anchorPlacement: "top-bottom", // defines which position of the element regarding to window should trigger the animation
     //   once: true, // whether animation should happen only once - while scrolling down
     //   offset: 120, // offset (in px) from the original trigger point
@@ -836,11 +836,12 @@ export default function MainPage(props: any) {
                                       <p>
                                         Come on over,
                                         <br />
-                                        The war's not over,
+                                        The war&apos;s not over,
                                         <br />
                                         So put your weapon next to mine,
                                         <br />
-                                        And we'll shoot 'em on down the line,
+                                        And we&apos;ll shoot &apos;em on down
+                                        the line,
                                       </p>
 
                                       <p>
@@ -850,15 +851,17 @@ export default function MainPage(props: any) {
                                         <br />
                                         So put your weapon next to mine,
                                         <br />
-                                        And we'll shoot 'em on down the line,
+                                        And we&apos;ll shoot &apos;em on down
+                                        the line,
                                         <br />
                                         Come on over,
                                         <br />
-                                        The war's not over,
+                                        The war&apos;s not over,
                                         <br />
                                         So put your weapon next to mine,
                                         <br />
-                                        And we'll shoot 'em on down the line,
+                                        And we&apos;ll shoot &apos;em on down
+                                        the line,
                                       </p>
 
                                       <p>
@@ -868,7 +871,8 @@ export default function MainPage(props: any) {
                                         <br />
                                         So put your weapon next to mine,
                                         <br />
-                                        And we'll shoot 'em on down the line,
+                                        And we&apos;ll shoot &apos;em on down
+                                        the line,
                                         <br />
                                         I shot insurgent three,
                                         <br />
@@ -876,15 +880,17 @@ export default function MainPage(props: any) {
                                         <br />
                                         So put your weapon next to mine,
                                         <br />
-                                        And we'll shoot 'em on down the line,
+                                        And we&apos;ll shoot &apos;em on down
+                                        the line,
                                         <br />
                                         Come on over,
                                         <br />
-                                        The war's not over,
+                                        The war&apos;s not over,
                                         <br />
                                         So put your weapon next to mine,
                                         <br />
-                                        And we'll shoot 'em on down the line
+                                        And we&apos;ll shoot &apos;em on down
+                                        the line
                                       </p>
                                     </div>
                                   ),
@@ -896,55 +902,55 @@ export default function MainPage(props: any) {
                                       <p>
                                         Everywhere I go,
                                         <br />
-                                        There's a dang private there
+                                        There&apos;s a dang private there
                                         <br />
                                         Everywhere I go,
                                         <br />
-                                        There's a dang private there
+                                        There&apos;s a dang private there
                                         <br />
                                         Dang private,
                                         <br />
                                         Dang private,
                                         <br />
-                                        Why don't you leave me alone?
+                                        Why don&apos;t you leave me alone?
                                         <br />
-                                        Why don't you take yourself home?
+                                        Why don&apos;t you take yourself home?
                                       </p>
 
                                       <p>
                                         When I go to chow,
                                         <br />
-                                        There's a dang private there
+                                        There&apos;s a dang private there
                                         <br />
                                         When I go to chow,
                                         <br />
-                                        There's a dang private there
+                                        There&apos;s a dang private there
                                         <br />
                                         Dang private,
                                         <br />
                                         Dang private,
                                         <br />
-                                        Why don't you leave me alone?
+                                        Why don&apos;t you leave me alone?
                                         <br />
-                                        Why don't you take yourself home?
+                                        Why don&apos;t you take yourself home?
                                       </p>
 
                                       <p>
                                         When I do PT,
                                         <br />
-                                        There's a dang private there
+                                        There&apos;s a dang private there
                                         <br />
                                         When I do PT,
                                         <br />
-                                        There's a dang private there
+                                        There&apos;s a dang private there
                                         <br />
                                         Dang private,
                                         <br />
                                         Dang private,
                                         <br />
-                                        Why don't you leave me alone?
+                                        Why don&apos;t you leave me alone?
                                         <br />
-                                        Why don't you take yourself home?
+                                        Why don&apos;t you take yourself home?
                                       </p>
                                     </div>
                                   ),
@@ -956,8 +962,8 @@ export default function MainPage(props: any) {
                                       <p>
                                         Hi, Ho, Lock and load,
                                         <br />
-                                        The engines are running, we're ready to
-                                        roll
+                                        The engines are running, we&apos;re
+                                        ready to roll
                                         <br />
                                         Kill the enemy take control,
                                         <br />
@@ -968,9 +974,9 @@ export default function MainPage(props: any) {
                                       <p>
                                         Abrams on the hill,
                                         <br />
-                                        Tank commander's ready to kill
+                                        Tank commander&apos;s ready to kill
                                         <br />
-                                        Give the order "Fire at will",
+                                        Give the order &quot;Fire at will&quot;,
                                         <br />
                                         So early, so early, so early in the
                                         morning
@@ -1006,32 +1012,33 @@ export default function MainPage(props: any) {
                                     <div className="flex flex-col space-y-4 leading-loose">
                                       <p>
                                         Your daddy was home when you left,
-                                        you're right!
+                                        you&apos;re right!
                                         <br />
                                         Your sister was home when you left,
-                                        you're right!
+                                        you&apos;re right!
                                         <br />
                                         Your brother was home when you left,
-                                        you're right!
+                                        you&apos;re right!
                                         <br />
-                                        Your dog was home when you left, you're
-                                        right!
+                                        Your dog was home when you left,
+                                        you&apos;re right!
                                         <br />
-                                        Your cat was home when you left, you're
-                                        right!
+                                        Your cat was home when you left,
+                                        you&apos;re right!
                                         <br />
-                                        The fish was home when you left, you're
-                                        right!
+                                        The fish was home when you left,
+                                        you&apos;re right!
                                       </p>
 
                                       <p>
                                         Your mommy and daddy, your brother, your
                                         sister, the dog, the cat, the fish
                                         <br />
-                                        Was home when you left, you're right!
-                                        <br />
-                                        And that's the reason you left, you're
+                                        Was home when you left, you&apos;re
                                         right!
+                                        <br />
+                                        And that&apos;s the reason you left,
+                                        you&apos;re right!
                                       </p>
 
                                       <p>
@@ -1073,9 +1080,9 @@ export default function MainPage(props: any) {
                                         <br />
                                         Locked, cocked, and loaded,
                                         <br />
-                                        Bullets are flyin',
+                                        Bullets are flyin&apos;,
                                         <br />
-                                        People are dyin',
+                                        People are dyin&apos;,
                                         <br />
                                         These are the weapons that I go to war
                                         with,
@@ -1115,9 +1122,10 @@ export default function MainPage(props: any) {
                                         <br />
                                         First sergeant rushes me off to chow,
                                         <br />
-                                        But I don't eat it anyhow
+                                        But I don&apos;t eat it anyhow
                                         <br />
-                                        O'hail, O'hail o' infantry,
+                                        O&apos;hail, O&apos;hail o&apos;
+                                        infantry,
                                         <br />
                                         Queen of battle follow me,
                                         <br />
@@ -1133,10 +1141,11 @@ export default function MainPage(props: any) {
                                         <br />
                                         Off to battle we will go,
                                         <br />
-                                        Live or die, well I don't know,
+                                        Live or die, well I don&apos;t know,
                                         <br />
-                                        O'hail, O', O'hail, O', O'hail, O'hail
-                                        o' infantry
+                                        O&apos;hail, O&apos;, O&apos;hail,
+                                        O&apos;, O&apos;hail, O&apos;hail
+                                        o&apos; infantry
                                         <br />
                                         Queen of battle follow me,
                                         <br />
@@ -1154,8 +1163,9 @@ export default function MainPage(props: any) {
                                         <br />
                                         For I know my god is here,
                                         <br />
-                                        O'hail, O' (Hey!), O'hail o' (Hey!),
-                                        O'hail, O'hail (Whoo!) o' infantry
+                                        O&apos;hail, O&apos; (Hey!), O&apos;hail
+                                        o&apos; (Hey!), O&apos;hail, O&apos;hail
+                                        (Whoo!) o&apos; infantry
                                         <br />
                                         Queen of battle follow me,
                                         <br />
