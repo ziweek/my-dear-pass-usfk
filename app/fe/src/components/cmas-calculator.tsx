@@ -77,14 +77,19 @@ function cmas_amount_calculator(starting_year: any, todays_date: any): CmasAmoun
 
     var iteration = calc_range(+cmas_starting_month, +cmas_starting_year, cmas_leap_year_ending_month, cmas_leap_year_ending_year);
 
-    if (iteration < 0) {
+    if (cmas_leap_year_ending_year != +cmas_starting_year && cmas_leap_year_ending_month > +cmas_starting_month) {
       cmas_amount = 0;
-    } else {
-      for (let i = 0; i < iteration; i++) {
-        cmas_amount += 7.26;
-        cmas_amount = parseFloat(cmas_amount.toFixed(2));
+    } else if (+cmas_starting_month > cmas_leap_year_ending_month) {
+      if (iteration < 0) {
+        cmas_amount = 0;
+      } else {
+        for (let i = 0; i < iteration; i++) {
+          cmas_amount += 7.26;
+          cmas_amount = parseFloat(cmas_amount.toFixed(2));
+        }
       }
     }
+
     ultimate_Object.CMAS_final_amount = cmas_amount;
   }
   // if it is not a leap year
@@ -97,12 +102,16 @@ function cmas_amount_calculator(starting_year: any, todays_date: any): CmasAmoun
 
     var iteration = calc_range(+cmas_starting_month, +cmas_starting_year, cmas_leap_year_ending_month, cmas_leap_year_ending_year);
 
-    if (iteration < 0) {
+    if (cmas_leap_year_ending_year != +cmas_starting_year && cmas_leap_year_ending_month > +cmas_starting_month) {
       cmas_amount = 0;
-    } else {
-      for (let i = 0; i < iteration; i++) {
-        cmas_amount += 7.26;
-        cmas_amount = parseFloat(cmas_amount.toFixed(2));
+    } else if (+cmas_starting_month > cmas_leap_year_ending_month) {
+      if (iteration < 0) {
+        cmas_amount = 0;
+      } else {
+        for (let i = 0; i < iteration; i++) {
+          cmas_amount += 7.26;
+          cmas_amount = parseFloat(cmas_amount.toFixed(2));
+        }
       }
     }
     ultimate_Object.CMAS_final_amount = cmas_amount;
