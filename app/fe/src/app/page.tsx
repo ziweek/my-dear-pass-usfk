@@ -233,7 +233,7 @@ export default function Home() {
           </div>
         </div>
       ),
-      { id: "installation", duration: Infinity, position: "bottom-center" }
+      { id: "installation", duration: Infinity, position: isMobile ? "top-center":"top-right" }
     );
   }, [isHydrated]);
 
@@ -317,17 +317,17 @@ export default function Home() {
             </div>
           </div>
 
-          {/* <div className="absolute bottom-0">
+          <div className="absolute bottom-0">
             <Footer
               isFixed
-              title={"My Dear Pass USFK"}
-              subtitle={"If any issue, let me know."}
+              title={"Thank you for your service"}
+              subtitle={"If there are any issues, please contact me."}
             ></Footer>
-          </div> */}
+          </div>
         </div>
       </section>
       <Toaster
-        position={"bottom-center"}
+        position={"top-center"}
         reverseOrder={false}
         toastOptions={{
           style: {
