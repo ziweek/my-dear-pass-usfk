@@ -75,6 +75,30 @@ body {
   height: 50px !important;
 }
 
+.holiday-highlight {
+  background-color: #ef444420 !important;
+}
+
+.holiday-highlight:hover {
+  background-color: #ef444440 !important;
+}
+
+.holiday-date {
+  position: relative;
+}
+
+.holiday-date::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #ef4444;
+}
+
 @media (prefers-color-scheme: dark) {
   .react-calendar {
     border-color: #3b3b3b !important;
