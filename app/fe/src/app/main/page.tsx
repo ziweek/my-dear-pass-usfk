@@ -184,9 +184,9 @@ export default function Main2Page() {
     >
       <div className="w-full max-w-7xl mx-auto p-4 pb-20 min-h-screen">
         {/* Header */}
-        <div className="sticky top-0 bg-[#FAF9F6] dark:bg-[#262627] z-40 py-4">
+        {/* <div className="sticky top-0 bg-[#FAF9F6] dark:bg-[#262627] z-40 py-4">
           <h2 className="text-2xl font-bold px-2">My Dear Pass USFK</h2>
-        </div>
+        </div> */}
 
         {/* Calendar and Holiday List */}
         <div
@@ -197,7 +197,7 @@ export default function Main2Page() {
           {/* Calendar Section */}
           <div
             id="calendar-section"
-            className={`w-full sticky top-16 z-30 bg-[#FAF9F6] dark:bg-[#262627]`}
+            className={`w-full sticky top-4 z-30 bg-[#FAF9F6] dark:bg-[#262627]`}
           >
             <Card
               className="w-full bg-white dark:bg-[#3B3B3B] shadow-sm border-2 border-black"
@@ -205,8 +205,8 @@ export default function Main2Page() {
             >
               <CardBody>
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-bold text-black dark:text-white">
-                    Calendar
+                  <h3 className="text-sm font-bold text-black dark:text-white">
+                    My Dear Pass USFK
                   </h3>
                   <Switch
                     size={"sm"}
@@ -222,11 +222,11 @@ export default function Main2Page() {
                     </p>
                   </Switch>
                 </div>
-                <div className="flex flex-wrap gap-4 my-3 items-center">
+                <div className="flex flex-wrap gap-4 my-1 items-center">
                   {nearestHoliday && (
                     <div className="m-auto text-center">
-                      <p className="text-sm">Next Holiday:</p>
-                      <p className="font-bold">{nearestHoliday.HOLIDAY}</p>
+                      <p className="text-xs">Next Holiday:</p>
+                      <p className="font-bold text-sm">{nearestHoliday.HOLIDAY}</p>
                       <p className="text-sm text-blue-500 dark:text-blue-300">
                         D-{daysUntilNextHoliday} (
                         {format(nearestHoliday.dateObj, "MMM d, yyyy")})
@@ -255,18 +255,18 @@ export default function Main2Page() {
               <CardBody>
                 <div className="w-full">
                   <Select
-                    size={"lg"}
+                    size={"sm"}
                     label="Filter Holidays"
                     selectionMode="single"
                     placeholder="Select category"
                     selectedKeys={[activeFilter]}
                     defaultSelectedKeys={["ALL"]}
                     className="w-full"
-                    classNames={{
-                      trigger:
-                        "bg-white/90 dark:bg-gray-600 border-black/10 dark:border-gray-600",
-                      value: "text-black dark:text-white",
-                    }}
+                    // classNames={{
+                    //   trigger:
+                    //     "bg-white/90 dark:bg-gray-600 border-black/10 dark:border-gray-600",
+                    //   value: "text-black dark:text-white",
+                    // }}
                     onSelectionChange={(keys) => {
                       const selected = Array.from(keys)[0] as FilterKey;
                       setActiveFilter(selected || "ALL");
@@ -289,7 +289,7 @@ export default function Main2Page() {
                   disableAnimation
                 >
                   <IconUp
-                    width={20}
+                    width={15}
                     fill={systemTheme == "dark" ? "#ffffff" : "#000000"}
                   />
                 </Button>
@@ -298,7 +298,7 @@ export default function Main2Page() {
           </div>
 
           {/* Holiday List Section */}
-          <div className="w-full py-4 relative z-20 mt-2">
+          <div className="w-full py-4 relative z-20">
             {/* Holiday List */}
             <div className="space-y-6">
               {Object.entries(groupedHolidays).map(([monthKey, holidays]) => (
@@ -307,7 +307,7 @@ export default function Main2Page() {
                     id={`month-${monthKey}`}
                     className="bg-zinc-300 dark:bg-zinc-600 py-2 z-20 rounded-lg shadow-sm"
                   >
-                    <h3 className="text-xl font-bold px-4">
+                    <h3 className="text-sm font-bold px-4">
                       {format(new Date(monthKey), "MMMM yyyy")}
                     </h3>
                   </div>
@@ -335,10 +335,10 @@ export default function Main2Page() {
                           <CardBody>
                             <div className="flex justify-between items-start">
                               <div>
-                                <h3 className="font-bold mb-2 text-black dark:text-white">
+                                <h3 className="font-bold text-xs mb-2 text-black dark:text-white">
                                   {holiday.HOLIDAY}
                                 </h3>
-                                <p className="text-sm text-black dark:text-white">
+                                <p className="text-xs text-black dark:text-white">
                                   {format(holiday.dateObj, "MMMM d, yyyy")} (
                                   {holiday.DAY})
                                 </p>
