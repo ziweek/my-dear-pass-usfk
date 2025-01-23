@@ -199,7 +199,7 @@ export default function Main2Page() {
             >
               <CardBody>
                 <div className="bg-white dark:bg-[#3B3B3B] z-40 flex justify-between items-center">
-                  <h3 className="text-sm font-bold text-black dark:text-white">
+                  <h3 className="font-bold text-black dark:text-white">
                     My Dear Pass USFK
                   </h3>
                   <Dropdown>
@@ -260,8 +260,8 @@ export default function Main2Page() {
                   </Dropdown>
                 </div>
                 <div className="flex flex-wrap gap-4 my-1 items-center">
-                  {nearestHoliday && (
-                    <div className="m-auto text-center">
+                  {!showCalendar && nearestHoliday && (
+                    <div className="m-auto text-center pt-2">
                       <p className="text-xs">Next Holiday:</p>
                       <p className="font-bold text-sm">
                         {nearestHoliday.HOLIDAY}
@@ -320,13 +320,17 @@ export default function Main2Page() {
                 <div key={monthKey} className="space-y-4">
                   <div
                     id={`month-${monthKey}`}
-                    className="bg-zinc-300 dark:bg-zinc-600 py-2 z-20 rounded-lg shadow-sm"
+                    className={`bg-orange-200 dark:bg-orange-800 py-4 z-20 rounded-lg shadow-sm sticky ${
+                      showCalendar ? "top-[520px]" : "top-48"
+                    }`}
                   >
                     <h3 className="text-sm font-bold px-4">
                       {format(new Date(monthKey), "MMMM yyyy")}
                     </h3>
                   </div>
-                  <div className={`grid grid-cols-1 gap-4 ${mobile ? "" : ""}`}>
+                  <div
+                    className={`grid grid-cols-1 gap-4 ${mobile ? "px-2" : ""}`}
+                  >
                     {holidays.map((holiday, index) => {
                       const isPast = holiday.dateObj < new Date();
                       return (
@@ -342,7 +346,7 @@ export default function Main2Page() {
                               : ""
                           }
                           ${isPast ? "opacity-50" : ""}
-                          transition-all duration-200 bg-white dark:bg-gray-600
+                          transition-all duration-200 bg-white dark:bg-zinc-700
                         `}
                         >
                           <CardBody>
