@@ -194,7 +194,7 @@ export default function Main2Page() {
             className={`w-full sticky top-0 z-30 bg-[#FAF9F6] dark:bg-[#262627] rounded-b-2xl`}
           >
             <Card
-              className="w-full bg-white dark:bg-[#3B3B3B] shadow-sm"
+              className="w-full bg-white dark:bg-[#3B3B3B] shadow-sm rounded-t-none drop-shadow-md"
               shadow={"lg"}
             >
               <CardBody>
@@ -321,7 +321,7 @@ export default function Main2Page() {
                 <div key={monthKey} className="space-y-4">
                   <div
                     id={`month-${monthKey}`}
-                    className={`bg-orange-200 dark:bg-orange-800 py-4 z-20 rounded-lg shadow-sm sticky ${
+                    className={`bg-[#FCCFDB] dark:bg-[#693E4D] py-4 z-20 rounded-lg shadow-sm sticky ${
                       showCalendar ? "top-[520px]" : "top-48"
                     }`}
                   >
@@ -407,10 +407,10 @@ export default function Main2Page() {
 // Footer component
 const Footer = () => {
   return (
-    <footer className="bg-gray-100 dark:bg-[#3b3b3b] text-black dark:text-white py-4 mt-8 sticky bottom-0 z-40">
-      <div className="container mx-auto px-4 grid grid-cols-2 gap-4">
+    <footer className="bg-white drop-shadow-md dark:bg-[#3b3b3b] text-black dark:text-white py-4 mt-8 sticky bottom-0 z-40">
+      <div className="container mx-auto px-4 grid grid-cols-2 gap-4 pb-4">
         <div className="calendar-section m-auto">
-          <Button variant={"light"}>
+          <Button variant={"light"} disableRipple>
             <div className="flex flex-col items-center space-y-1">
               <Calendar1Icon width={20}></Calendar1Icon>
               <p className="text-xs">Calendar</p>
@@ -418,7 +418,7 @@ const Footer = () => {
           </Button>
         </div>
         <div className="lab-section m-auto">
-          <Button variant={"light"} disabled>
+          <Button variant={"light"} disabled disableRipple>
             <div className="flex flex-col items-center space-y-1">
               <LucideBanana width={20}></LucideBanana>
               <p className="text-xs">Lab</p>
