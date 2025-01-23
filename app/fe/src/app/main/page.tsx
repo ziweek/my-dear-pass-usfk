@@ -5,9 +5,11 @@ import {
   Button,
   Card,
   CardBody,
-  Switch,
-  Select,
-  SelectItem,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  DropdownSection,
 } from "@nextui-org/react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -16,6 +18,7 @@ import { useIsMobile } from "@/hook/useMediaQuery";
 import { format, differenceInDays, parse, getMonth, getYear } from "date-fns";
 import { IconUp } from "@/components/common/icon";
 import { useTheme } from "next-themes";
+import { Calendar1Icon, LucideBanana, MoreVertical } from "lucide-react";
 
 interface Holiday {
   DATE: string;
@@ -52,7 +55,6 @@ const filterOptions = [
 ] as const;
 
 export default function Main2Page() {
-  // const [mounted, setMounted] = useState(false);
   const [date, setDate] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(true);
   const [selectedHoliday, setSelectedHoliday] = useState<{
@@ -75,10 +77,6 @@ export default function Main2Page() {
     };
     checkResize();
   }, [isMobile]);
-
-  // useEffect(() => {
-  //   setMounted(true);
-  // }, []);
 
   // Convert dataset dates to proper Date objects
   const holidays = dataset.map((holiday) => {
@@ -154,27 +152,28 @@ export default function Main2Page() {
   };
 
   // Handle holiday selection
-  const handleHolidaySelect = (holiday: Holiday) => {
+  const handleHolidaySelect = async (holiday: Holiday) => {
     const currentSelection = { name: holiday.HOLIDAY, date: holiday.DATE };
     if (
       selectedHoliday?.name === holiday.HOLIDAY &&
       selectedHoliday?.date === holiday.DATE
     ) {
-      setSelectedHoliday(null);
-      setDate(new Date());
+      await setDate(new Date());
+      await setSelectedHoliday(null);
+      await setShowCalendar(false);
+      await console.log(11, currentSelection, selectedHoliday);
     } else {
-      setSelectedHoliday(currentSelection);
+      await setSelectedHoliday(currentSelection);
       const [day, month, year] = holiday.DATE.split("-");
-      const parsedDate = parse(
+      const parsedDate = await parse(
         `${day}-${month}-20${year}`,
         "dd-MM-yyyy",
         new Date()
       );
-      setDate(parsedDate);
+      await setDate(parsedDate);
 
-      if (!showCalendar) {
-        setShowCalendar(true);
-      }
+      await setShowCalendar(true);
+      await console.log(22, currentSelection, selectedHoliday);
     }
   };
 
@@ -182,12 +181,7 @@ export default function Main2Page() {
     <div
       className={`min-h-screen bg-[#FAF9F6] dark:bg-[#262627] text-black dark:text-white transition-colors duration-300`}
     >
-      <div className="w-full max-w-7xl mx-auto p-4 pb-20 min-h-screen">
-        {/* Header */}
-        {/* <div className="sticky top-0 bg-[#FAF9F6] dark:bg-[#262627] z-40 py-4">
-          <h2 className="text-2xl font-bold px-2">My Dear Pass USFK</h2>
-        </div> */}
-
+      <div className="w-full max-w-7xl mx-auto pb-4 min-h-screen">
         {/* Calendar and Holiday List */}
         <div
           className={`w-full ${
@@ -197,36 +191,81 @@ export default function Main2Page() {
           {/* Calendar Section */}
           <div
             id="calendar-section"
-            className={`w-full sticky top-4 z-30 bg-[#FAF9F6] dark:bg-[#262627]`}
+            className={`w-full sticky top-0 z-30 bg-[#FAF9F6] dark:bg-[#262627] rounded-b-2xl`}
           >
             <Card
-              className="w-full bg-white dark:bg-[#3B3B3B] shadow-sm border-2 border-black"
+              className="w-full bg-white dark:bg-[#3B3B3B] shadow-sm"
               shadow={"lg"}
             >
               <CardBody>
-                <div className="flex justify-between items-center mb-4">
+                <div className="bg-white dark:bg-[#3B3B3B] z-40 flex justify-between items-center">
                   <h3 className="text-sm font-bold text-black dark:text-white">
                     My Dear Pass USFK
                   </h3>
-                  <Switch
-                    size={"sm"}
-                    checked={showPastHolidays}
-                    onChange={(e) => setShowPastHolidays(e.target.checked)}
-                    classNames={{
-                      wrapper:
-                        "bg-gray-200 group-data-[selected=true]:bg-black dark:bg-gray-600 dark:group-data-[selected=true]:bg-black",
-                    }}
-                  >
-                    <p className="text-xs text-black dark:text-white">
-                      Show Past Holidays
-                    </p>
-                  </Switch>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button
+                        isIconOnly
+                        variant="light"
+                        className="text-black dark:text-white"
+                      >
+                        <MoreVertical size={20} />
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label="Filter Options"
+                      variant="light"
+                      disabledKeys={[]}
+                    >
+                      <DropdownSection
+                        showDivider
+                        title="Filter"
+                        items={filterOptions}
+                      >
+                        {(option) => (
+                          <DropdownItem
+                            key={option.value}
+                            className={`text-black dark:text-white ${
+                              activeFilter === option.value
+                                ? "bg-gray-200 dark:bg-gray-700"
+                                : ""
+                            }`}
+                            onClick={() =>
+                              setActiveFilter(option.value as FilterKey)
+                            }
+                          >
+                            {option.label}
+                          </DropdownItem>
+                        )}
+                      </DropdownSection>
+                      <DropdownSection title="Options">
+                        <DropdownItem
+                          key="past-holidays"
+                          className="text-black dark:text-white"
+                        >
+                          <div className="flex justify-between items-center">
+                            <span className="text-xs">Show Past Holidays</span>
+                            <input
+                              type="checkbox"
+                              checked={showPastHolidays}
+                              onChange={(e) =>
+                                setShowPastHolidays(e.target.checked)
+                              }
+                              className="form-checkbox h-4 w-4 text-black dark:text-white bg-gray-100 dark:bg-gray-700 border-gray-300 rounded"
+                            />
+                          </div>
+                        </DropdownItem>
+                      </DropdownSection>
+                    </DropdownMenu>
+                  </Dropdown>
                 </div>
                 <div className="flex flex-wrap gap-4 my-1 items-center">
                   {nearestHoliday && (
                     <div className="m-auto text-center">
                       <p className="text-xs">Next Holiday:</p>
-                      <p className="font-bold text-sm">{nearestHoliday.HOLIDAY}</p>
+                      <p className="font-bold text-sm">
+                        {nearestHoliday.HOLIDAY}
+                      </p>
                       <p className="text-sm text-blue-500 dark:text-blue-300">
                         D-{daysUntilNextHoliday} (
                         {format(nearestHoliday.dateObj, "MMM d, yyyy")})
@@ -237,10 +276,14 @@ export default function Main2Page() {
               </CardBody>
               <div className="flex flex-wrap items-center">
                 <Calendar
+                  minDetail={"month"}
+                  view={"month"}
+                  maxDetail={"month"}
+                  showFixedNumberOfWeeks
                   value={date}
                   className={`w-full h-full ${
                     !showCalendar && "hidden"
-                  } bg-white dark:bg-gray-600/80 rounded-lg border border-black/10 dark:border-gray-600/10 p-2`}
+                  } bg-white dark:bg-gray-600/80 rounded-lg`}
                   tileClassName={getTileClassName}
                   locale="en-US"
                   onChange={(value) => {
@@ -252,35 +295,7 @@ export default function Main2Page() {
                   }}
                 />
               </div>
-              <CardBody>
-                <div className="w-full">
-                  <Select
-                    size={"sm"}
-                    label="Filter Holidays"
-                    selectionMode="single"
-                    placeholder="Select category"
-                    selectedKeys={[activeFilter]}
-                    defaultSelectedKeys={["ALL"]}
-                    className="w-full"
-                    // classNames={{
-                    //   trigger:
-                    //     "bg-white/90 dark:bg-gray-600 border-black/10 dark:border-gray-600",
-                    //   value: "text-black dark:text-white",
-                    // }}
-                    onSelectionChange={(keys) => {
-                      const selected = Array.from(keys)[0] as FilterKey;
-                      setActiveFilter(selected || "ALL");
-                    }}
-                  >
-                    {filterOptions.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </Select>
-                </div>
-              </CardBody>
-              <div className={`mx-auto ${showCalendar ? "rotate-180" : ""}`}>
+              <div className={`mx-auto ${showCalendar ? "" : "rotate-180"}`}>
                 <Button
                   isIconOnly
                   variant="light"
@@ -298,7 +313,7 @@ export default function Main2Page() {
           </div>
 
           {/* Holiday List Section */}
-          <div className="w-full py-4 relative z-20">
+          <div className="w-full py-4 relative z-20 px-4">
             {/* Holiday List */}
             <div className="space-y-6">
               {Object.entries(groupedHolidays).map(([monthKey, holidays]) => (
@@ -311,9 +326,7 @@ export default function Main2Page() {
                       {format(new Date(monthKey), "MMMM yyyy")}
                     </h3>
                   </div>
-                  <div
-                    className={`grid grid-cols-1 gap-4 ${mobile ? "pl-4" : ""}`}
-                  >
+                  <div className={`grid grid-cols-1 gap-4 ${mobile ? "" : ""}`}>
                     {holidays.map((holiday, index) => {
                       const isPast = holiday.dateObj < new Date();
                       return (
@@ -325,7 +338,7 @@ export default function Main2Page() {
                           ${
                             selectedHoliday?.name === holiday.HOLIDAY &&
                             selectedHoliday?.date === holiday.DATE
-                              ? "border-2 border-[#f871a0]"
+                              ? "shadow-inner"
                               : ""
                           }
                           ${isPast ? "opacity-50" : ""}
@@ -381,6 +394,33 @@ export default function Main2Page() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
+
+// Footer component
+const Footer = () => {
+  return (
+    <footer className="bg-gray-100/80 dark:bg-[#3b3b3b] text-black dark:text-white py-4 mt-8 sticky bottom-0 z-40">
+      <div className="container mx-auto px-4 grid grid-cols-2 gap-4">
+        <div className="calendar-section m-auto">
+          <Button variant={"light"}>
+            <div className="flex flex-col items-center space-y-1">
+              <Calendar1Icon width={20}></Calendar1Icon>
+              <p className="text-xs">Calendar</p>
+            </div>
+          </Button>
+        </div>
+        <div className="lab-section m-auto">
+          <Button variant={"light"} disabled>
+            <div className="flex flex-col items-center space-y-1">
+              <LucideBanana width={20}></LucideBanana>
+              <p className="text-xs">Lab</p>
+            </div>
+          </Button>
+        </div>
+      </div>
+    </footer>
+  );
+};

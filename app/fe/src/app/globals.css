@@ -65,7 +65,7 @@ body {
 .react-calendar__tile--active {
   background-color: transparent !important;
   color: black !important;
-  box-shadow: inset 0 0 0 3px #f871a0 !important;
+  box-shadow: inset 0 0 0 2px #f871a0 !important;
   z-index: 10;
 }
 
@@ -88,7 +88,7 @@ body {
 }
 
 .holiday-date::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 4px;
   left: 50%;
@@ -119,7 +119,7 @@ body {
   .react-calendar__tile--active {
     color: white !important;
     /* border: medium solid #f871a0 !important; */
-    box-shadow: inset 0 0 0 3px #f871a0 !important;
+    box-shadow: inset 0 0 0 2px #f871a0 !important;
     z-index: 10;
   }
 
