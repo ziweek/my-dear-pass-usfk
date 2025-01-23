@@ -207,8 +207,9 @@ export default function Main2Page() {
                       <Button
                         isIconOnly
                         variant="light"
-                        className="text-black dark:text-white"
+                        className="text-black dark:text-white w-fit"
                       >
+                        <p className="opacity-70 pl-2">{activeFilter}</p>
                         <MoreVertical size={20} />
                       </Button>
                     </DropdownTrigger>
@@ -406,7 +407,7 @@ export default function Main2Page() {
 // Footer component
 const Footer = () => {
   return (
-    <footer className="bg-gray-100/80 dark:bg-[#3b3b3b] text-black dark:text-white py-4 mt-8 sticky bottom-0 z-40">
+    <footer className="bg-gray-100 dark:bg-[#3b3b3b] text-black dark:text-white py-4 mt-8 sticky bottom-0 z-40">
       <div className="container mx-auto px-4 grid grid-cols-2 gap-4">
         <div className="calendar-section m-auto">
           <Button variant={"light"}>
