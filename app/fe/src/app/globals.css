@@ -65,7 +65,7 @@ body {
 .react-calendar__tile--active {
   background-color: transparent !important;
   color: black !important;
-  box-shadow: inset 0 0 0 3px #f871a0 !important;
+  box-shadow: inset 0 0 0 2px #f871a0 !important;
   z-index: 10;
 }
 
@@ -73,6 +73,30 @@ body {
   background: #f3f4f6 !important ;
   background-color: #a2e9c1 !important;
   height: 50px !important;
+}
+
+.holiday-highlight {
+  background-color: #ef444420 !important;
+}
+
+.holiday-highlight:hover {
+  background-color: #ef444440 !important;
+}
+
+.holiday-date {
+  position: relative;
+}
+
+.holiday-date::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #ef4444;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -95,7 +119,7 @@ body {
   .react-calendar__tile--active {
     color: white !important;
     /* border: medium solid #f871a0 !important; */
-    box-shadow: inset 0 0 0 3px #f871a0 !important;
+    box-shadow: inset 0 0 0 2px #f871a0 !important;
     z-index: 10;
   }
 

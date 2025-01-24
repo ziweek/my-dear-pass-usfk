@@ -1,0 +1,27 @@
+export const COLORS = {
+  // Theme colors
+  PRIMARY: "#0070F0",
+  SECONDARY: "#7828C8",
+  SUCCESS: "#17C964",
+  WARNING: "#F5A524",
+  DANGER: "#F31260",
+
+  // Background colors
+  BACKGROUND_LIGHT: "#FFFFFF",
+  BACKGROUND_DARK: "#3B3B3B",
+
+  // Text colors
+  TEXT_PRIMARY_LIGHT: "#11181C",
+  TEXT_PRIMARY_DARK: "#ECEDEE",
+  TEXT_SECONDARY_LIGHT: "#687076",
+  TEXT_SECONDARY_DARK: "#889096",
+
+  // Border colors
+  BORDER_LIGHT: "#E6E8EB",
+  BORDER_DARK: "#313538",
+
+  // Calendar specific colors
+  CALENDAR_HIGHLIGHT: "#0070F0",
+  CALENDAR_TODAY: "#17C964",
+  CALENDAR_SELECTED: "#7828C8",
+} as const;
