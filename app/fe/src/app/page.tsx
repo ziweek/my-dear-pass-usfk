@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Card } from "@nextui-org/react";
+import { Button, Card, Tooltip } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -12,6 +12,8 @@ import { IconCheck, IconNo } from "@/components/common/icon";
 
 import Image from "next/image";
 import { useTheme } from "next-themes";
+import { LottieRunningDeer } from "@/components/lottie-player";
+import Link from "next/link";
 
 // global.d.ts
 declare global {
@@ -233,7 +235,11 @@ export default function Home() {
           </div>
         </div>
       ),
-      { id: "installation", duration: Infinity, position: isMobile ? "top-center":"top-right" }
+      {
+        id: "installation",
+        duration: Infinity,
+        position: isMobile ? "top-center" : "top-right",
+      }
     );
   }, [isHydrated]);
 
@@ -248,7 +254,7 @@ export default function Home() {
         {!mobile && (
           <div
             className="flex flex-col items-center justify-center w-full h-full bg-cover bg-center bg-blend-lighten bg-white/20"
-            style={{ backgroundImage: `url(/image/3d-deer.png)` }}
+            style={{ backgroundImage: `url(/image/katusa-meme.jpg)` }}
             aria-label="deer"
           ></div>
         )}
@@ -256,11 +262,11 @@ export default function Home() {
         <div
           className={`${
             mobile
-              ? "bg-center bg-cover bg-white/50 bg-blend-lighten dark:bg-black/50 dark:bg-blend-darken"
+              ? "bg-center bg-cover bg-white/95 bg-blend-lighten dark:bg-black/95 dark:bg-blend-darken"
               : ""
           } mx-auto flex h-screen flex-col items-center justify-center min-w-[300px] bg-center`}
           style={{
-            backgroundImage: mobile ? `url('/image/3d-deer.png')` : "",
+            backgroundImage: mobile ? `url('/image/katusa-meme.jpg')` : "",
           }}
         >
           {mobile && (
@@ -269,6 +275,27 @@ export default function Home() {
           <div className="z-20 flex w-full flex-col items-center justify-center space-y-8">
             {/* 소개 텍스트 */}
             <div className="flex w-full flex-col items-center justify-center gap-2">
+              <Tooltip
+                content={
+                  <div className="p-2">
+                    <Link
+                      href={"https://www.yna.co.kr/view/PYH20230504107200061"}
+                    >
+                      Have you heard about Vampire Deer?
+                    </Link>
+                  </div>
+                }
+                showArrow={true}
+                isOpen={true}
+                placement={"top"}
+              >
+                <div className="overflow-hidden w-[250px] h-[250px] flex flex-col items-center justify-center">
+                  <LottieRunningDeer
+                    width={400}
+                    loop={true}
+                  ></LottieRunningDeer>
+                </div>
+              </Tooltip>
               <p className={`${mobile ? "text-2xl" : "text-3xl"} font-light`}>
                 My Dear Pass USFK
               </p>
@@ -284,7 +311,7 @@ export default function Home() {
             <div className="flex w-full flex-col items-center justify-center space-y-4">
               <div className="flex flex-row space-x-2">
                 <Button
-                  className={`font-bold border-black dark:border-white hover:-translate-y-1 ${
+                  className={`min-w-[140px] font-bold border-black dark:border-white hover:-translate-y-1 ${
                     mobile ? "border-2" : "border-3"
                   }`}
                   size={mobile ? "md" : "lg"}
@@ -300,7 +327,7 @@ export default function Home() {
                   How to install
                 </Button>
                 <Button
-                  className={`font-bold border-black dark:border-white hover:-translate-y-1 ${
+                  className={`min-w-[140px] font-bold border-black dark:border-white hover:-translate-y-1 ${
                     mobile ? "border-2" : "border-3"
                   }`}
                   size={mobile ? "md" : "lg"}
