@@ -262,7 +262,7 @@ export default function Home() {
         <div
           className={`${
             mobile
-              ? "bg-center bg-cover bg-white/95 bg-blend-lighten dark:bg-black/95 dark:bg-blend-darken"
+              ? "bg-center bg-cover bg-white/90 bg-blend-lighten dark:bg-black/80 dark:bg-blend-darken"
               : ""
           } mx-auto flex h-screen flex-col items-center justify-center min-w-[300px] bg-center`}
           style={{
@@ -289,9 +289,9 @@ export default function Home() {
                 isOpen={true}
                 placement={"top"}
               >
-                <div className="overflow-hidden w-[250px] h-[250px] flex flex-col items-center justify-center">
+                <div className="overflow-hidden w-[180px] h-[180px] flex flex-col items-center justify-center">
                   <LottieRunningDeer
-                    width={400}
+                    width={300}
                     loop={true}
                   ></LottieRunningDeer>
                 </div>
@@ -301,7 +301,7 @@ export default function Home() {
               </p>
               <p
                 className={`text-center font-bold ${
-                  mobile ? "text-md" : "text-md"
+                  mobile ? "text-sm" : "text-md"
                 }`}
               >
                 Handy Calendar{mobile && <br></br>} for USFK Holiday Schedule
