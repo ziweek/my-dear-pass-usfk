@@ -56,7 +56,7 @@ const filterOptions = [
 
 export default function Main2Page() {
   const [date, setDate] = useState(new Date());
-  const [showCalendar, setShowCalendar] = useState(true);
+  const [showCalendar, setShowCalendar] = useState(false);
   const [selectedHoliday, setSelectedHoliday] = useState<{
     name: string;
     date: string;
@@ -179,13 +179,13 @@ export default function Main2Page() {
 
   return (
     <div
-      className={`min-h-screen bg-[#FAF9F6] dark:bg-[#262627] text-black dark:text-white transition-colors duration-300`}
+      className={`min-h-screen bg-[#FAF9F6] dark:bg-[#262627] text-black dark:text-white transition-colors duration-300 max-w-[600px] mx-auto`}
     >
       <div className="w-full max-w-7xl mx-auto pb-4 min-h-screen">
         {/* Calendar and Holiday List */}
         <div
           className={`w-full ${
-            !mobile ? "grid grid-cols-2 gap-4" : "flex flex-col gap-4"
+            mobile || true ? "flex flex-col gap-4" : "grid grid-cols-2 gap-4"
           }`}
         >
           {/* Calendar Section */}
@@ -330,7 +330,7 @@ export default function Main2Page() {
                     </h3>
                   </div>
                   <div
-                    className={`grid grid-cols-1 gap-4 ${mobile ? "px-2" : ""}`}
+                    className={`grid grid-cols-1 gap-4 ${mobile || true ? "px-2" : ""}`}
                   >
                     {holidays.map((holiday, index) => {
                       const isPast = holiday.dateObj < new Date();
