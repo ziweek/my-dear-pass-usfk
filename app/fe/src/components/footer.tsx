@@ -13,7 +13,7 @@ export default function Footer(props: any) {
       }`}
     >
       <div className="mx-auto flex h-full max-w-[1200px] select-none flex-col items-center justify-center space-y-1">
-        <div className="flex h-full flex-row gap-2">
+        {/* <div className="flex h-full flex-row gap-2">
           <Button
             isIconOnly
             color={"default"}
@@ -42,10 +42,10 @@ export default function Footer(props: any) {
               width={"25px"}
             ></IconLinkedIn>
           </Button>
-        </div>
+        </div> */}
         <div className="flex h-full select-none flex-col items-center justify-center space-y-1 leading-none">
           <p className="text-sm font-light">{props.title}</p>
-          <p className="text-xs">{props.subtitle}</p>
+          {/* <p className="text-xs">{props.subtitle}</p> */}
         </div>
       </div>
     </section>
